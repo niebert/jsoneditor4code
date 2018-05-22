@@ -1,0 +1,481 @@
+{
+    "data": {
+        "classname": "Editor4JSON",
+        "superclassname": "",
+        "comment": "",
+        "reposinfo": {
+            "repository": "https://www.github.com/niebert/Editor4JSON",
+            "require_classes": "yes",
+            "author": "Engelbert Niehaus",
+            "email": "niehaus@uni-landau.de",
+            "requirelist": []
+        },
+        "attributes": [
+            {
+                "name": "aEditor",
+                "visibility": "public",
+                "init": "null",
+                "class": "JSONEditor",
+                "comment": "is the instance of the JSON editor developed by Jeremy Dorn"
+            },
+            {
+                "name": "aName",
+                "visibility": "public",
+                "init": "\"myjson\"",
+                "class": "String",
+                "comment": "the attribute 'aName' stores the base name of the JSON file. it used for base name for export files."
+            },
+            {
+                "name": "aData",
+                "visibility": "public",
+                "init": "[]",
+                "class": "Array",
+                "comment": "the attribute 'aData' is a array of JSON records that are edited with the JSON editor by Jeremy Dorn"
+            },
+            {
+                "name": "current",
+                "visibility": "public",
+                "init": "-1",
+                "class": " ",
+                "comment": "the attribute 'current' stores the current selected index in the array, -1 means no JSON record selected in array or array is empty"
+            },
+            {
+                "name": "aSchemaJSON",
+                "visibility": "public",
+                "init": "null",
+                "class": " ",
+                "comment": "the attribute 'aSchemaJSON' stores in JSON schema that defines the structure of JSON records in the array"
+            },
+            {
+                "name": "aEditURL",
+                "visibility": "public",
+                "init": "\"\"",
+                "class": "String",
+                "comment": "the attribute 'aEditURL' stores the URL to the JSON Editor developed by Jeremy Dorn"
+            },
+            {
+                "name": "aDOMID",
+                "visibility": "public",
+                "init": "null",
+                "class": "Hash",
+                "comment": "the attribute 'aDOMID' stores in ids of DOM element, e.g. editor_holder, valid ... "
+            }
+        ],
+        "methods": [
+            {
+                "name": "init",
+                "visibility": "public",
+                "return": "",
+                "code": "this.aSchema = pSchema;\nthis.aData = pData;\nthis.loadLS(); // load aData from local storage if that exists\nthis.aDOMID = pDOMID; // is a Hash with keys \"name\" of Schema, DOM ID \"editor\", \"validator\",\nthis.aName = pDOMID[\"name\"] || \"myjson\";\nthis.aEditorConfig = {\n        // Enable fetching schemas via ajax\n        ajax: true,\n        \n        // The schema for the editor\n        schema: pSchema,\n        \n       \n        // Disable additional properties\n        no_additional_properties: true,\n        \n        // Require all properties by default\n        required_by_default: true\n      };\n// Seed the form with a starting value for the Editor if pData contains at least one record\n if (pData.length > 0) {\n    this.aEditorConfig.startval = pData[0];\n};\n// create the editor\nvar vEditorDOM = document.getElementById(this.aDOMID[\"editor\"]);\nif (vEditorDOM) {\n    this.aEditor = new JSONEditor(vEditorDOM,this.aEditorConfig);\n} else {\n    console.log(\"ERROR: Editor DOM with ID=Ã¢â‚¬Ëœ\"+this.aDOMID[\"editor\"]+\"' does not exist!\")\n};\n\n// Hook up the validation indicator to update its \n// status whenever the editor changes\nthis.aEditor.on('change',function() {\n        // upadte the currect record in large array\n        vEditor4JSON.onChange()\n      });\n//update the current index\nthis.updateDOM();\n",
+                "comment": "(1)pDOMID is hash with DOM ids that contains the following key/value pairs\n - \"name\" is the name of JSON database that is used for the exported filename for JSON\n - \"editor\" the DOM element where the JSON editor is injected (editor_holder of JSON editor).\n - \"validator\" is the DOM element to \"valid\" or \"not valid\" to (innerHTML) used in updateDOM()\n - \"current\" is the DOM element to write the currently selected array index into a text input box (value) used in updateDOM()\n - \"length\" is the DOM element to write the current array length to (innerHTML) used in updateDOM()\n(2) pData is the large array that is edited and \n(3) pSchema defines the JSON schema of a single record in the large thisarray",
+                "parameter": [
+                    {
+                        "name": "pDOMID",
+                        "class": "Hash",
+                        "comment": "parameter 'pDOMID' stores ..."
+                    },
+                    {
+                        "name": "pData",
+                        "class": "Array",
+                        "comment": "parameter 'pData' stores ..."
+                    },
+                    {
+                        "name": "pSchema",
+                        "class": "Hash",
+                        "comment": "parameter 'pSchema' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "prev",
+                "visibility": "public",
+                "return": "",
+                "code": "if (this.current > 0) {\n    this.current--;\n};\nconsole.log(\"Prev Click [\"+this.current+\"]\");\nthis.edit();",
+                "comment": "goto previous record",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "next",
+                "visibility": "public",
+                "return": "",
+                "code": "if (this.current < (this.aData.length-1)) {\n      this.current++;\n};\nconsole.log(\"Next Click [\"+this.current+\"]\");\nthis.edit();",
+                "comment": "Goto next record",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "goto",
+                "visibility": "public",
+                "return": "",
+                "code": "console.log(\"goto('\"+pNumberString+\"') String Parameter\");\nif (pNumberString.length > 0) {\n\tpNumberString = pNumberString.replace(/[^0-9]/g,'');\n\ti = parseInt(pNumberString);\n\tif ((i >= 0) && (i < this.aData.length)) {\n\t      this.current = i;\n\t} else if (this.aData.length > 0) {\n\t      this.current = i;\n\t\t\t\tthis.check();\n\t} else {\n\t      this.current = -1;\n\t};\n};\nconsole.log(\"Goto [\"+this.current+\"]\");\nthis.edit();\nthis.updateDOM();",
+                "comment": "goto record with index i, i is determined by an input string set by the user with an onchange event.",
+                "parameter": [
+                    {
+                        "name": "pNumberString",
+                        "class": "String",
+                        "comment": "parameter 'pNumberString' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "first",
+                "visibility": "public",
+                "return": "",
+                "code": "this.current = 0;\nconsole.log(\"First Click [\"+this.current+\"]\");\nthis.edit();",
+                "comment": "shows the first element in the large record",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "last",
+                "visibility": "public",
+                "return": "",
+                "code": "this.current = this.aData.length - 1;\nconsole.log(\"Last Click [\"+this.current+\"]\");\nthis.edit();",
+                "comment": "goes to the last record in large array",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "edit",
+                "visibility": "public",
+                "return": "",
+                "code": "// edit creates at least one record in the array this.aData\nif (this.aData.length == 0) {\n    // push an empty JSON hash\n    console.log(\"pData is empty create an empty element in the large array\")\n    this.aData.push({});\n};\nif (this.current < 0) {\n    console.log(\"current index in large array is not for the large array - use first element\")\n    this.current = 0;\n};\nthis.aEditor.setValue(this.aData[this.current]);\nthis.updateDOM();",
+                "comment": "edit calls the JSON editor of Jeremy Dorn for the selected record. It sets the init value of the JSON editor.  ",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "setSchema",
+                "visibility": "public",
+                "return": "",
+                "code": "this.aSchemaJSON = pSchemaJSON;\nif (this.aEditor) {\n    this.aEditor.destroy();\n    document.getElementById(this.aDOMID[\"editor\"]).innerHTML = \"\";\n};\nthis.init(this.aDOMID,this.aData,this.aSchemaJSON);",
+                "comment": "setSchema() sets a new schema for the JSON editor and the records of the array. If the editor this.aEditor exists, setSchema will destroy the current JSON editor to free some resources otherwise it will call the init method again.",
+                "parameter": [
+                    {
+                        "name": "pSchemaJSON",
+                        "class": "Hash",
+                        "comment": "parameter 'pSchemaJSON' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getSchema",
+                "visibility": "public",
+                "return": "Hash",
+                "code": "return this.aSchemaJSON;",
+                "comment": "getSchema() just return the JSON schema this.aSchemaJSON",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "export",
+                "visibility": "public",
+                "return": "",
+                "code": "var vStringJSON = JSON.stringify(pJSON,null,4);\n// File is a Javascript Class defined in FileSaver.js\nvar file = new File([vStringJSON], {type: \"text/plain;charset=utf-8\"});\n// method saveAs() is defined in FileSaver.js so import filesaver.js and blob.js to your Javascript project\nsaveAs(file,pFilename);\n",
+                "comment": "export() uses the FileSaver.js to create a download of exported JSON pJSON after the JSON was stringified",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "exportData",
+                "visibility": "public",
+                "return": "",
+                "code": "this.export(this.aName+\".json\",this.aData)",
+                "comment": "exportData() exports the JSON data in this.aData as file. The filename is defined by this.aName. if aName=\"myjson\" the filename is \"myjson.json\"",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "exportSchema",
+                "visibility": "public",
+                "return": "",
+                "code": "this.export(this.aName+\"_schema.json\",this.aSchemaJSON)",
+                "comment": "exportSchema() exports the JSON schema in this.aSchemaJSON as file. The filename is defined by this.aName. if aName=\"myjson\" the filename is \"myjson_schema.json\"",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getLocalStorageID4Name",
+                "visibility": "public",
+                "return": "String",
+                "code": "return pName.replace(/[^A-Za-z0-9]/g,\"_\");\n",
+                "comment": "the LocalStorageID for an item may not contain a dot . Name",
+                "parameter": [
+                    {
+                        "name": "pName",
+                        "class": "String",
+                        "comment": "parameter 'pName' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "loadLS",
+                "visibility": "public",
+                "return": "",
+                "code": "if (typeof(Storage) != \"undefined\") {\n    // Store\n    if (typeof(localStorage.getItem(this.aName)) !== undefined) {\n      console.log(\"JSON-DB '\"+this.aName+\"' try loading from Local Storage\");\n      var vJSONstring = localStorage.getItem(this.aName);\n\t  if (!vJSONstring) {\n        console.log(\"JSON-DB '\"+this.aName+\"' undefined in Local Storage.\\nSave default as JSON\");\n        localStorage.setItem(this.aName, JSON.stringify(this.getEditorData()));\n\t  } else {\n        console.log(\"parse DB '\"+this.aName+\"') from LocalStorage JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n        try {\n            this.setEditorData(JSON.parse(vJSONstring));\n        } catch(e) {\n            alert(e)\n        };\n\t  }\n    } else {\n      console.log(\"JSON-DB '\"+this.aName+\"' is undefined in Local Storage.\\nSave default as JSON\");\n      localStorage.setItem(vDBID, JSON.stringify(this.aData));\n    };\n}\t else {\n    console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n};",
+                "comment": "loadLS() loads the JSON file from Local Storage",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "saveLS",
+                "visibility": "public",
+                "return": "",
+                "code": "if (typeof(Storage) != \"undefined\") {\n    // Store\n    if (typeof(this.aData) != undefined) {\n      console.log(\"JSON-DB '\"+this.aName+\"' is defined, JSONDB in  Local Storage\");\n      if (this.aData) {\n        //console.log(\"pJSONDB '\"+this.aName+\"' is saved to Local Storage\");\n        var vJSONstring = JSON.stringify(this.aData)\n        console.log(\"saveLS('\"+this.aName+\"') JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n        localStorage.setItem(this.aName,vJSONstring);\n      } else {\n        console.log(\"this.aData in Editor4JSON is NOT defined\");\n      }\n    } else {\n      console.log(\"pJSONDB is undefined\");\n    };\n  }\t else {\n    console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n  }",
+                "comment": "saveLS() stores the JSON file in Local Storage",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "validate",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "\n// Get an array of errors from the validator\n//var errors = editor.validate();\nvar errors = this.aEditor.validate();\nvar vValid = true;\nif (errors.length) {\n  vValid = false;\n};\nvar vID = this.aDOMID['valid_indicator'] || 'valid_indicator';\nvar indicator = document.getElementById(vID);\nif (!indicator) {\n    console.log(\"DOM element '\"+vID+\"' does not exist\")\n} else {\n    if (errors.length) {\n        // Not valid\n        //indicator.style.color = 'red';\n        indicator.style.color = 'white';\n        indicator.style.backgroundColor = 'red';\n        indicator.textContent = \" not valid \";\n    } else {\n        // Valid\n        //indicator.style.color = 'green';\n        indicator.style.color = 'white';\n        indicator.style.backgroundColor = 'green';\n        indicator.textContent = \" valid \";\n    }\n};\nreturn vValid;\n",
+                "comment": "validates the current record in the large array against the schema. \nReturns true if record in JSON editor valid according to the JSON schema in this.aSchemaJSON",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "onChange",
+                "visibility": "public",
+                "return": "",
+                "code": "if (this.current > -1) {\n    if (this.current < this.aData.length) {\n        this.aData[this.current] = this.aEditor.getValue();\n    };\n};\nthis.saveLS();",
+                "comment": "handle onChange event from the JSON editor developed by Jeremy Dorn. This method updates the content in the editor with the record in this.aData[this.current] ",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "deleteRecord",
+                "visibility": "public",
+                "return": "",
+                "code": "this.check(); // is in the range of indices of the array this.aData\nif (this.current > -1) {\n    this.aData.splice(this.current, 1);\n};\nthis.check();\n// if this.current is still in the range of indices of the array this.aData\n// this could happen if last element in array was deleted\nthis.edit();",
+                "comment": "delete current record in array and decrease current if is the last",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "deleteAsk",
+                "visibility": "public",
+                "return": "",
+                "code": "var vOK = confirm(\"Do you really want to delete the current record?\");\nif(vOK == true) {\n    this.deleteRecord();\n} else {\n    console.log(\"Delete Record cancelled\")\n};",
+                "comment": "deleteAsk() asks the user if deleteRecord() should be performed",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "check",
+                "visibility": "public",
+                "return": "",
+                "code": "if (this.aData.length === 0) {\n    this.current = -1\n} else {\n    if (this.current < 0) { \n        this.current = 0\n    };\n    if (this.current >= this.aData.length) {\n        this.current = this.aData.length - 1;\n    };\n};\n",
+                "comment": "checks if the index of the array is between 0 and this.aData.lenth",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "updateDOM",
+                "visibility": "public",
+                "return": "",
+                "code": "//--- update current array index ------------\nvar vID = this.aDOMID[\"current\"] || \"array_index\";\nwrite2value(vID,(this.current+1));\n//--- update array length -------------------\nvID = this.aDOMID[\"length\"] || \"array_length\";\nwrite2innerHTML(vID,this.aData.length);\n//--- update title ID='record_title'---------\nif (this.aDOMID.hasOwnProperty(\"title\")) {\n    vID = this.aDOMID[\"title\"];\n    if (this.aData[this.current].hasOwnProperty(vID)) {\n        write2innerHTML(vID,this.aData.length);\n    };\n};\n// validate the record against Schema JSON\nthis.validate();",
+                "comment": "updateDOM() updates the index of the currently edited record from the array and updates the length of the array e.g. if a new record was pushed the array this.aData",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "setEditorData",
+                "visibility": "public",
+                "return": "",
+                "code": "this.current = pEditorData[\"current\"] || 0;\nthis.aData = pEditorData[\"data\"] || [];\nthis.aSchemaJSON = pEditorData[\"schema\"] || vDataJSON[\"car\"]",
+                "comment": "setEditorData() sets the Editor with current, data and schema",
+                "parameter": [
+                    {
+                        "name": "pEditorData",
+                        "class": "Hash",
+                        "comment": "parameter 'pEditorData' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getEditorData",
+                "visibility": "public",
+                "return": "Hash",
+                "code": "var vEditorData = {\n\t\"current\" : this.current,\n\t\"data\" : this.aData,\n\t\"schema\" : this.aSchemaJSON\n};\nreturn vEditorData;",
+                "comment": "getEditorData() create a Hash for this.current, this.aData and this.aSchema",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "load",
+                "visibility": "public",
+                "return": "",
+                "code": "\tvar vThis = this; // necessary due to visibility of this in onload handler\n\tvar fileToLoad = document.getElementById(pFileID4DOM).files[0]; //for input type=file\n\tif (fileToLoad) {\n\t\tconsole.log(\"importJSON() - File '\"+fileToLoad.name+\"' exists.\");\n\t\tvar fileReader = new FileReader();\n\t\t// set the onload handler\n\t\tfileReader.onload = function(fileLoadedEvent){\n\t\t\t\tvar vTextFromFileLoaded = fileLoadedEvent.target.result;\n\t\t\t\t//document.getElementById(\"inputTextToSave\").value = textFromFileLoaded;\n\t\t\t\t//alert(\"textFromFileLoaded=\"+textFromFileLoaded);\n\t\t\t\tvThis.aLoadedFile = fileToLoad.name;\n\t\t\t\tvThis.importJSON(vTextFromFileLoaded);\n\t\t\t};\n\t\t//onload handler set now start loading the file\n\t\tfileReader.readAsText(fileToLoad, \"UTF-8\");\n\t} else {\n\t\talert(\"File is missing\");\n\t};\n  this.edit();\n  this.updateDOM();\n",
+                "comment": "loads the file from Local Storage and updates the DOM values with current, aData loadLS() and load() cannot be merged because loadLS() is called in the this.init() without the possibility to edit() due to the fact that the JSON editor is not created and dependent on the loaded values of the schema",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "save",
+                "visibility": "public",
+                "return": "",
+                "code": "  this.saveLS();\n  this.exportData();\n",
+                "comment": "save() stores current index, JSON data and JSON schema with storeLS() into local storage and exports the current JSON data as file",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "add",
+                "visibility": "public",
+                "return": "",
+                "code": "this.aData.push({});\nthis.current = this.aData.length - 1; // this is the index of the last new element \nthis.edit();\nthis.updateDOM(); // updateDOM()-call necessary because length and current index changed due to add-click of user",
+                "comment": "add() appends a new record at the end of the array",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "importJSON",
+                "visibility": "public",
+                "return": "",
+                "code": " console.log(\"importJSON('\"+this.aLoadedFile+\"')\");\nif (pStringJSON) {\n    try {\n        this.aData = JSON.parse(pStringJSON);\n        alert(\"File JSON '\"+this.aLoadedFile+\"' loaded successfully!\")\n    } catch(e) {\n        alert(e); // error in the above string (in this case, yes)!\n    }\n};",
+                "comment": "importJSON() parses the JSON string in pStringJSON and stores the JSON in this.aData",
+                "parameter": [
+                    {
+                        "name": "pStringJSON",
+                        "class": "String",
+                        "comment": "parameter 'pStringJSON' stores ..."
+                    }
+                ]
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String",
+            "App",
+            "AppAbstract",
+            "Document",
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "localclasslist": [
+            "LoadSaver",
+            "LinkParam",
+            "",
+            "JSONEditor",
+            "String",
+            "Array",
+            " ",
+            "Hash",
+            "Boolean"
+        ],
+        "remoteclasslist": [
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}

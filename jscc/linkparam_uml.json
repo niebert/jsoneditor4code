@@ -1,0 +1,300 @@
+{
+    "data": {
+        "classname": "LinkParam",
+        "superclassname": "",
+        "comment": "",
+        "reposinfo": {
+            "repository": "https://www.github.com/niebert/LinkParam",
+            "require_classes": "yes",
+            "author": "Engelbert Niehaus",
+            "email": "niehaus@uni-landau.de",
+            "requirelist": []
+        },
+        "attributes": [
+            {
+                "name": "size",
+                "visibility": "public",
+                "init": "0",
+                "class": "Integer",
+                "comment": "Counts the Number of Parameter"
+            },
+            {
+                "name": "aVars",
+                "visibility": "public",
+                "init": "{}",
+                "class": "Hash",
+                "comment": "Attribute: 'aVars' Type: 'Hash' stores all URL parameters "
+            },
+            {
+                "name": "aLink",
+                "visibility": "public",
+                "init": "\"\"",
+                "class": "String",
+                "comment": "Attribute: 'aLink' Type: 'String' stores the Link before '?' "
+            }
+        ],
+        "methods": [
+            {
+                "name": "init",
+                "visibility": "public",
+                "return": "",
+                "code": "//save \"document\" object in aDoc as Attribute for further use \nthis.aDoc = pDoc;\nthis.aLink = pDoc.location;\nthis.aVars = this.parseURL(pDoc.location.search);",
+                "comment": "init extract the link with parameters from document.location.search and store aLink",
+                "parameter": [
+                    {
+                        "name": "pDoc",
+                        "class": "Document",
+                        "comment": "parameter 'pDoc' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "parseURL",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vLink = pLink || \"\";\nvar vParams = {},\n    vTokens,\n    vRE = /[?&]?([^=]+)=([^&]*)/g;\nif (vLink != \"\") {\n  vLink = vLink.split('+').join(' ');\n  while (vTokens = vRE.exec(vLink)) {\n    vParams[this.decodeParam(vTokens[1])] = this.decodeParam(vTokens[2]);\n    this.calcSize();\n  };\n} else {\n    console.log(\"parseURL(pLink) - pLink contains no parameters\")\n};\nreturn vParams;",
+                "comment": "parses the URL stores the variables in 'aVar' e.g. ..&lastname=Niehaus&... stores aVars['name']='Niehaus'",
+                "parameter": [
+                    {
+                        "name": "pLink",
+                        "class": "String",
+                        "comment": "parameter 'pLink' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getURL",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vParam = \"\";\nif (pVars) {\n    vParam = getParam4URL(pVars);\n} else {\n    vParam = getParam4URL();\n};\nreturn this.getLink4URL() + vParam;",
+                "comment": "Comment for getLink",
+                "parameter": [
+                    {
+                        "name": "pVarHash",
+                        "class": "Hash",
+                        "comment": "parameter 'pVarHash' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "setValue",
+                "visibility": "public",
+                "return": "",
+                "code": "if (this.aVars.hasOwnProperty(pVar)) {\n  console.log(\"Value of link parameter '\"+pVar+\"' changed\");\n} else {\n  this.calcSize();\n  console.log(\"New  link parameter '\"+pVar+\"' created\");\n};\nthis.aVars[pVar] = pValue",
+                "comment": "Comment for setValue",
+                "parameter": [
+                    {
+                        "name": "pVar",
+                        "class": "String",
+                        "comment": "parameter 'pVar' stores ..."
+                    },
+                    {
+                        "name": "pValue",
+                        "class": "String",
+                        "comment": "parameter 'pValue' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getValue",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vRet = \"\";\nif (this.aVars.hasOwnProperty(pVar)) {\n    vRet = this.aVars[pVar]\n} else {\n    console.log(\"ERROR: variable '\"+pVar+\"' does not exist in LinkParam\");\n};\nreturn vRet;",
+                "comment": "Comment for getValue(pVar) return the definition of the parameter exists otherwise en empty string",
+                "parameter": [
+                    {
+                        "name": "pVar",
+                        "class": "String",
+                        "comment": "parameter 'pVar' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "deleteValue",
+                "visibility": "public",
+                "return": "",
+                "code": "var vRet = false;\nif (this.aVars.hasOwnProperty(pVar)) {\n    delete this.aVars[pVar];\n    vRet = true;\n    this.calcSize();\n};\nreturn vRet;",
+                "comment": "Comment for deleteValue in the parameter hash aVars\nreturn a Boolean if delete was sucessful, resp. variable pVar exists in Hash aVars",
+                "parameter": [
+                    {
+                        "name": "pVar",
+                        "class": "String",
+                        "comment": "parameter 'pVar' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getLink4URL",
+                "visibility": "public",
+                "return": "String",
+                "code": "return this.aLink;",
+                "comment": "get the Link part of the URL without the URL parameters",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getParam4URL",
+                "visibility": "public",
+                "return": "String",
+                "code": "  var vHash = this.aVars || {};\n  var vOut = \"\";\n  var vSep = \"?\";\n  for (var iID in vHash) {\n    if (vHash.hasOwnProperty(iID)) {\n      vOut = vSep + this.encodeParam(iID) + \"=\" + this.encodeParam(vHash[iID]);\n      vSep = \"&\";\n    };\n  };\n  return vOut;\n",
+                "comment": "get the parameter string for the URL starting with ? if aVars contains variables",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "decodeParam",
+                "visibility": "public",
+                "return": "String",
+                "code": "pParam = pParam.replace(/\\+/g,  \" \");\npParam = decodeURIComponent(pParam);\nreturn pParam;\n",
+                "comment": "decode a parameter from the URL",
+                "parameter": [
+                    {
+                        "name": "pParam",
+                        "class": "String",
+                        "comment": "parameter 'pParam' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "encodeParam",
+                "visibility": "public",
+                "return": "",
+                "code": "var vParam = encodeURIComponent(pParam);\nvParam = vParam.replace(/'/g,\"%27\").replace(/\"/g,\"%22\");\nreturn vParam;",
+                "comment": "encode a parameter for a call from the app.",
+                "parameter": [
+                    {
+                        "name": "pParam",
+                        "class": "String",
+                        "comment": "parameter 'pParam' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getTableHTML",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vOut = \"\";\nvar vHash = this.aVars;\nvOut += \"<table border=1>\";\nvOut += \"<tr><td><b>Variable</b></td><td>Value</td></tr>\";\nvar vWrapCode = true;\nfor (var iID in vHash) {\n    if (vHash.hasOwnProperty(iID)) {\n      vOut += \"<tr>\";\n      vOut += \"<td>\";\n      vOut += \"<b>\"+iID+\"</b>\";\n      vOut += \"</td>\";\n      vOut += \"<td>\";\n      // second parameter vWrapCode = true for non textarea use; \n      vOut += this.encodeHTML(vHash[iID],vWrapCode);\n      vOut += \"</td>\";\n      vOut += \"</tr>\";\n    };\n};\nvOut += \"</table>\";\nreturn vOut;",
+                "comment": "creates a HTML table with two column for key and value of the parameter hash aVars",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getEditTableHTML",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vPrefixID = pPredixID || \"\";\nvar vOut = \"\";\nvar vHash = this.aVars;\nvOut += \"<table border=1>\";\nvar vRows = 1;\nvar vContent = \"\";\nvar vMaxRows = 10;\nvar vWrapCode = false;\nfor (var iID in vHash) {\n    if (vHash.hasOwnProperty(iID)) {\n      vContent = this.encodeHTML(vHash[iID],vWrapCode);\n      vRows = (vHash[iID].split(\"\\n\")).length;\n      if (vRows > vMaxRows) {\n          vRows = vMaxRows;\n      };\n      vOut += \"<tr>\";\n      vOut += \"<td>\";\n      vOut += \"<b>\"+iID+\"</b>\";\n      vOut += \"</td>\";\n      vOut += \"<td>\";\n      // second parameter vWrapCode = true for non textarea use; \n      vOut += \"<textarea id='\"+vPrefix+iID+\"'' cols='90' rows='\"+vRows+\"''>\";\n      vOut += vContent;\n      vOut += \"</textarea>\";\n      vOut += \"</td>\";\n      vOut += \"</tr>\";\n    };\n};\nvOut += \"</table>\";\nreturn vOut;",
+                "comment": "creates a Edit HTML table with two column for key and value of the parameter hash aVars.\nThe keys of aVars are used as IDs for the HTML form.\nAn optional ID prefix as parameter can be used to create a unique ID for the DOM elements\nAll parameters are visible in an input field.",
+                "parameter": [
+                    {
+                        "name": "pPrefixID",
+                        "class": "String",
+                        "comment": "parameter 'pPrefixID' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "calcSize",
+                "visibility": "public",
+                "return": "",
+                "code": "var vRet = 0;\nif (this.aVars) {\n    var vHash = this.aVars;\n    for (var key in vHash) {\n        vRet++;\n    };\n} else {\n    console.log(\"ERROR: variable '\"+pVar+\"' does not exist in LinkParam\");\n};\nreturn vRet;",
+                "comment": "calculates the number of variables defined in the URL parameters, stores result in length",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "encodeHTML",
+                "visibility": "public",
+                "return": "String",
+                "code": "var vValue = pValue || \"\";\nif (vValue != \"\") {\n    vValue = vValue.replace(/</g,\"&lt;\");\n    vValue = vValue.replace(/>/g,\"&gt;\");\n    vValue = vValue.replace(/&/g,\"&amp;\");\n};\nif (pWrapCode && (pWrapCode == true)) {\n    vValue = \"<pre><code>\"+vValue+\"</code></pre>\";\n};\nreturn vValue",
+                "comment": "Encodes source code for HTML-Output in as code or textarea in the following way:\n 1) Replace \"&\" character with \"&amp;\"\n 2) Replace \"<\" character with \"&lt;\"\n 3) Replace \">\" character with \"&gt;\"\nThe converted pValue will wrapped with <pre> and <code> tags for direct display as HTML \nand without code tag wrapper if the code is written as inner HTML and value to a textarea.",
+                "parameter": [
+                    {
+                        "name": "pValue",
+                        "class": "String",
+                        "comment": "parameter 'pValue' stores ..."
+                    },
+                    {
+                        "name": "pWrapCode",
+                        "class": "Boolean",
+                        "comment": "parameter 'pWrapCode' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "exists",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "var vRet = false;\nif (pVar) {\n   vRet = this.aVars.hasOwnProperty(pVar)    \n};\nreturn vRet;\n",
+                "comment": "checks if the parameter with variable 'pVar' exists in parameter hash this.aVars",
+                "parameter": [
+                    {
+                        "name": "pVar",
+                        "class": "String",
+                        "comment": "parameter 'pVar' stores ..."
+                    }
+                ]
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String",
+            "App",
+            "AppAbstract",
+            "Document",
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "localclasslist": [
+            "LoadSaver",
+            "LinkParam",
+            "",
+            "Integer",
+            "Hash",
+            "String",
+            "Boolean"
+        ],
+        "remoteclasslist": [
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}

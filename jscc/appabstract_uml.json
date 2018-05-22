@@ -1,0 +1,120 @@
+{
+    "data": {
+        "classname": "AppAbstract",
+        "superclassname": "",
+        "comment": "",
+        "reposinfo": {
+            "repository": "https://www.github.com/niebert/AppAbstract",
+            "require_classes": "yes",
+            "author": "Engelbert Niehaus",
+            "email": "niehaus@uni-landau.de",
+            "requirelist": []
+        },
+        "attributes": [
+            {
+                "name": "aLinkParam",
+                "visibility": "public",
+                "init": "new LinkParam()",
+                "class": "LinkParam",
+                "comment": "stores all parameters from the URL in aLinkParam.aVars"
+            },
+            {
+                "name": "aDatabaseList",
+                "visibility": "public",
+                "init": "new DatabaseList()",
+                "class": "DatabaseList",
+                "comment": "stores all databases loaded in the app"
+            }
+        ],
+        "methods": [
+            {
+                "name": "init",
+                "visibility": "public",
+                "return": "",
+                "code": "this.aDoc = pDoc || document;\nthis.aDatabaseList.init(pDatabase);",
+                "comment": "1) inits the App with the document\n2) calls an init on the LinkParameter so that the parameters of the link are available in aLinkParam\n3) inits all the database in aDatabaseList",
+                "parameter": [
+                    {
+                        "name": "pDoc",
+                        "class": "Document",
+                        "comment": "parameter 'pDoc' stores ..."
+                    },
+                    {
+                        "name": "pDatabase",
+                        "class": "Hash",
+                        "comment": "parameter 'pDatabase' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "load",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "this.aDatabaseList.load()\nthis.aDOMVarList.load()",
+                "comment": "load Databases and DOMVars from LocalStorage if the exist in local storage",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "save",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "this.aDatabaseList.save()\nthis.aDOMVarList.save()",
+                "comment": "save Databases and DOMVars to LocalStorage",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String",
+            "App",
+            "AppAbstract",
+            "Document",
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "localclasslist": [
+            "LoadSaver",
+            "LinkParam",
+            "",
+            "DatabaseList",
+            "Boolean"
+        ],
+        "remoteclasslist": [
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}

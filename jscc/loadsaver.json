@@ -1,0 +1,117 @@
+{
+    "data": {
+        "classname": "LoadSaver",
+        "superclassname": "",
+        "comment": "The class provides an constructor for a LoadSave. The work is based on FileSaver.js to save files via the download mechanism with a browser.",
+        "reposinfo": {
+            "repository": "https://www.github.com/author/NewClass",
+            "require_classes": "yes",
+            "author": "My Name",
+            "email": "name@example.com",
+            "created": "23.04.2018",
+            "modified": "2018/05/06 23:52:30",
+            "requirelist": [
+                "handlebars",
+                "filesaver",
+                "jquery"
+            ]
+        },
+        "attributes": [
+            {
+                "visibility": "public",
+                "name": "aJSON",
+                "init": "null",
+                "class": "Hash",
+                "comment": "contains the data loaded an saved"
+            },
+            {
+                "visibility": "public",
+                "name": "aOptions",
+                "init": "{}",
+                "class": "Hash",
+                "comment": "This attribute stores the options of the editor, e.g. the DOM id in which ethe editor will be injected in the DOM, the filename id, validator result, ...."
+            }
+        ],
+        "methods": [
+            {
+                "visibility": "public",
+                "name": "loadLS",
+                "parameter": [
+                    {
+                        "name": "pLSID",
+                        "class": "String",
+                        "comment": "the parameter provides the ID for storing the JSON data"
+                    }
+                ],
+                "return": "",
+                "comment": "the method initializes the JSON editor with the defined schema, updates the class selector in the schema with the classlist in JSON data. ",
+                "code": "var vRetJSON = null;\nif (typeof(Storage) != \"undefined\") {\n    var vLSID = pLSID || \"jsondata\";\n\tif (typeof(localStorage.getItem(vLSID)) !== undefined) {\n        console.log(\"JSON-DB '\"+vLSID+\"' try loading from Local Storage\");\n        var vJSONstring = localStorage.getItem(vLSID);\n  \t    if (!vJSONstring) {\n          console.log(\"JSON-DB '\"+vLSID+\"' undefined in Local Storage.\");\n        } else {\n          try {\n              this.aJSON = JSON.parse(vJSONstring);\n          } catch(e) {\n              alert(e)\n          };\n  \t    }\n      } else {\n        console.log(\"loadLS('\"+vLSID+\"') is undefined in Local Storage.\\nSave default as JSON\");\n        localStorage.setItem(vLSID, JSON.stringify(this.aJSON));\n      };\n  }\t else {\n      console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n  };\n\n};"
+            },
+            {
+                "visibility": "public",
+                "name": "saveLS",
+                "parameter": [],
+                "return": "",
+                "comment": "Save the content of the JSON in this.aJSON stringified in the LocalStorage",
+                "code": "if (typeof(Storage) != \"undefined\") {\n    var vLSID = pLSID || \"jsondata\";\n    // Store\n    if (typeof(this.aJSON) != undefined) {\n        console.log(\"JSON-DB '\"+vLSID+\"' is defined, JSONDB in  Local Storage\");\n        if (this.aJSON) {\n          console.log(\"JSON '\"+vLSID+\"' is saved to Local Storage\");\n          var vJSONstring = JSON.stringify(this.aJSON);\n          localStorage.setItem(vLSID,vJSONstring);\n        } else {\n          console.log(\"this.aJSON in LoadSaver is NOT defined for '\"+vLSID+\"'\");\n        }\n    } else {\n    console.log(\"saveLS() - LoadSaver. this.aJSON is undefined\");\n    };\n} else {\n    console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n}\n"
+            },
+            {
+                "visibility": "public",
+                "name": "saveFile2HDD",
+                "parameter": [
+                    {
+                        "name": "pFilename",
+                        "class": "String",
+                        "comment": "the parameter stores the filename, that is used for the download event (FileSaver.js)"
+                    },
+                    {
+                        "name": "pContent",
+                        "class": "String",
+                        "comment": "the parameter stores the content of the saved file"
+                    }
+                ],
+                "return": "",
+                "comment": "the method performs a FileSave within the browser by using the FileSaver.js library, that emulates file saving by a download event.  ",
+                "code": "var file = new File([pContent], {type: \"text/plain;charset=utf-8\"});\nsaveAs(file,pFilename);"
+            }
+        ]
+    },
+    "settings": {
+        "classlist": [
+            "",
+            "App",
+            "AppAbstract",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "JSONEditor",
+            "LinkParam",
+            "Object",
+            "RegularExp",
+            "String"
+        ],
+        "localclasslist": [
+            "App",
+            "AppAbstract"
+        ],
+        "remoteclasslist": [
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}

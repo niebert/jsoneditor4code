@@ -1,0 +1,284 @@
+{
+    "data": {
+        "classname": "JSONEditor4Code",
+        "superclassname": "",
+        "comment": "The class provides an constructor for a JSON Editor for Code Generation. The work is based on Jeremy Dorns great JSON editor. This class adds the HandleBars template engine for generation of source based on a UML class definition.  The constructor must be called with document object as argument.\n   var vJSONEditor4Code = new JSONEditor4Code() ",
+        "reposinfo": {
+            "repository": "https://www.github.com/author/NewClass",
+            "require_classes": "yes",
+            "author": "My Name",
+            "email": "name@example.com",
+            "created": "23.04.2018",
+            "modified": "2018/05/07 12:44:24",
+            "requirelist": [
+                "handlebars",
+                "filesaver",
+                "jquery"
+            ]
+        },
+        "attributes": [
+            {
+                "visibility": "public",
+                "name": "aEditor",
+                "init": "new JSONEditor()",
+                "class": "JSONEditor",
+                "comment": "Contains the JSON Editor for handling the UML model for the class"
+            },
+            {
+                "visibility": "public",
+                "name": "aJSON",
+                "init": "null",
+                "class": "Hash",
+                "comment": "contains the data submitted to the JSON Editor (via URL parameter/query string - which includes the list of classes that can be used in this class definition"
+            },
+            {
+                "visibility": "public",
+                "name": "aSchema",
+                "init": "null",
+                "class": "Hash",
+                "comment": "This attribute contains the JSON Schema for the JSON Editor"
+            },
+            {
+                "visibility": "public",
+                "name": "aOptions",
+                "init": "{}",
+                "class": "Hash",
+                "comment": "This attribute stores the options of the editor, e.g. the DOM id in which ethe editor will be injected in the DOM, the filename id, validator result, ...."
+            }
+        ],
+        "methods": [
+            {
+                "visibility": "public",
+                "name": "init",
+                "parameter": [
+                    {
+                        "name": "pJSON",
+                        "class": "Hash",
+                        "comment": "the parameter stores JSON definition for the class"
+                    },
+                    {
+                        "name": "pOptions",
+                        "class": "Hash",
+                        "comment": "the parameter stores the options for the JSON editor (developed by Jeremy Dorn)"
+                    },
+                    {
+                        "name": "pSchema",
+                        "class": "Hash",
+                        "comment": "the parameter contains the JSON Schema for JSON Editor"
+                    },
+                    {
+                        "name": "pEditorID",
+                        "class": "String",
+                        "comment": "the parameter provide DOM ID in which the JSON editor will be injected."
+                    },
+                    {
+                        "name": "pFilenameID",
+                        "class": "String",
+                        "comment": "the parameter provide the ID of a DOM element in which the JSON Editor will write the file name of the loaded UML Class. "
+                    }
+                ],
+                "return": "",
+                "comment": "the method initializes the JSON editor with the defined schema, updates the class selector in the schema with the classlist in JSON data. ",
+                "code": "this.aJSON = pJSON;\nthis.aSchema = pSchema;\nthis.aOptions = pOptions || {};\nif (this.aOptions.hasOwnProperty(\"editor_id\")) {\n    console.log(\"Editor ID defined - [\"+this.aOptions.editor_id+\"]\")\n} else {\n    this.aOptions[\"editor_id\"] = \"editor_holder\";\n};\nif (this.aOptions.hasOwnProperty(\"validator_id\")) {\n    console.log(\"Validator ID defined - [\"+this.aOptions.validator_id+\"]\")\n} else {\n    this.aOptions[\"validator_id\"] = \"valid_indicator\";\n};\nif (this.aOptions.hasOwnProperty(\"filename_id\")) {\n    console.log(\"Filename ID defined - [\"+this.aOptions.filename_id+\"]\")\n} else {\n    this.aOptions[\"filename_id\"] = \"load_filename\";\n};\nthis.update_schema();\nthis.create_editor();\n"
+            },
+            {
+                "visibility": "public",
+                "name": "init_ask",
+                "parameter": [
+                    {
+                        "name": "pInitJSON",
+                        "class": "Hash",
+                        "comment": "the parameter provide the Hash for initialization of the JSON data in the editor"
+                    }
+                ],
+                "return": "",
+                "comment": "the method ask the user if the JSON data should be initialized. The initial data can be provided via the paramater of the method",
+                "code": "var vOK = confirm(\"Do you really want to initialize the UML-class '\"+this.aJSON.data.classname+\"'?\");\nif (vOK == true) {\n\t\tvar vSampleOK = confirm(\"Do you want to save the current UML-class '\"+this.aJSON.data.classname+\"' first?\");\n\t\tif (vSampleOK == true) {\n\t\t\tthis.saveJSON();\n\t\t\tconsole.log(\"JSON-DB initalized with UML class '\"+this.aJSON.data.classname+\"'!\");\n\t\t} else {\n\t\t\tconsole.log(\"JSON-DB for UML class '\"+this.aJSON.data.classname+\"' not saved - data deleted!\");\n\t\t};\n\t\tthis.aJSON = pInitJSON; // defined e.g. in /db/uml_default.js\n\t\tconsole.log(\"JSON-DB initalized with UML class '\"+this.aJSON.data.classname+\"'!\");\n\t\t//save changes to Local Storage\n\t\tthis.saveLS();\n\n} else {\n        console.log(\"initialize JSON-DB cancelled\")\n};"
+            },
+            {
+                "visibility": "public",
+                "name": "init_doc",
+                "parameter": [
+                    {
+                        "name": "pDocument",
+                        "class": "Document",
+                        "comment": "the parameter provides the document object as reference to the JSONEditor4Code"
+                    }
+                ],
+                "return": "",
+                "comment": "the method initializes the this.aDoc reference to the underlying window.document object. \nThis is necessary to select DOM objects by document.getElementById('valid_indicator')",
+                "code": "this.aDoc = pDocument || window.document;"
+            },
+            {
+                "visibility": "public",
+                "name": "init_buttons",
+                "parameter": [],
+                "return": "",
+                "comment": "the method sets the event handler for the onchange events and watch certain activities in the editor",
+                "code": "this.set_button_click(\"submit\",function() {\n        // Get the value from the editor\n        var vContent = JSON.stringify(this.aEditor.getValue(),null,4);\n        this.el(\"tJSON\")\n        console.log(\"JSON Data:\\n\"+vContent);\n    });\nthis.set_button_click(\"enable_disable\",function() {\n        if (this.aEditor) {\n            // Enable form\n            if(!this.aEditor.isEnabled()) {\n                this.aEditor.enable();\n            }\n            // Disable form\n            else {\n                this.aEditor.disable();\n            }\n        }\n    });"
+            },
+            {
+                "visibility": "public",
+                "name": "create_editor",
+                "parameter": [],
+                "return": "",
+                "comment": "the method performs ...",
+                "code": "if (this.aEditor) {\n    // free some resources if the editor already exists\n    this.aEditor.destroy();\n}\n\nthis.update_filename(); // updates the filename in the DOM e.g. with id \"load_filename\"\n\nconsole.log(\"Start Editor with JSON:\\n\"+JSON.stringify(this.aJSON,null,3));\nvar vEditorNode = this.el(this.aOptions.editor_id); \nthis.aEditor = new JSONEditor(vEditorNode,{\n        // Enable fetching schemas via ajax\n        ajax: true,\n\n        // The schema for the editor\n        schema: this.aSchema,\n\n        // Seed the form with a starting value\n        startval: this.aJSON,\n        // Disable additional properties\n        no_additional_properties: true,\n\n        // Require all properties by default\n        required_by_default: true\n      });\n      \nthis.init_buttons();"
+            },
+            {
+                "visibility": "public",
+                "name": "el",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter provides the DOM id for returning the appropriate DOM node as return"
+                    }
+                ],
+                "return": "",
+                "comment": "the method performs document.getElementById()-call with application of the reference in this.aDoc",
+                "code": "return this.aDoc.getElementById(pID)"
+            },
+            {
+                "visibility": "public",
+                "name": "set_button_click",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter stores the DOM id of the button"
+                    },
+                    {
+                        "name": "pFunction",
+                        "class": "Function",
+                        "comment": "the parameter provides a references for the onclick handler"
+                    }
+                ],
+                "return": "",
+                "comment": "the method assign an onclick handler to a button with the id pID",
+                "code": "var vNode = this.el(pID);\nif (vNode) {\n    vNode.addEventListener('click',pFunction);\n} else {\n    console.log(\"DOM node [\"+pID+\"] does not exist. Could not assign\");\n}"
+            },
+            {
+                "visibility": "public",
+                "name": "update_filename",
+                "parameter": [],
+                "return": "",
+                "comment": "the method updates the filename in the DOM inner HTML of  the DOM element with the ID 'load_filename'.\nThe update id in the DOM is defined by this.aOptions[\"filename_id\"]",
+                "code": "var vNode = this.el(this.aOptions[\"filename_id\"]); // e.g. filename_id = \"load_filename\";\nif (vNode) {\n    vNode.innerHTML = class2filename(this.aJSON.data.classname);\n} else {\n    console.log(\"DOM node [\"+this.aOptions[\"filename_id\"]+\"] not found\");\n};\n\n      "
+            },
+            {
+                "visibility": "public",
+                "name": "update_schema",
+                "parameter": [],
+                "return": "Boolean",
+                "comment": "User has update the list of classes and then the selector for classes in the editor must be updated. \nThis requires an update of the JSON editor and therefore a restart of the editor.",
+                "code": "this.update_filename(); // update the filename in the DOM node with id \"load_filename\"\nvar s = this.aJSON.settings;\nvar vRequired_Classes = concat_array(s.remoteclasslist,s.localclasslist);\n//console.log(\"vRequired_Classes: \"+vRequired_Classes.join(\",\"));\ns.classlist = concat_array(s.baseclasslist,vRequired_Classes);\n//console.log(\"vRequired_Classes: ('\"+s.classlist.join(\"','\")+\"')\");\ns.classlist.sort();\n// update the class selector in the schema with classes submitted to the editor by pJSON.\nthis.aSchema.definitions.selectorclass.enum = s.classlist;\nthis.update(); // update the JSONeditor in this.aEditor\n"
+            },
+            {
+                "visibility": "public",
+                "name": "validate_errors",
+                "parameter": [],
+                "return": "",
+                "comment": "the method calls the validator of the JSON and stores the errors in the textarea \"tErrors\" ",
+                "code": "  // Get an array of errors from the validator\n  var errors = this.aEditor.validate();\n\n  var indicator = this.el(this.aOptions.validator_id);\n\n  // Not valid\n  if(errors.length) {\n    indicator.style.color = 'red';\n    indicator.textContent = \"not valid\";\n  }\n  // Valid\n  else {\n    indicator.style.color = 'green';\n    indicator.textContent = \"valid\";\n  };\n  var vErrors = \"\";\n  var vCR = \"\";\n  for (var i = 0; i < errors.length; i++) {\n    vErrors +=  vCR + errors[i].path + \" - \" +errors[i].property +\" - \"+errors[i].message;\n    vCR = \"\\n\";\n  };\n  this.el(\"tErrors\").value = vErrors;"
+            },
+            {
+                "visibility": "public",
+                "name": "saveFile2HDD",
+                "parameter": [
+                    {
+                        "name": "pFilename",
+                        "class": "String",
+                        "comment": "the parameter stores the filename, that is used for the download event (FileSaver.js)"
+                    },
+                    {
+                        "name": "pContent",
+                        "class": "String",
+                        "comment": "the parameter stores the content of the saved file"
+                    }
+                ],
+                "return": "",
+                "comment": "the method performs a FileSave within the browser by using the FileSaver.js library, that emulates file saving by a download event.  ",
+                "code": "var file = new File([pContent], {type: \"text/plain;charset=utf-8\"});\nsaveAs(file,pFilename);"
+            },
+            {
+                "visibility": "public",
+                "name": "update",
+                "parameter": [],
+                "return": "",
+                "comment": "the method destroys the editor in this.aEditor (if exists) to free some memory resources. Creates the JSONeditor with the updated JSON schema in this.aSchema",
+                "code": "this.create_editor()"
+            },
+            {
+                "visibility": "public",
+                "name": "loadJSON",
+                "parameter": [],
+                "return": "",
+                "comment": "the method performs ...",
+                "code": "// insert your code here"
+            },
+            {
+                "visibility": "public",
+                "name": "saveJSON",
+                "parameter": [],
+                "return": "",
+                "comment": "the method performs ...",
+                "code": "// insert your code here"
+            },
+            {
+                "visibility": "public",
+                "name": "saveDocumentation",
+                "parameter": [],
+                "return": "",
+                "comment": "the method performs ...",
+                "code": "// insert your code here"
+            },
+            {
+                "visibility": "public",
+                "name": "saveCode",
+                "parameter": [],
+                "return": "",
+                "comment": "the method performs ...",
+                "code": "// insert your code here"
+            }
+        ]
+    },
+    "settings": {
+        "classlist": [
+            "",
+            "App",
+            "AppAbstract",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "JSONEditor",
+            "LinkParam",
+            "Object",
+            "RegularExp",
+            "String"
+        ],
+        "localclasslist": [
+            "App",
+            "AppAbstract"
+        ],
+        "remoteclasslist": [
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}

@@ -1,0 +1,235 @@
+{
+    "data": {
+        "classname": "App",
+        "superclassname": "AppAbstract",
+        "comment": "",
+        "reposinfo": {
+            "repository": "https://www.github.com/niebert/App",
+            "require_classes": "yes",
+            "author": "Engelbert Niehaus",
+            "email": "niehaus@uni-landau.de",
+            "requirelist": []
+        },
+        "attributes": [
+            {
+                "name": "aDoc",
+                "visibility": "public",
+                "init": "null",
+                "class": "",
+                "comment": "the attribute 'aDoc' stores in '' ... "
+            },
+            {
+                "name": "aName",
+                "visibility": "public",
+                "init": "\"Wiki2Reveal\"",
+                "class": "String",
+                "comment": "the attribute 'aName' stores in 'String' ... "
+            },
+            {
+                "name": "aServer",
+                "visibility": "public",
+                "init": "\"https://en.wikipedia.org\"",
+                "class": "String",
+                "comment": "the attribute 'aServer' stores in 'String' ... "
+            },
+            {
+                "name": "aZIP4JS",
+                "visibility": "public",
+                "init": "new ZIP4JS()",
+                "class": "ZIP4JS",
+                "comment": "the attribute 'aZIP4JS' stores in 'ZIP4JS' ... "
+            },
+            {
+                "name": "aDatabaseList",
+                "visibility": "public",
+                "init": "new DatabaseList()",
+                "class": "DatabaseList",
+                "comment": "the attribute 'aDatabaseList' stores in 'DatabaseList' ... "
+            },
+            {
+                "name": "aCurrentPage",
+                "visibility": "public",
+                "init": "\"welcome\"",
+                "class": "String",
+                "comment": "the attribute 'aCurrentPage' stores in 'String' ... "
+            },
+            {
+                "name": "aLinkParam",
+                "visibility": "public",
+                "init": "new LinkParam()",
+                "class": "LinkParam",
+                "comment": "stores all parameters from the URL in aLinkParam.aVars"
+            }
+        ],
+        "methods": [
+            {
+                "name": "initDOM",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for initDOM",
+                "parameter": [
+                    {
+                        "name": "pDoc",
+                        "class": "Document",
+                        "comment": "parameter 'pDoc' stores ..."
+                    },
+                    {
+                        "name": "pDatabase",
+                        "class": "Hash",
+                        "comment": "parameter 'pDatabase' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "load",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "",
+                "comment": "Comment for load",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "save",
+                "visibility": "public",
+                "return": "Boolean",
+                "code": "",
+                "comment": "Comment for save",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "event",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for event",
+                "parameter": [
+                    {
+                        "name": "pPageID",
+                        "class": "String",
+                        "comment": "parameter 'pPageID' stores ..."
+                    },
+                    {
+                        "name": "pButtonID",
+                        "class": "String",
+                        "comment": "parameter 'pButtonID' stores ..."
+                    },
+                    {
+                        "name": "pEventID",
+                        "class": "String",
+                        "comment": "parameter 'pEventID' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "gotoPage",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for gotoPage",
+                "parameter": [
+                    {
+                        "name": "pPageID",
+                        "class": "String",
+                        "comment": "parameter 'pPageID' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "gotoURL",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for gotoURL",
+                "parameter": [
+                    {
+                        "name": "pFileHTML",
+                        "class": "String",
+                        "comment": "parameter 'pFileHTML' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getOperatingSystem",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for getOperatingSystem",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            },
+            {
+                "name": "getPathSeparator",
+                "visibility": "public",
+                "return": "",
+                "code": "",
+                "comment": "Comment for getPathSeparator",
+                "parameter": [
+                    {
+                        "name": "",
+                        "comment": "parameter '' stores ..."
+                    }
+                ]
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            "",
+            "Array",
+            "Boolean",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String",
+            "App",
+            "AppAbstract",
+            "Document",
+            "LinkParam",
+            "JSONEditor"
+        ],
+        "localclasslist": [
+            "LoadSaver",
+            "LinkParam",
+            "AppAbstract",
+            "String",
+            "ZIP4JS",
+            "DatabaseList",
+            "Boolean"
+        ],
+        "remoteclasslist": [
+            "JSONEditor"
+        ],
+        "baseclasslist": [
+            "",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ]
+    }
+}
