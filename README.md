@@ -1,10 +1,14 @@
-# ClassEditorUML
-JSON Editor for UML Class Definition with a Code Editor for the methods - based on the JSON editor of Jeremy Dorn.
+# JSON Editor for Code
+JSON Editor for Code combines a JSON Editor with a Template Engine for Code Generator from a JSON. The JSON editor based on the JSON editor of Jeremy Dorn and extends the JSON editor with a template engine [Handlebars4Code](https://www.github.com/niebert/Handlebars4Code).
 
-* With [HandleBars](http://handlebarsjs.com/) the code generation in Javascript is implemented.
+* [HandleBars](http://handlebarsjs.com/) was extended with special helper function for code generation. The extended library `handlebars4code.js` is available in the repository [Handelbars4Code](https://www.github.com/niebert/Handlebars4Code).
+* [json-editor](https://www.github.com/niebert/json-editor)
+
 
 
 ## Online Demo
+
+The Javascript class editor [ClassEditorUML](https://niebert.github.io/ClassEditorUML) uses the `jsoneditor4code.js` as bundled library for code generation. The library is designed for implementing privacy-friendly WebApps that run completely in a browser without submitting data to remote server.
 
 https://niebert.github.io/ClassEditorUML
 
@@ -27,8 +31,8 @@ https://niebert.github.io/ClassEditorUML
 ## Quick Start for Developers
 * The source library are stored in `/src/libs`
 * Build the library with `node build.js` started in directory of the repository.
-* The build command  creates the file `docs/js/class_editor_uml.js`, which is imported with a script tag in `docs/index.html`. This is helpful because the `ClassEditorUML` can be accessed directly through the web via the URL https://niebert.github.io/ClassEditorUML
-* If you want to use the `ClassEditorUML` for another programming language, checkout
+* The build command  creates the file `docs/js/jsoneditor4code.js`, which is imported with a script tag in `docs/index.html` for testing the code bundle. This is helpful because the `ClassEditorUML` can be accessed directly through the web via the URL https://niebert.github.io/ClassEditorUML
+* Call `npm run build` creates `dist/jsoneditor4code.js` after testing the library with  `docs/index.html` in a browser.
 
 
 ## Files, Folders and Structure of Repository
@@ -39,7 +43,7 @@ The following enumeration explains the structure of the repository and folders.
   * `docs/db` folder contains JSON database which initializes the JSON-Editor with the default JSON data. If the user saves the file, the current JSON data is stored in the LocalStorage of the browser.
   * `docs/css` folder contains all style sheet for the [ClassEditorUML](https://niebert.github.io/ClassEditorUML)
   * `docs/fonts` folder contains the fonts for the FontAwesome.
-  * `docs/jquery` folder contains the JQuery implementation so that a downloade [ClassEditorUML](https://niebert.github.io/ClassEditorUML) runs offline.
+  * `docs/jquery` folder contains the JQuery implementation so that a downloaded [ClassEditorUML](https://niebert.github.io/ClassEditorUML) runs offline.
   * `docs/js` folder contains all Javascript libraries used for the [ClassEditorUML](https://niebert.github.io/ClassEditorUML)
   * `docs/schema` folder contains JSON schema for the [ClassEditorUML](https://niebert.github.io/ClassEditorUML), defining the input user interface for editing the JSON file
   * `docs/tpl` folder contains the HandleBars template generating the source code from the [UML definition](https://en.wikipedia.org/wiki/Unified_Modeling_Language).
