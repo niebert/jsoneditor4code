@@ -109,9 +109,9 @@ function {{data.classname}} () {
     //---Methods of Class "{{data.classname}}()"
     //---------------------------------------------------------------------
 {{#foreach data.methods data}}
-    // {{visibility}} Method: {{data.classname}}.{{name}}()  
+    // {{visibility}} Method: {{data.classname}}.{{name}}()
     // Parameter:
-    //    {{parameterlist parameter "    //#    "}}
+    //    {{parameterlist parameter "    //    "}}
     // Comment:
 {{indent comment "    //    "}}
     // {{{returncomment}}}
@@ -150,6 +150,7 @@ function {{data.classname}} () {
     }
     // ---- Method: {{name}}() Class: {{data.classname}} ------
 {{/foreach}}
+//-------------------------------------------------------------------------
 {{/ifcond}}
 {{#ifcond data.reposinfo.static "==" "yes"}}
 {{#ifcond data.superclassname "==" ""}}
