@@ -147,11 +147,15 @@ Handlebars.registerHelper('foreach', function(pArray, pData, options) {
   var vRequire = {};
   var vLib = "";
   var item;
-  for (var i=0; i<pArray.length; i++) {
-    item = clone_json(pArray[i]);
-    item.data = pData;
-    ret += options.fn(item);
-  };
+  if (pArray && pArray.length) {
+    for (var i=0; i<pArray.length; i++) {
+      item = clone_json(pArray[i]);
+      item.data = pData;
+      ret += options.fn(item);
+    };
+  } else {
+    console.log("Handlebars.registerHelper('foreach')-definition pArray undefined argument");
+  }
   return ret
 });
 

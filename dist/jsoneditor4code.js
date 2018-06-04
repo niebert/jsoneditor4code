@@ -1,7 +1,7 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  0.9.1  Date: 2018/05/18 16:20:30
+ Version:  0.9.1  Date: 2018/06/04 14:53:36
  Homepage: https://niebert.github.io/ClassEditorUML
  Author:   Engelbert Niehaus
  License:  MIT
@@ -2902,11 +2902,6 @@ if (typeof jQuery === 'undefined') {
   })
 
 }(jQuery);
-
-function saveFile2HDD(pFilename,pContent) {
-  var file = new File([pContent], {type: "text/plain;charset=utf-8"});
-  saveAs(file,pFilename);
-}
 
 function deleteClass() {
   vJSONEditor.initAsk();

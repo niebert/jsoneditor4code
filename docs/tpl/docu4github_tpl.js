@@ -46,7 +46,7 @@ The prototype definition for methods consumes less memory for instances.
 
 ### Attributes: \`{{data.classname}}\`
 For class \`{{data.classname}}\` the following attributes are defined:
-{{#each data.attributes}}
+{{#foreach data.attributes data}}
 
 #### Attribute \`{{name}} : {{class}}\`
 {{comment}}
@@ -60,11 +60,11 @@ For class \`{{data.classname}}\` the following attributes are defined:
 * Default Init: \`{{init}}\` set inside class by \`{{name}} = {{init}};\`
 * Access of attribute in the code of methods by \`{{name}} = {{init}};\`
 {{/ifcond}}
-{{/each}}
+{{/foreach}}
 
 ### Methods: \`{{data.classname}}\`
 For class \`{{data.classname}}\` the following methods are defined:
-{{#each data.methods}}
+{{#foreach data.methods data}}
 
 #### Method \`{{name}}({{#paramcall parameter}}{{/paramcall}})\`
 {{comment}}
@@ -72,7 +72,7 @@ For class \`{{data.classname}}\` the following methods are defined:
 {{#ifcond return "!=" ""}}
 * Returns: \`{{return}}\`
 {{#ifcond visibility "==" "public"}}
-* Call: \`var v{{return}}Ret = v{{../classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{../classname}} = new {{../classname}}()\` is an instance of the class \`= {{../classname}}\`.
+* Call: \`var v{{return}}Ret = v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{data.classname}} = new {{data.classname}}()\` is an instance of the class \`= {{data.classname}}\`.
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
 * Call: \`var v{{return}}Ret = {{name}}({{#paramcall parameter}}{{/paramcall}});\`
@@ -80,7 +80,7 @@ For class \`{{data.classname}}\` the following methods are defined:
 {{/ifcond}}
 {{#ifcond return "==" ""}}
 {{#ifcond visibility "==" "public"}}
-* Call: \`v{{../classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{../classname}} = new {{../classname}}()\` is an instance of the class \`{{../classname}}\`.
+* Call: \`v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{data.classname}} = new {{data.classname}}()\` is an instance of the class \`{{data.classname}}\`.
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
 * Call: \`{{name}}({{#paramcall parameter}}{{/paramcall}});\`
@@ -90,7 +90,7 @@ For class \`{{data.classname}}\` the following methods are defined:
 {{#each parameter}}
    * \`{{name}}:{{class}}\` {{removereturn comment}}
 {{/each}}
-{{/each}}
+{{/foreach}}
 `;
 
 // NodeJS: uncomment modules.export in last line
