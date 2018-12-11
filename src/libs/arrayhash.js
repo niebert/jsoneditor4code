@@ -115,7 +115,7 @@ function updateHash4NewIDs(pHash,pArrID_NEW,pDefaultValue) {
   // delete all keys with vDelHash[vID] = true
   for (var i = 0; i < vArrID_OLD.length; i++) {
     vID = vArrID_OLD[i];
-    if (vDelHash[vID] == true) {
+    if (vDelHash[vID] === true) {
       delete pHash[vID];
     };
   };

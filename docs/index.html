@@ -50,7 +50,8 @@
     // The JSON data is defined in file "db/umljs.js"
     var vJSON = vDataJSON["umljs"];
     //---- Create one JSON Editor for Code ---------
-    var vJSONEditor = new JSONEditor4Code(document);
+    var vJSONEditor = new JSONEditor4Code();
+    vJSONEditor.initDoc(document);
     /*
       "editor_id": DOM id where the editor will be injected,
     */
@@ -91,6 +92,7 @@
     vDataJSON["class_schema"]
     -->
     <script src="schema/class_uml_schema.js"></script>
+    <script src="schema/settings_schema.js"></script>
     <!-- ############################################## -->
     <script>
     // Delete JSON load the following default JSON into JSON Editor for Code
@@ -124,7 +126,7 @@
 	 </button>
    <!-- Function: exportDocumentation() is defined in js/classeditor.js -->
    <button id='bExportDoc' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('docu4github','_github.md','Github Documentation for Class');return false">
-     <i class="fa fa-floppy-o" aria-hidden="true"></i> Export Documentaion
+     <i class="fa fa-floppy-o" aria-hidden="true"></i> Export Documentation
   </button>
     <!--
 		<button id='bAddRecord' style="color: white;background-color: #225988"  onclick="vEditor4JSON.add();return false">
@@ -134,15 +136,16 @@
       <i class="fa fa-minus-square" aria-hidden="true"></i> Init DB
     </button>
     -->
-		<button id='bDeleteClass' style="color: white;background-color: #c10303;display:none"  onclick="vJSONEditor.init_ask();return false">
-			<i class="fa fa-minus-square" aria-hidden="true"></i> Delete Class
+		<button id='bDeleteClass' style="color: white;background-color: #c10303"  onclick="vJSONEditor.init_ask();return false">
+			<i class="fa fa-trash" aria-hidden="true"></i> Delete
 		</button>
 
     <span id='valid_indicator'></span>
 	</div>
 	<!-- BEGIN of JSON Editor -->
-    <div id='editor_holder' style="margin:20px"></div>
-	<!-- END of JSON Editor -->
+  <div id='editor_holder' style="margin:20px"></div>
+  <div id='settings_holder' style="margin:20px"></div>
+<!-- END of JSON Editor -->
     <button id='restore' style="display:none" onclick="vJSONEditor.restore();return false">Restore to Default</button>
     <button id='enable_disable' style="display:none" onclick="vJSONEditor.toggleEnable();return false">Disable/Enable</button>
     <button id='submit' Xstyle="display:none" onclick="vJSONEditor.submit2callback();return false">Submit</button>

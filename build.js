@@ -37,5 +37,9 @@ codegen.create_header(pkg);
 //codegen.create_inherit_static(pkg);
 codegen.create_tail(pkg);
 codegen.concat_main(pkg.main,vLibArray,pkg);
+// build to docs/js/
 codegen.concat_libs(vLibOut,vLibArray,pkg);
+console.log("Build DONE: ",vLibOut);
+// build to dist/
 codegen.concat_libs(vLibDist,vLibArray,pkg);
+console.log("Build DONE: ",vLibDist);

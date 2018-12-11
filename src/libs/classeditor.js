@@ -7,20 +7,6 @@ function deleteClass() {
 function update_editor(pJSON) {
   var vJSON = pJSON || editor.getValue();
   $('#display_filename').html(class2filename(vJSON.data.classname,".json"));
-  var c = vJSON.settings;
-  var vRequired_Classes = concat_array(c.remoteclasslist,c.localclasslist);
-  //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
-  c.classlist = concat_array(c.baseclasslist,vRequired_Classes);
-  console.log("vRequired_Classes: ('"+c.classlist.join("','")+"')");
-  //vRequired_Classes.sort();
-  c.classlist.sort();
-  var vEditNode = editor.getEditor('root.settings');
-  // `getEditor` will return null if the path is invalid
-  if(vEditNode) {
-    vEditNode.setValue(c);
-  } else {
-    console.log("Update 'root.settings' undefined");
-  };
   vEditNode = editor.getEditor('root.data');
   if (vEditNode) {
     if (vJSON.data.hasOwnProperty("reposinfo")) {
@@ -31,6 +17,11 @@ function update_editor(pJSON) {
     console.log("Update 'root.data' undefined");
   };
   editor.setValue(vJSON);
+  update_editor_post(pJSON);
+}
+
+function update_editor_post(pJSON) {
+  console.log("CALL: update_editor_post(pJSON) jsoneditor4code.js");
 }
 
 function saver4JSON(pFile) {

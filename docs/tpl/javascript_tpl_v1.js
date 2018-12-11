@@ -108,7 +108,20 @@ function {{data.classname}} () {
     //---------------------------------------------------------------------
     //---Methods of Class "{{data.classname}}()"
     //---------------------------------------------------------------------
+{{#foreach data.methods data}}
+    // {{visibility}} Method: {{data.classname}}.{{name}}()
+    // Parameter:
+    //    {{parameterlist parameter "    //    "}}
+    // Comment:
+{{indent comment "    //    "}}
+    // {{{returncomment}}}
+    //---------------------------------------------------------------------
+{{/foreach}}
 
+}
+//-------------------------------------------------------------------------
+//---END Constructor of Class "{{data.classname}}()"
+//-------------------------------------------------------------------------
 {{#foreach data.methods data}}
 
     //#################################################################
@@ -133,13 +146,10 @@ function {{data.classname}} () {
       //    var v{{data.classname}} = new {{data.classname}}();
       //    v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
       //-------------------------------------------------------
-{{indent code "      "}}
+      {{indent code "      "}}
     }
     // ---- Method: {{name}}() Class: {{data.classname}} ------
 {{/foreach}}
-}
-//-------------------------------------------------------------------------
-//---END Constructor of Class "{{data.classname}}()"
 //-------------------------------------------------------------------------
 {{/ifcond}}
 {{#ifcond data.reposinfo.static "==" "yes"}}

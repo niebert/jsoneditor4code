@@ -1,6 +1,6 @@
 {
   "name": "jsoneditor4code",
-  "version": "0.9.1",
+  "version": "0.9.4",
   "description": "Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn",
   "main": "src/main.js",
   "directories": {
@@ -18,9 +18,9 @@
     "watch": "watchify src/main.js -o dist/jsoneditor4code.js -v",
     "browserify": "browserify src/main.js  > dist/jsoneditor4code.js",
     "build2dist": "node ./build.js; browserify src/main.js > docs/js/jsoneditor4code.js",
-    "buildmin": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
+    "uglify": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
     "test": "jshint dist/jsoneditor4code.js",
-    "build": "node ./build.js; browserify src/main.js > docs/js/jsoneditor4code.js",
+    "build": "node ./build.js; uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
     "compress": "node ./build.js;browserify docs/js/jsoneditor4code.js  | uglifyjs -mc warnings=false > dist/jsoneditor4code.min.js"
   },
   "repository": {

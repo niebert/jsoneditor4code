@@ -31,22 +31,6 @@ vDataJSON["class_schema"] = {
             "no"
         ]
       },
-      "dynselectorclass":{
-        "type": "string",
-         "watch":{
-              	"dynlocal": "localclasslist",
-              	"dynremote": "remoteclasslist",
-              	"dynbase": "baseclasses"
-          },
-          "enumSource": [
-              {
-                "source": "dynbaseclasses",
-                "value": "{{item.name}}"
-              },
-              "dynlocal",
-              "dynremote"
-      		 ]
-      },
       "selectorclass": {
         "type": "string",
         "default": "",
@@ -74,32 +58,10 @@ vDataJSON["class_schema"] = {
     "id": "https://niebert.github.io/json-editor",
     "defaultProperties": [
         "data",
-        "settings",
-        "testclasslist"
+        "settings"
     ],
     "properties": {
-      "testclasslist": {
-          "type": "array",
-          "title": "Test List of Classes",
-          "format": "table",
-          "propertyOrder": 40,
-          "options": {
-            "collapsed": false
-          },
-          "description":"A test class is a module required from a package manager like NPM.",
-          "items": {
-              "type": "string",
-              "id": "/properties/settings/properties/remoteclasslist/items",
-              "title": "Remote Class",
-              "default": "LinkParam",
-              "format": "text"
-          },
-          "default": [
-              "TestParam",
-              "TestJSONEditor"
-          ]
-      },
-      "data": {
+        "data": {
             "title":"JSON Data",
             "type": "object",
             "headerTemplate": "Class: {{self.classname}}",
@@ -130,11 +92,7 @@ vDataJSON["class_schema"] = {
                     "id": "/properties/data/properties/superclassname",
                     "title": "Super Class",
                     "default": "",
-                    //"$ref": "#/definitions/selectorclass"
-                    "watch":{
-                           "dyntest": "testclasslist"
-                     },
-                     "enumSource": ["dyntest"]
+                    "$ref": "#/definitions/selectorclass"
                 },
                 "comment": {
                     "type": "string",
@@ -205,9 +163,9 @@ vDataJSON["class_schema"] = {
                             "type": "string",
                             "id": "/properties/data/properties/reposinfo/properties/static",
                             "$ref": "#/definitions/yesno",
-                            "title": "Static Class:",
+                            "title": "Require Classes NPM:",
                             "default": "no",
-                            "description": "If set to 'Yes' the generated class will be an Object (hash) with attributes and assigned functions. You do not need to instantiate a class with new MyClass()"
+                            "description": "If set to 'Yes' the generated class will be a hash with attributes and assign functions. You do not need to intantiate a class with new MyClass()"
                         },
                         "requirelist": {
                             "title":"Require List",
@@ -451,7 +409,7 @@ vDataJSON["class_schema"] = {
         "settings": {
             "title":"Settings Editor",
             "type": "object",
-            "id": "/properties/settings",
+            "id": "/properties/config",
             "options": {
               "collapsed": true
             },
@@ -460,8 +418,7 @@ vDataJSON["class_schema"] = {
                 "classlist",
                 "localclasslist",
                 "remoteclasslist",
-                "baseclasslist",
-                "baseclasses"
+                "baseclasslist"
             ],
             "properties": {
                 "extension4code": {
@@ -507,7 +464,7 @@ vDataJSON["class_schema"] = {
                 },
                 "localclasslist": {
                     "type": "array",
-                    //"id": "/properties/settings/properties/localclasslist",
+                    "id": "/properties/settings/properties/localclasslist",
                     "title": "Local List of Classes",
                     "description":"A local class is a module required from local repository. The path name defined in the 'Repository Info' is used as prefix to require those local definition of classes.",
                     "format": "table",
@@ -552,7 +509,7 @@ vDataJSON["class_schema"] = {
                 "baseclasslist": {
                     "type": "array",
                     "id": "/properties/settings/properties/baseclasslist",
-                    "title": "List of Base Classes - Watch Auto Update",
+                    "title": "List of Base Classes",
                     "format": "table",
                     "propertyOrder": 50,
         						"options": {
@@ -562,48 +519,9 @@ vDataJSON["class_schema"] = {
                     "items": {
                         "type": "string",
                         "id": "/properties/settings/properties/baseclasslist/items",
-                        "title": "Base Class List",
+                        "title": "Base Class",
                         "default": "",
                         "format": "text"
-                    }
-                },
-                "baseclasses": {
-                    "type": "array",
-                    "id": "/properties/settings/properties/baseclasses",
-                    "title": "List of Base Classes",
-                    "format": "table",
-                    "propertyOrder": 60,
-        						"options": {
-                      "collapsed": true
-                    },
-                    "description":"A base class is provide by the programming language '"+vProgLanguage+"' itself, so using these classes in a module does not imply that the special module must be required locally of from a package manager.",
-                    "items": {
-                        "type": "object",
-                        "id": "/properties/settings/properties/baseclasses/items",
-                        "title": "Base Class",
-                        "headerTemplate": "{{self.name}}()",
-                        "defaultProperties": [
-                            "name",
-                            "initvalue"
-                        ],
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/name",
-                                "title": "Base Class Name",
-                                "default": "",
-                                "propertyOrder": 10,
-                    						"format": "text"
-                            },
-                            "initvalue": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/initvalue",
-                                "title": "Init Value",
-                                "default": "",
-                                "propertyOrder": 20,
-                                "format": "text"
-                            }
-                        }
                     }
                 }
             }

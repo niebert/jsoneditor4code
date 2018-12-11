@@ -1,7 +1,7 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  0.9.1  Date: 2018/06/04 14:53:36
+ Version:  0.9.4  Date: 2018/12/11 17:46:04
  Homepage: https://niebert.github.io/ClassEditorUML
  Author:   Engelbert Niehaus
  License:  MIT
@@ -130,7 +130,7 @@ function updateHash4NewIDs(pHash,pArrID_NEW,pDefaultValue) {
   // delete all keys with vDelHash[vID] = true
   for (var i = 0; i < vArrID_OLD.length; i++) {
     vID = vArrID_OLD[i];
-    if (vDelHash[vID] == true) {
+    if (vDelHash[vID] === true) {
       delete pHash[vID];
     };
   };
@@ -2911,20 +2911,6 @@ function deleteClass() {
 function update_editor(pJSON) {
   var vJSON = pJSON || editor.getValue();
   $('#display_filename').html(class2filename(vJSON.data.classname,".json"));
-  var c = vJSON.settings;
-  var vRequired_Classes = concat_array(c.remoteclasslist,c.localclasslist);
-  //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
-  c.classlist = concat_array(c.baseclasslist,vRequired_Classes);
-  console.log("vRequired_Classes: ('"+c.classlist.join("','")+"')");
-  //vRequired_Classes.sort();
-  c.classlist.sort();
-  var vEditNode = editor.getEditor('root.settings');
-  // `getEditor` will return null if the path is invalid
-  if(vEditNode) {
-    vEditNode.setValue(c);
-  } else {
-    console.log("Update 'root.settings' undefined");
-  };
   vEditNode = editor.getEditor('root.data');
   if (vEditNode) {
     if (vJSON.data.hasOwnProperty("reposinfo")) {
@@ -2935,6 +2921,11 @@ function update_editor(pJSON) {
     console.log("Update 'root.data' undefined");
   };
   editor.setValue(vJSON);
+  update_editor_post(pJSON);
+}
+
+function update_editor_post(pJSON) {
+  console.log("CALL: update_editor_post(pJSON) jsoneditor4code.js");
 }
 
 function saver4JSON(pFile) {
@@ -3053,11 +3044,12 @@ var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof na
 /* ---------------------------------------
  Exported Module Variable: Handlebars4Code
  Package:  handlebars4code
- Version:  1.0.0  Date: 2018/05/17 22:35:58
+ Version:  1.1.0  Date: 2018/12/11 17:17:21
  Homepage: https://github.com/niebert/Handlebars4Code#readme
- Author:   niebert GitHub
+ Author:   Engelbert Niehaus
  License:  MIT
-Inheritance: 'Handlebars4Code' inherits from 'Handlebars'
+ Date:     2018/12/11 17:17:21
+ Inheritance: 'Handlebars4Code' inherits from 'Handlebars'
  Require Module with:
     const Handlebars4Code = require('handlebars4code');
     var  compileCode = Handlebars4Code.compile(vTemplate);
@@ -3066,6 +3058,8 @@ Inheritance: 'Handlebars4Code' inherits from 'Handlebars'
 
 /*jshint  laxcomma: true, asi: true, maxerr: 150 */
 /*global alert, confirm, console, prompt */
+// require the Handlebars module from NPM
+// const Handlebars = require('handlebars');
 /**!
 
  @license
@@ -8075,9 +8069,23 @@ Handlebars.registerHelper('listhtmlattr', function(context, options) {
 });
 
 Handlebars.registerHelper('indent', function(pText, pIndent) {
-  var vIndent = pIndent || "        ";
-  var vText = pText ||  "";
+  var vText = pText ||"ERROR: undefined pText in helper-indent ";
+  var vIndent = "        ";
+  if(typeof(pIndent) == "string") {
+    console.log("CALL: helper-indent: pIndent is of type 'String'");
+  } else {
+    if (pIndent.hasOwnProperty("hash")) {
+      if (pIndent.hash.hasOwnProperty("indent")) {
+        vIndent = pIndent.hash.indent;
+      } else {
+        console.log("ERROR: helper-indent: pIndent.hash 'indent' property undefined - use default indent");
+      }
+    } else {
+      console.log("ERROR: helper-indent: pIndent undefined - use default indent");
+    }
+  }
   var vCR = "";
+  console.log("indent-helper: vIndent='"+vIndent+"'");
   //vIndent = "\n" + vIndent;
   if (vText && (vText != "")) {
     vText = vText.replace(/\n/g,"\n"+vIndent);
@@ -17298,10 +17306,12 @@ LinkParam.prototype.param2DOM = function (pLinkID,pDOMID,pOutType) {
 //---End Definition of Class-----------------
 // JS Class: LinkParam
 //-------------------------------------------
-function JSONEditor4Code (pDocument) {
+function JSONEditor4Code () {
   //---- attributes ----
   this.aLinkParam = new LinkParam();
-  this.aDoc = pDocument;
+  this.aDoc = null; // stores the "document" object init class with initDoc()
+  // var editor = new JSONEditor4Code();
+  // editor.initDoc(document)
   this.aJSON = {};
   this.aDefaultJSON = {};
   this.aSchema = null;
@@ -17318,7 +17328,13 @@ function JSONEditor4Code (pDocument) {
   //----  methods ----
   this.initDoc = function (pDoc) {
     this.aDoc = pDoc;
+    //this.aDoc.JSONEditor = JSONEditor;
   };
+
+  this.initJSON = function () {
+    console.log("Init JSON in JSON Editor");
+    this.aEditor.setValue(this.aDefaultJSON);
+  }
 
   this.loadParamStorage = function (pInitJSON,pLSID) {
     var vLSID = pLSID || "jsondata";
@@ -17417,6 +17433,7 @@ function JSONEditor4Code (pDocument) {
     JSONEditor.defaults.theme = pOptions.theme;
     JSONEditor.defaults.iconlib = pOptions.iconlib;
     JSONEditor.plugins.ace.theme = pOptions.ace_theme;
+    this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
   };
 
 
@@ -17461,6 +17478,7 @@ function JSONEditor4Code (pDocument) {
           });
     this.parent_editor = this;
     this.init_buttons();
+    this.init_watch();
     this.update_filename();
     this.saveLS("jsondata");
   };
@@ -17519,24 +17537,56 @@ function JSONEditor4Code (pDocument) {
             }
         }
     });
-    this.aEditor.on('change',function() {
-      vThis.validate_errors();
-      vThis.saveLS("jsondata");
-      vThis.update_filename();
-      //update_editor();
-    });
-    this.aEditor.watch('root.settings.baseclasslist',function() {
-      vThis.update_schema();
-      //update_editor();
-    });
-    this.aEditor.watch('root.settings.localclasslist',function() {
-      vThis.update_schema();
-      //update_editor();
-    });
-    this.aEditor.watch('root.settings.remoteclasslist',function() {
-      vThis.update_schema();
-      //update_editor();
-    });
+  }
+
+  this.init_watch = function () {
+    var vThis = this; // "vThis" used because "this" is not available in function
+    if (this.aEditor) {
+      this.aEditor.watch('root.settings.baseclasses',function() {
+        vThis.update_schema();
+        //update_editor();
+      });
+      /*
+      this.aEditor.watch('root.settings.baseclasslist',function() {
+        vThis.update_schema();
+        //update_editor();
+      });
+      this.aEditor.watch('root.settings.localclasslist',function() {
+        vThis.update_schema();
+        //update_editor();
+      });
+      this.aEditor.watch('root.settings.remoteclasslist',function() {
+        vThis.update_schema();
+        //update_editor();
+      });
+      */
+      this.start_watch()
+    } else {
+      console.log("aEditor not defined in init_watch()-call");
+    }
+  }
+
+  this.start_watch = function () {
+    var vThis = this; // "vThis" used because "this" is not available in function
+    if (this.aEditor) {
+      console.log("start_watch()-call");
+      this.aEditor.on('change',function() {
+        vThis.validate_errors();
+        vThis.saveLS("jsondata");
+        vThis.update_filename();
+        //update_editor();
+      });
+    }
+  };
+
+  this.stop_watch = function () {
+    var vThis = this; // "vThis" used because "this" is not available in function
+    console.log("stop_watch()-call");
+    if (this.aEditor) {
+      this.aEditor.on('change',function() {
+        //update_editor();
+      });
+    }
   };
 
   // ---- getElementById call ---
@@ -17594,19 +17644,55 @@ function JSONEditor4Code (pDocument) {
   }
 
   this.update_schema = function () {
+    this.stop_watch();
     // updates the defintions/selectorclass in the schema
+    console.log("Call: update_schema() Update Class in Schema ");
     this.update_filename(); // update the filename in the DOM node with id "load_filename"
     if (this.aJSON && this.aJSON.settings) {
-      var s = this.aJSON.settings;
-      var vRequired_Classes = concat_array(s.remoteclasslist,s.localclasslist);
-      //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
-      s.classlist = concat_array(s.baseclasslist,vRequired_Classes);
-      //console.log("vRequired_Classes: ('"+s.classlist.join("','")+"')");
-      s.classlist.sort();
-      // update the class selector in the schema with classes submitted to the editor by pJSON.
-      this.aSchema.definitions.selectorclass.enum = s.classlist;
+      if (this.aEditor) {
+        console.log("Call: update_schema() Editor defined ");
+        this.aJSON = this.aEditor.getValue();
+        this.update_baseclasses();
+        var s = this.aJSON.settings;
+        var vRequired_Classes = concat_array(s.remoteclasslist,s.localclasslist);
+        //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
+        s.classlist = concat_array(s.baseclasslist,vRequired_Classes);
+        //console.log("vRequired_Classes: ('"+s.classlist.join("','")+"')");
+        s.classlist.sort();
+        this.update_subeditor('root.settings.classlist',s.classlist)
+        // update the class selector in the schema with classes submitted to the editor by pJSON.
+        this.aSchema.definitions.selectorclass.enum = s.classlist;
+      } else {
+        console.log("WARNING: update_schema()-call aEditor not defined");
+      };
     } else {
-      console.log("src/exportmod.js - update_schema() - this.aJSON.settings undefined!");
+      console.log("WARNING: src/exportmod.js - update_schema() - this.aJSON.settings undefined!");
+    };
+    this.start_watch();
+  }
+
+  this.update_baseclasses = function () {
+    this.aJSON = this.aEditor.getValue();
+    var jsn = this.aEditor.getValue();
+    var s = jsn.settings;
+    var bc = s.baseclasses;
+    var bc_list = [];
+    for (var i = 0; i < bc.length; i++) {
+      bc_list.push(bc[i].name); // push classname "name" and do not use "initvalue"
+    };
+    console.log("update_baseclasses() bc_list=("+bc_list.join(",")+")");
+    this.update_subeditor('root.settings.baseclasslist',bc_list)
+  }
+
+  this.update_subeditor = function (pEditPath,pJSON) {
+    var ed_classlist =  this.aEditor.getEditor(pEditPath);
+    // `getEditor` will return null if the path is invalid
+    var s = this.aJSON.settings;
+    if (ed_classlist) {
+      ed_classlist.setValue(pJSON);
+      console.log("update_subeditor('"+pEditPath+"',pJSON) "+ed_classlist.getValue());
+    } else {
+      console.log("update_subeditor('"+pEditPath+"',pJSON) editor undefined - wrong Edit Path");
     };
 
   }
@@ -17773,31 +17859,41 @@ function JSONEditor4Code (pDocument) {
     this.save4Template("docu4github","_github.md","Github MarkDown Documentation")
   }
 
-  this.save4Template = function (pTplID,pExtension,pMessage) {
-    console.log("save4Template('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
-    var vMessage = pMessage || "Code";
-    var vJSON = this.aEditor.getValue();
-    this.update_modified();
-    //-- HandleBars: Compile with javascript-template ---
-    // vDataJSON["out"]["javascript"] is HandleBars compiler function
-    // Compile functions was generated from "tpl/docu4github_tpl.js"
-    var vContent = "Undefined Handlebars Compiler TplID='"+pTplID+"'";
-    if (this.compileCode[pTplID]) {
-      vContent = this.compileCode[pTplID](this.aJSON);
-    } else {
-      console.log("compileCode['"+pTplCode+"'] undefined");
-    };
-    //vContent = postProcessHandlebars(vContent,vJSON);
-    console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
-    //--Textarea Output----------------
-    var vOutNode = this.el("tOutput");
-    vOutNode.value = vContent;
-    //--JSON Output----------------
-    var vFile = class2filename(vJSON.data.classname,pExtension);
-    saveFile2HDD(vFile,vContent);
-    //alert("File '"+vFile+"' saved - "+vMessage);
-    console.log("File '"+vFile+"' saved - "+vMessage);
+
+
+  this.getOutput4Template = function (pTplID) {
+      console.log("getOutput4Template('"+pTplID+"')");
+      this.update_modified();
+      var vJSON = this.aEditor.getValue();
+      //-- HandleBars: Compile with javascript-template ---
+      // vDataJSON["out"]["javascript"] is HandleBars compiler function
+      // Compile functions was generated from "tpl/docu4github_tpl.js"
+      var vContent = "Undefined Handlebars Compiler TplID='"+pTplID+"'";
+      if (this.compileCode[pTplID]) {
+        vContent = this.compileCode[pTplID](this.aJSON);
+      } else {
+        console.log("compileCode['"+pTplCode+"'] undefined");
+      };
+      return vContent;
   }
+
+  this.save4Template = function (pTplID,pExtension,pMessage) {
+      console.log("save4Template('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
+      var vMessage = pMessage || "Code";
+      //vContent = postProcessHandlebars(vContent,vJSON);
+      var vContent = this.getOutput4Template(pTplID);
+      console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
+      //--Textarea Output----------------
+      var vOutNode = this.el("tOutput");
+      vOutNode.value = vContent;
+      //--JSON Output----------------
+      var vJSON = this.getValue();
+      var vFile = class2filename(vJSON.data.classname,pExtension);
+      saveFile2HDD(vFile,vContent);
+      //alert("File '"+vFile+"' saved - "+vMessage);
+      console.log("File '"+vFile+"' saved - "+vMessage);
+  }
+
 
   this.saveCode = function (pTplID,pExt,pMessage) {
 

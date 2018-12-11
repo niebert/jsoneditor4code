@@ -34,6 +34,8 @@ https://niebert.github.io/ClassEditorUML
 * The build command  creates the file `docs/js/jsoneditor4code.js`, which is imported with a script tag in `docs/index.html` for testing the code bundle. This is helpful because the `ClassEditorUML` can be accessed directly through the web via the URL https://niebert.github.io/ClassEditorUML
 * Call `npm run build` creates `dist/jsoneditor4code.js` after testing the library with  `docs/index.html` in a browser.
 
+## Quick Start for Library-Users
+Just copy the `docs`-folder and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema and your requirements.  
 
 ## Files, Folders and Structure of Repository
 The following enumeration explains the structure of the repository and folders.
@@ -50,7 +52,7 @@ The following enumeration explains the structure of the repository and folders.
   * `docs/index.html` files starts the JSON-Editor  [ClassEditorUML](https://niebert.github.io/ClassEditorUML) also offline, when the repository was [downloaded](https://github.com/niebert/ClassEditorUML/archive/master.zip) to your device and started locally in your browser.
 * `jscc/` folder contains the [JavascriptClassCreator](https://niebert.github.io/JavascriptClassCreator) files that are used to create object-oriented Javascript class files.  
 * `src/` folder contains the file `main.js` and other source files in the future, to create a the library in the folder `dist/` with `browsersify` and `watchify`.
-* `update_libs.sh` is a shell script that works on Linux and MAcOSX to perform some library updates from the web.
+* `update_src_libs.sh` is a shell script that works on Linux and MAcOSX to perform some library updates from the web.
 
 ## Structure of the UML JSON
 
@@ -63,6 +65,8 @@ var vJSON_UML{
 ```
 * `data` contains the UML structure of the class,
 * `settings` contains the settings for the editor, e.g. which classes, local classes or remote classes can be selected as attribute types.
+
+**Remark:** Watching class lists (like `localclasslist`) and updating the selector `classlist` seems to work in the used JSONEditor for root variable only (e.g. `root.classlist`  but not `root.settings.classlist`). Therefore watching and updating the selector for the class of the attributes or parameters of functions needs currently a work around.
 
 ```javascript
 vJSON_UML.data = {
@@ -101,7 +105,7 @@ vJSON_UML.data = {
             "jscode": ""
         }
     ],
-    "possibleClasses": [
+    "classlist": [
         "",
         "App ",
         "AppAbstract ",
