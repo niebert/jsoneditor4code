@@ -31,10 +31,15 @@ vDataJSON["tpl"]["javascript"] = `
 // SCRIPT-Tag:  LANGUAGE="JavaScript" SRC="js/{{filename classname}}.js"
 {{/ifcond}}
 {{#ifcond data.reposinfo.require_classes "==" "yes"}}
+//---------------------------------------------------------------------
 {{#ifcond data.superclassname "!=" ""}}
+{{#ifcond data.superclassname "!=" "_"}}
+{{#ifcond data.superclassname "!=" " "}}
 //---------------------------------------------------------------------
 // NodeJS: require the super class
 const {{data.superclassname}} = require('{{filename data.superclassname}}');
+{{/ifcond}}
+{{/ifcond}}
 {{/ifcond}}
 
 // NodeJS: Require used classes

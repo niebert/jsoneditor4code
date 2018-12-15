@@ -1,13 +1,16 @@
 
 function deleteClass() {
-  vJSONEditor.initAsk();
+  vJSONEditor.delete_ask();
   //editor.setValue(vDataJSON["UML_DEFAULT"]);
 }
 
 function update_editor(pJSON) {
-  var vJSON = pJSON || editor.getValue();
+  var vJSON = pJSON || vJSONEditor.getValue();
   $('#display_filename').html(class2filename(vJSON.data.classname,".json"));
-  vEditNode = editor.getEditor('root.data');
+  vEditNode = null;
+  if (vJSONEditor && vJSONEditor.aEditor) {
+    vEditNode = vJSONEditor.aEditor.getEditor('root.data');
+  };
   if (vEditNode) {
     if (vJSON.data.hasOwnProperty("reposinfo")) {
         vJSON.data.reposinfo.modified = getDateTime();
@@ -16,8 +19,8 @@ function update_editor(pJSON) {
   } else {
     console.log("Update 'root.data' undefined");
   };
-  editor.setValue(vJSON);
-  update_editor_post(pJSON);
+  vJSONEditor.setValue(vJSON);
+  update_editor_post(vJSON);
 }
 
 function update_editor_post(pJSON) {
@@ -42,10 +45,28 @@ function exporter4Schema(pFilename) {
     vJSONEditor.saveSchema();
 }
 
+function getClassName(pJSON) {
+  var vClassName = "my_class";
+  if (pJSON) {
+      if (pJSON.data) {
+        if (pJSON.data.classname) {
+          vClassName = pJSON.data.classname;
+        } else {
+          console.log("ERROR: getClassName(pJSON) pJSON.data.classname undefined");
+        }
+      } else {
+        console.log("ERROR: getClassName(pJSON) pJSON.data undefined");
+      }
+  } else {
+    console.log("ERROR: getClassName(pJSON) pJSON undefined");
+  }
+  return vClassName;
+}
+
 function exporter4JSON(pFile) {
  // Get the value from the editor
  var vJSON = vJSONEditor.getValue();
- var vFile = class2filename(vJSON.data.classname,".json");
+ var vFile = class2filename(getClassName(vJSON),".json");
 // set modified date in reposinfo.modified
  updateModified(vJSON);
  var vContent = JSON.stringify(vJSON,null,4);
@@ -85,11 +106,11 @@ function loader4JSON(pFileID4DOM) {
         //document.getElementById("inputTextToSave").value = textFromFileLoaded;
         //alert("textFromFileLoaded="+textFromFileLoaded);
         try {
-          editor.setValue(JSON.parse(vTextFromFileLoaded));
+          vJSONEditor.setValue(JSON.parse(vTextFromFileLoaded));
           alert("File JSON '"+fileToLoad.name+"' loaded successfully!");
           validate_errors();
         } catch(e) {
-          editor.setValue([]); // Init with an empty class
+          vJSONEditor.setValue([]); // Init with an empty class
           alert(e); // error in the above string (in this case, yes)!
         };
       };

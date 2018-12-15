@@ -18,23 +18,6 @@ vDataJSON["uml_default"]={
     },
     "settings":{
       "extension4code":".js",
-      "classlist": [
-          "",
-          "Array",
-          "Boolean",
-          "Float",
-          "Function",
-          "Hash",
-          "Integer",
-          "Object",
-          "RegularExp",
-          "String",
-          "App",
-          "AppAbstract",
-          "Document",
-          "LinkParam",
-          "JSONEditor"
-      ],
       "localclasslist": [
           "LoadSaver",
           "LinkParam"
@@ -43,19 +26,6 @@ vDataJSON["uml_default"]={
           "JSONEditor"
       ],
       "baseclasslist": [
-          "",
-          "Array",
-          "Boolean",
-          "Document",
-          "Float",
-          "Function",
-          "Hash",
-          "Integer",
-          "Object",
-          "RegularExp",
-          "String"
-      ],
-      "baseclasses": [
           {
             "name": "Array",
             "initvalue": "[]"

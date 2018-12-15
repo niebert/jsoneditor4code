@@ -1,0 +1,14 @@
+<!-- HTML code for embedding the source libraries into docs/index_src_libs.html -->
+<script src='../src/npm_header.js'></script>
+<script src='../src/libs/arrayhash.js'></script>
+<script src='../src/libs/blob.js'></script>
+<script src='../src/libs/bootstrap.js'></script>
+<script src='../src/libs/classeditor.js'></script>
+<script src='../src/libs/date.js'></script>
+<script src='../src/libs/savefile.js'></script>
+<script src='../src/libs/filesaver.js'></script>
+<script src='../src/libs/jsoneditor.js'></script>
+<script src='../src/libs/handlebars.js'></script>
+<script src='../src/libs/handlebars_helper.js'></script>
+<script src='../src/libs/linkparam.js'></script>
+<script src='../src/libs/exportmod.js'></script>

@@ -5,22 +5,33 @@
     <title>Receiver of Params</title>
     <script src="js/linkparam.js"></script>
   </head>
-  <body>
+  <body style="background:#ACACAC">
     <h3>
     Link Parameter Key:
   	 <tt id="keyout">myparam</tt>
     </h3>
+    <b>Input Data</b><br>
+  	<form id="fSubmitJSONdata" action="index.html" method="get" target="_blank">
+      <textarea id="tOutput" name="jsondata" cols="125" rows="10"></textarea>
+      <br>
+      <b>Call Back URL</b><br>
+      <input type="test" id="callback" value="undefined_url"> --
+      <input type="submit" value="Submit to index_src_libs.html">
 
-  	  <textarea id="textout" rows="20" cols="120">undefined content</textarea>
+    </form>
+    <div id="dLinkParamTable">
+    </div>
+    <hr>
     <script>
       var vKey = "jsondata";
   		var vLinkParam = new LinkParam();
   		vLinkParam.init(document);
-  		if (vLinkParam.exists(vKey)) {
+      //document.getElementById("dLinkParamTable").innerHTML = vLinkParam.getTableHTML();
+      if (vLinkParam.exists(vKey)) {
   			var vPar = vLinkParam.getValue(vKey);
   			//alert(vPar);
         document.getElementById("keyout").innerHTML = vKey;
-        alert("Link Parameter '"+vKey+"' exists!")
+        console.log("Link Parameter '"+vKey+"' exists!")
         var vJSON = null;
         try {
             vJSON = JSON.parse(vPar);
@@ -30,10 +41,17 @@
         if (vJSON) {
           vPar = JSON.stringify(vJSON,null,4);
         }
-  			document.getElementById("textout").value = vPar;
+        document.getElementById("tOutput").value = vPar;
   		} else {
   			alert("Receiver needs a LinkParameter 'myparam'")
-  		}
+  		};
+      vKey = "callback";
+      if (vLinkParam.exists(vKey)) {
+  			var vPar = vLinkParam.getValue(vKey);
+        document.getElementById("callback").value = vPar;
+  		} else {
+        console.log("LinkParam: callback URL not defined");
+      }
   	</script>
   </body>
 </html>

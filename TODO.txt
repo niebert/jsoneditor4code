@@ -1,0 +1,6 @@
+build.js
+DO NOT REPLACE build.js until the source libs and files are adapted in `libs4build.js`
+Version is outdated and does not use `libs4build.js`
+
+libs4build.js
+README_orginal is not decomposed into parts in `src/readme` for building a readme automatically.

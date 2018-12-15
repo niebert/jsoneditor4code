@@ -119,43 +119,36 @@ vDataJSON["umljs"]= {
   },
   "settings": {
     "extension4code":".js",
-    "classlist": [
-      "",
-      "App",
-      "AppAbstract",
-      "Array",
-      "Boolean",
-      "Float",
-      "Function",
-      "Hash",
-      "Integer",
-      "JSONEditor",
-      "LinkParam",
-      "Object",
-      "RegularExp",
-      "String"
-    ],
     "localclasslist": [
-      "App",
-      "AppAbstract"
+      {
+        "name":"LinkParam",
+        "initvalue":"new LinkParam()",
+        "repo":"linkparam"
+      },
+      {
+        "name":"AppLSAC",
+        "initvalue":"new AppLSAC(document)",
+        "repo":"applsac"
+      },
+      {
+        "name":"AppAbstract",
+        "initvalue":"new AppAbstract(document)",
+        "repo":"appabstract"
+      }
     ],
     "remoteclasslist": [
-      "LinkParam",
-      "JSONEditor"
+      {
+        "name":"Handlebars",
+        "initvalue":"new HandleBars()",
+        "repo":"handlebars"
+      },
+      {
+        "name":"JSONEditor",
+        "initvalue":"new JSONEditor()",
+        "repo":"jsoneditor"
+      }
     ],
     "baseclasslist": [
-      "",
-      "Array",
-      "Boolean",
-      "Float",
-      "Function",
-      "Hash",
-      "Integer",
-      "Object",
-      "RegularExp",
-      "String"
-    ],
-    "baseclasses": [
         {
           "name": "Array",
           "initvalue": "[]"

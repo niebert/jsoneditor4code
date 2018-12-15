@@ -57,6 +57,7 @@ vDataJSON["settings_schema"] = {
     "type": "object",
     "id": "https://niebert.github.io/json-editor",
     "defaultProperties": [
+        "data",
         "settings"
     ],
     "properties": {
@@ -72,8 +73,7 @@ vDataJSON["settings_schema"] = {
                 "classlist",
                 "localclasslist",
                 "remoteclasslist",
-                "baseclasslist",
-                "baseclasses"
+                "baseclasslist"
             ],
             "properties": {
                 "extension4code": {

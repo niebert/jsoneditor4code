@@ -1,10 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  0.9.4  Date: 2018/12/11 17:46:04
- Homepage: https://niebert.github.io/ClassEditorUML
+ Version:  0.9.8  Date: 2018/12/15 16:33:17
+ Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
+ Date:     2018/12/15 16:33:17
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
     var  compileCode = JSONEditor4Code.compile(vTemplate);

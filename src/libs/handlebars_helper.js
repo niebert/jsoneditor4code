@@ -147,15 +147,11 @@ Handlebars.registerHelper('foreach', function(pArray, pData, options) {
   var vRequire = {};
   var vLib = "";
   var item;
-  if (pArray && pArray.length) {
-    for (var i=0; i<pArray.length; i++) {
-      item = clone_json(pArray[i]);
-      item.data = pData;
-      ret += options.fn(item);
-    };
-  } else {
-    console.log("Handlebars.registerHelper('foreach')-definition pArray undefined argument");
-  }
+  for (var i=0; i<pArray.length; i++) {
+    item = clone_json(pArray[i]);
+    item.data = pData;
+    ret += options.fn(item);
+  };
   return ret
 });
 
@@ -170,24 +166,25 @@ Handlebars.registerHelper('listhtmlattr', function(context, options) {
   }).join("\n") + "</ul>";
 });
 
-Handlebars.registerHelper('indent', function(pContext, options) {
-  var vIndent = "";
-  var vText = "";
-  var vCR = "";
-  if (options && options.hasOwnProperty("hash")) {
-    if (options.hash.hasOwnProperty("text")) {
-      //console.log("text='"+options.hash["text"]+"'");
-      vText = options.hash["text"];
-    };
-    if (options.hash.hasOwnProperty("indent")) {
-      vIndent = options.hash["indent"];
-      //console.log("[indent] Indent for Code in HandleBars: '"+vIndent+"'");
-    };
-    //vText = options.fn(pContext);
-    //console.log("codeindent: vText="+vText.substr(0,120)+"...");
+Handlebars.registerHelper('indent', function(pText, pIndent) {
+  var vText = pText ||"ERROR: undefined pText in helper-indent ";
+  var vIndent = "        ";
+  if(typeof(pIndent) == "string") {
+    console.log("CALL: helper-indent: pIndent is of type 'String'");
+    vIndent = pIndent;
   } else {
-    console.log("[indent] options in helper undefined");
-  };
+    if (pIndent.hasOwnProperty("hash")) {
+      if (pIndent.hash.hasOwnProperty("indent")) {
+        vIndent = pIndent.hash.indent;
+      } else {
+        console.log("ERROR: helper-indent: pIndent.hash 'indent' property undefined - use default indent");
+      }
+    } else {
+      console.log("ERROR: helper-indent: pIndent undefined - use default indent");
+    }
+  }
+  var vCR = "";
+  console.log("indent-helper: vIndent='"+vIndent+"'");
   //vIndent = "\n" + vIndent;
   if (vText && (vText != "")) {
     vText = vText.replace(/\n/g,"\n"+vIndent);
@@ -251,15 +248,16 @@ Handlebars.registerHelper('requirelibs', function(pArray, options) {
 
   for (var i = 0; i < pArray.length; i++) {
     vFile = pArray[i];
-    ret += options.fn({"variable":filename2var(vFile),"module":vFile})
+    //ret += options.fn({"variable":filename2var(vFile),"module":vFile})
+    ret += options.fn(pArray[i])
   };
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
   return ret
 });
 
-Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods,pBaseClasses,pLocalClasses,pRequirePath, options) {
-  var vRequirePath = pRequirePath || "./libs/";
+Handlebars.registerHelper('requireclass', function(pData,pSettings, options) {
+  var vRequirePath = pData.reposinfo.require_path || "./libs/";
   var ret = "";
   // vRequire is a Hash that collects all classes
   // that are needed to create attributes or
@@ -273,12 +271,12 @@ Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods
     // so class/library is added if an only if it is not a base class
     console.log("("+pCheckTitle+") addlib_check('"+pLib+"')");
     if (pLib != "") {
-      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pBaseClasses));
-      if ((value_in_array(pLib,pBaseClasses) >= 0) || (pLib == pSuperClass)) {
+      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pSettings.baseclasslist));
+      if ((value_in_array(pLib,pSettings.baseclasslist) >= 0) || (pLib == pData.superclassname)) {
         console.log("("+pCheckTitle+") Library '"+pLib+"' is a Base Class - no required");
       } else {
-        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pLocalClasses));
-        if (value_in_array(pLib,pLocalClasses) >= 0) {
+        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pSettings.localclasslist));
+        if (value_in_array(pLib,pSettings.localclasslist) >= 0) {
           // pLib is a local library
           vRequire[pLib] = vRequirePath + name2filename(pLib);
           console.log("("+pCheckTitle+") Library '"+pLib+"' is a Local Class - require('"+vRequire[pLib]+"')");
@@ -290,19 +288,19 @@ Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods
     };
   }; //END: addlib_check()
 
-  console.log("Call Helper: requireclasslist - superclass='"+pSuperClass+"' require_path='"+vRequirePath+"'");
-  for (var i=0; i<pAttribs.length; i++) {
+  console.log("Call Helper: requireclasslist - superclass='"+pData.superclassname+"' require_path='"+vRequirePath+"'");
+  for (var i=0; i<pData.attributes.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for attributes
-    addlib_check("Attribute",pAttribs[i].class);
+    addlib_check("Attribute",pData.attributes[i].class);
   };
-  for (var i=0; i<pMethods.length; i++) {
+  for (var i=0; i<pData.methods.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for returned instances of those classes
-    addlib_check("Method "+pMethods[i].name+"() Return",pMethods[i].return);
-    vPars = pMethods[i].parameter;
+    addlib_check("Method "+pData.methods[i].name+"() Return",pData.methods[i].return);
+    vPars = pData.methods[i].parameter;
     for (var k=0; k<vPars.length; k++) {
-      addlib_check("Parameter "+pMethods[i].name+"()",vPars[k].class);
+      addlib_check("Parameter "+pData.methods[i].name+"()",vPars[k].class);
     };
   };
   // vRequire is a Hash therefore double usage of classes

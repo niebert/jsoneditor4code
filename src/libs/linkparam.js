@@ -1,3 +1,18 @@
+/* ---------------------------------------
+ Exported Module Variable: LinkParam
+ Package:  linkparam
+ Version:  1.1.6
+ Homepage: https://github.com/niebert/LinkParam#readme
+ Author:   Engelbert Niehaus
+ License:  MIT
+ Date:     2018/12/09 19:54:52
+ Require Module with:
+    const LinkParam = require('linkparam');
+ ------------------------------------------ */
+
+//--- JSHint Settings: -----
+/*jshint  laxcomma: true, asi: true, maxerr: 150 */
+/*global alert, confirm, console, prompt */
 //#################################################################
 //# Javascript Class: LinkParam()
 //#       SuperClass:
@@ -53,7 +68,7 @@ function LinkParam () {
 	//---PUBLIC: size (Integer): Counts the Number of Parameter
 	this.size = 0;
 	//---PUBLIC: aVars (Hash): Attribute: 'aVars' Type: 'Hash' stores all URL parameters
-	this.aVars = {};
+	this.aVars = {} ;
 	//---PUBLIC: aLink (String): Attribute: 'aLink' Type: 'String' stores the Link before '?'
 	this.aLink = "";
 
@@ -154,7 +169,7 @@ LinkParam.prototype.init = function (pDoc) {
   this.aLink = pDoc.location;
   this.aVars = this.parseURL(pDoc.location.search);
 
-};
+}
 //----End of Method init Definition
 
 
@@ -188,13 +203,13 @@ LinkParam.prototype.parseURL = function (pLink) {
     while (vTokens = vRE.exec(vLink)) {
       vParams[this.decodeParam(vTokens[1])] = this.decodeParam(vTokens[2]);
       this.calcSize();
-    };
+    }
   } else {
       console.log("parseURL(pLink) - pLink contains no parameters")
-  };
+  }
   return vParams;
 
-};
+}
 //----End of Method parseURL Definition
 
 
@@ -220,14 +235,14 @@ LinkParam.prototype.getURL = function (pVarHash) {
   //-------------------------------------------------------
 
   var vParam = "";
-  if (pVars) {
-      vParam = getParam4URL(pVars);
+  if (pVarHash) {
+      vParam = this.getParam4URL(pVarHash);
   } else {
-      vParam = getParam4URL();
-  };
+      vParam = this.getParam4URL();
+  }
   return this.getLink4URL() + vParam;
 
-};
+}
 //----End of Method getURL Definition
 
 
@@ -259,10 +274,10 @@ LinkParam.prototype.setValue = function (pVar,pValue) {
   } else {
     this.calcSize();
     console.log("New  link parameter '"+pVar+"' created");
-  };
+  }
   this.aVars[pVar] = pValue
 
-};
+}
 //----End of Method setValue Definition
 
 
@@ -292,10 +307,10 @@ LinkParam.prototype.getValue = function (pVar) {
       vRet = this.aVars[pVar]
   } else {
       console.log("ERROR: variable '"+pVar+"' does not exist in LinkParam");
-  };
+  }
   return vRet;
 
-};
+}
 //----End of Method getValue Definition
 
 
@@ -326,10 +341,10 @@ LinkParam.prototype.deleteValue = function (pVar) {
       delete this.aVars[pVar];
       vRet = true;
       this.calcSize();
-  };
+  }
   return vRet;
 
-};
+}
 //----End of Method deleteValue Definition
 
 
@@ -356,7 +371,7 @@ LinkParam.prototype.getLink4URL = function () {
 
   return this.aLink;
 
-};
+}
 //----End of Method getLink4URL Definition
 
 
@@ -381,18 +396,18 @@ LinkParam.prototype.getParam4URL = function () {
   //    vMyInstance.getParam4URL();
   //-------------------------------------------------------
 
-	  var vHash = this.aVars || {};
+	  var vHash = this.aVars || {} ;
 	  var vOut = "";
 	  var vSep = "?";
 	  for (var iID in vHash) {
 	    if (vHash.hasOwnProperty(iID)) {
         vOut += vSep + this.encodeParam(iID) + "=" + this.encodeParam(vHash[iID]);
 	      vSep = "&";
-	    };
-	  };
+	    }
+	  }
 	  return vOut;
 
-};
+}
 //----End of Method getParam4URL Definition
 
 
@@ -422,7 +437,7 @@ LinkParam.prototype.decodeParam = function (pParam) {
   return pParam;
 
 
-};
+}
 //----End of Method decodeParam Definition
 
 
@@ -451,7 +466,7 @@ LinkParam.prototype.encodeParam = function (pParam) {
   vParam = vParam.replace(/'/g,"%27").replace(/"/g,"%22");
   return vParam;
 
-};
+}
 //----End of Method encodeParam Definition
 
 
@@ -492,12 +507,12 @@ LinkParam.prototype.getTableHTML = function () {
         vOut += this.encodeHTML(vHash[iID],vWrapCode);
         vOut += "</td>";
         vOut += "</tr>";
-      };
-  };
+      }
+  }
   vOut += "</table>";
   return vOut;
 
-};
+}
 //----End of Method getTableHTML Definition
 
 
@@ -539,7 +554,7 @@ LinkParam.prototype.getEditTableHTML = function (pPrefixID) {
         vRows = (vHash[iID].split("\n")).length;
         if (vRows > vMaxRows) {
             vRows = vMaxRows;
-        };
+        }
         vOut += "<tr>";
         vOut += "<td>";
         vOut += "<b>"+iID+"</b>";
@@ -551,12 +566,12 @@ LinkParam.prototype.getEditTableHTML = function (pPrefixID) {
         vOut += "</textarea>";
         vOut += "</td>";
         vOut += "</tr>";
-      };
-  };
+      }
+  }
   vOut += "</table>";
   return vOut;
 
-};
+}
 //----End of Method getEditTableHTML Definition
 
 
@@ -586,13 +601,13 @@ LinkParam.prototype.calcSize = function () {
       var vHash = this.aVars;
       for (var key in vHash) {
           vRet++;
-      };
+      }
   } else {
       console.log("ERROR: variable '"+pVar+"' does not exist in LinkParam");
-  };
+  }
   return vRet;
 
-};
+}
 //----End of Method calcSize Definition
 
 
@@ -628,13 +643,13 @@ LinkParam.prototype.encodeHTML = function (pValue,pWrapCode) {
       vValue = vValue.replace(/</g,"&lt;");
       vValue = vValue.replace(/>/g,"&gt;");
       vValue = vValue.replace(/&/g,"&amp;");
-  };
-  if (pWrapCode && (pWrapCode == true)) {
+  }
+  if (pWrapCode && (pWrapCode === true)) {
       vValue = "<pre><code>"+vValue+"</code></pre>";
-  };
+  }
   return vValue
 
-};
+}
 //----End of Method encodeHTML Definition
 
 
@@ -662,11 +677,11 @@ LinkParam.prototype.exists = function (pVar) {
   var vRet = false;
   if (pVar) {
      vRet = this.aVars.hasOwnProperty(pVar)
-  };
+  }
   return vRet;
 
 
-};
+}
 //----End of Method exists Definition
 
 
@@ -713,7 +728,7 @@ LinkParam.prototype.param2DOM = function (pLinkID,pDOMID,pOutType) {
   }
 
 
-};
+}
 //----End of Method param2DOM Definition
 
 

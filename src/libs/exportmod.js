@@ -16,6 +16,7 @@ function JSONEditor4Code () {
     "out_code": "tOutput",
     "out_errors": "tErrors"
   };
+  this.aSettingsBOOL = false;
   this.aEditor = null;
   //----  methods ----
   this.initDoc = function (pDoc) {
@@ -28,53 +29,47 @@ function JSONEditor4Code () {
     this.aEditor.setValue(this.aDefaultJSON);
   }
 
-  this.loadParamStorage = function (pInitJSON,pLSID) {
-    var vLSID = pLSID || "jsondata";
+  this.loadLinkParam = function (pLSID) {
+    var vDataID = pLSID || "jsondata";
     var vJSON = null;
     var vJSONstring = "";
-    console.log("loadParamStorage(pInitJSON,'"+vLSID+"')");
+    console.log("loadLinkParam('"+vDataID+"')");
     //console.log("Start JSON:\n"+JSON.stringify(vJSON,null,3));
     //-------------------------------------------------------
     // LOCAL STORAGE: Check JSON Data is available in LocalStorage
-    var vLSID = "jsondata";
-    this.loadLS(vLSID);
     //console.log("loadParamStorage(pInitJSON,'"+vLSID+"' - JSON:\n"+(JSON.stringify(vJSON,null,3)).substr(0,120)+"...");
     //-------------------------------------------------------
     // LINK PARAMETER: Evaluation link parameter in JSON Path
-    if (this.aLinkParam.exists("jsondata")) {
-       console.log("LinkParameter provides 'jsondata'  with value");
-       vJSONstring = this.aLinkParam.getValue("jsondata");
+    if (this.aLinkParam.exists(vDataID)) {
+       console.log("LinkParameter provides '"+vDataID+"'  with value");
+       vJSONstring = this.aLinkParam.getValue(vDataID);
        try {
          vJSON = JSON.parse(vJSONstring);
        } catch (e) {
-         alert("ERROR (JSON in LinkParam): "+e);
+         console.log("ERROR (JSON in LinkParam['"+vDataID+"']: "+e);
+         vJSON = null;
        };
        if (vJSON) {
-         console.log("LinkParam: JSON set to this.aJSON");
-         this.aJSON = vJSON;
+         console.log("LinkParam['"+vDataID+"']: JSON set to this.aJSON:\n"+JSON.stringify(vJSON.settings,null,4));
        };
      } else {
-       console.log("LinkParam do not contain 'jsondata'");
-     };
-     //-------------------------------------------------------
-     // JSON DEFINED: Evaluation link parameter or local storage have defined vJSON
-     if (this.aJSON) {
-        console.log("this.aJSON data is defined for the JSONEditor4Code");
-     } else {
-       console.log("src/exportmod.js:56 - Define missing this.aJSON will be initialized pInitJSON");
-       this.aJSON = pInitJSON;
-     };
-     console.log("Loaded JSON:\n"+JSON.stringify(vJSON,null,3));
+       console.log("LinkParam['"+vDataID+"'] does not contain data.");
+    };
+    return vJSON
   }
 
   this.submit2callback = function(pLink) {
     var vJSONstring = JSON.stringify(this.getValue());
-    var vLink = pLink || "receiver.html"; // is a default HTML as callback
+    var vLink = "receiver.html"; // is a default HTML as callback
     // to check the LinkParam communication between HTML documents
-    if (this.aLinkParam.exists("callback")) {
-      vLink = this.aLinkParam.getValue("callback");
-      console.log("Callback defined in LinkParam:\n  "+vLink);
-    };
+    if (pLink) {
+      vLink = pLink;
+    } else {
+      if (this.aLinkParam.exists("callback")) {
+        vLink = this.aLinkParam.getValue("callback");
+        console.log("Callback defined in LinkParam:\n  "+vLink);
+      };
+    }
     this.aLinkParam.setValue("jsondata",vJSONstring);
     this.aLinkParam.deleteValue("callback");
     // send current JSON data back to callback URL
@@ -104,34 +99,119 @@ function JSONEditor4Code () {
 
   this.compileCode = {};
 
+  this.getEditor = function(pEditorID) {
+      var vEditor = null;
+      if (this.aEditor) {
+        e = this.aEditor.getEditor(pEditorID);
+        if (e) {
+          vEditor = e
+        } else {
+          console.log("ERROR: JSONEditor4Code.getEditor('"+pEditor+"') - Editor not found!");
+        }
+      };
+      // return the editor with the ID pEditorID
+      return vEditor;
+  };
+
+  this.init_definitions = function () {
+      var vJSON = this.aJSON;
+      console.log("Call: init_definitions() Update Class in Schema - update filename");
+      this.update_filename(); // update the filename in the DOM node with id "load_filename"
+      console.log("HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
+      if (!vJSON) {
+        console.log("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
+        alert("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
+      } else if (!(vJSON.settings)) {
+        console.log("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
+        alert("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
+      } else {
+          // use always one blank for "no class" otherwise value is regarded as undefined.
+          var watchclasses = [" "]; //
+          console.log("Call: init_definitions() ");
+          // BASIC CLASSES: push all basic classes
+          var basecl = vJSON.settings.baseclasslist;
+          if (basecl) {
+            for (var i = 0; i <  basecl.length; i++) {
+              watchclasses.push(basecl[i].name)
+            }
+          };
+          // LOCAL CLASSES: push all local classes
+          var localcl= vJSON.settings.localclasslist;
+          console.log("Call: init_definitions() - LocalClassList: "+JSON.stringify(localcl,null,4));
+          if (localcl) {
+            for (var i = 0; i < localcl.length; i++) {
+              watchclasses.push(localcl[i].name)
+            }
+          };
+          // REMOTE CLASSES: push all remote classes
+          var remotecl = vJSON.settings.remoteclasslist;
+          console.log("Call: init_definitions() - RemoteClassList: "+JSON.stringify(remotecl,null,4));
+          if (remotecl) {
+            for (var i = 0; i < remotecl.length; i++) {
+              watchclasses.push(remotecl[i].name)
+            }
+          };
+          watchclasses.sort();
+          console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
+          this.aSchema.definitions.selectorclass.enum = watchclasses;
+      };
+      //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
+      //DO NOT: return pSchema
+  };
+
   this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
+    // LOAD PRIORITY
+    // (1) jsondata in Link Parameter
+    // (2) pJSON if init data provide by constructor
+    // (3) pJSON as initialized with default data
     this.aLinkParam.init(this.aDoc);
-    this.aJSON = pJSON || {};
+    var vJSON = pDefaultJSON;
+    var vJSON4LinkParam = this.loadLinkParam("jsondata");
+    if (vJSON4LinkParam) {
+      // (1) jsondata in Link Parameter
+      console.log("CALL: JSONEditor4Code.init() - init with LinkParam JSON data");
+      vJSON = vJSON4LinkParam;
+    } else if (pJSON) {
+      // (2) pJSON if init data provide by constructor
+      console.log("CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor");
+      vJSON = pJSON;
+    } else {
+      // (3) pJSON as initialized with default data
+      console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
+      vJSON = pDefaultJSON;
+    };
+    this.aJSON = vJSON;
+    console.log("HTML-INIT init_definitions(pJSON,pSchema)): "+JSON.stringify(vJSON,null,4));
     this.aDefaultJSON = pDefaultJSON;
-    this.aSchema = pSchema;
     // extend/overwrite options
     this.aOptions = pOptions;
     this.aTemplates = pTemplates;
+    this.aSchema = pSchema;
 
+    console.log("HTML-INIT (1) JSONEditor4Code.init(...)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
+    //PARMETER SCOPEERROR: do not provide attributes with parameter of methods - use aSchema and aJSON instead
+    //DO NOT USE: this.aSchema = this.init_definitions(vJSON,pSchema);
+    this.init_definitions();
+    // Extend aOptions with settings in pOption
     for (var iKey in pOptions) {
       if (pOptions.hasOwnProperty(iKey)) {
         this.aOptions[iKey] = pOptions[iKey]
       }
     };
-    // update the class selectors in schema
-    this.loadParamStorage(pJSON);
+    // COMPILE the templates with Handlebars
+    //this.aSchema = vSchema;
     this.create_compiler4tpl();
     this.create_editor();
     JSONEditor.defaults.theme = pOptions.theme;
     JSONEditor.defaults.iconlib = pOptions.iconlib;
     JSONEditor.plugins.ace.theme = pOptions.ace_theme;
     this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
+    this.update_filename();
   };
-
 
   // create the Handlebars compiler function from templates in this.aTemplates
   this.create_compiler4tpl = function () {
-    var vTemplate = "";
+    var vTemplate = " ";
     for (var tplID in this.aTemplates) {
       if (this.aTemplates.hasOwnProperty(tplID)) {
         console.log("Compile Template ["+tplID+"]");
@@ -143,14 +223,20 @@ function JSONEditor4Code () {
   }
 
   this.create_editor = function () {
+    // If an old editor exists - destroy the Editor to free resources
     if (this.aEditor) {
+        /*
         this.aJSON = this.aEditor.getValue();
         this.saveLS("jsondata");
+        */
+        // this.update_watchclasslist();
         // free some resources if the editor already exists
         this.aEditor.destroy();
+        console.log("Destroy JSONEditor in JSONEditor4Code");
     };
+
+    console.log("CALL: create_editor() - create a new JSONEditor() in JSONEditor4Code");
     // update schema
-    this.update_schema();
     console.log("Start Editor with JSON:\n"+JSON.stringify(this.aJSON,null,3));
     var vEditorNode = this.el(this.aOptions.editor_id);
     this.aEditor = new JSONEditor(vEditorNode,{
@@ -176,37 +262,105 @@ function JSONEditor4Code () {
   };
 
   this.init_ask = function () {
-    var vOK = confirm("Do you really want to initialize the UML-class '"+this.aJSON.data.classname+"'?");
+    var vOK = confirm("Do you really want to initialize the UML-class '"+getClassName(this.aJSON)+"'?");
     if (vOK == true) {
-    		var vSampleOK = confirm("Do you want to save the current UML-class '"+this.aJSON.data.classname+"' first?");
-    		if (vSampleOK == true) {
+    		var vSaveOK = confirm("Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
+    		if (vSaveOK == true) {
     			this.saveJSON();
-    			console.log("JSON-DB initalized with UML class '"+this.aJSON.data.classname+"'!");
+    			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
     		} else {
-    			console.log("JSON-DB for UML class '"+this.aJSON.data.classname+"' not saved - data deleted!");
-    		};
-    		this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
-    		console.log("JSON-DB initalized with UML class '"+this.aJSON.data.classname+"'!");
-    		//save changes to Local Storage
+    			console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
+        };
+      	console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
+        this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
     } else {
         console.log("initialize JSON-DB cancelled")
     };
   }
 
+  this.delete_ask = function () {
+    var vOK = confirm("Do you want to delete all data?");
+    if (vOK == true) {
+        var vSaveOK = confirm("Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
+        if (vSaveOK == true) {
+          this.saveJSON();
+          console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
+        } else {
+          console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
+        };
+        var vEmptyJSON = {
+            "data":{
+              "classname":"MyClass"
+            },
+            "settings":(this.aJSON.settings || {})
+        };
+        this.aEditor.setValue(vEmptyJSON);
+        localStorage.clear();
+        console.log("JSON-DB deleted'!");
+        //save changes to Local Storage
+    } else {
+        console.log("initialize JSON-DB cancelled")
+    };
+  }
+
+  this.showEditor = function (pEditorID,pBoolean) {
+    var self = this.getEditor(pEditorID);
+    //if (self.collapsed) {
+    if (self) {
+      if (pBoolean == true) {
+        self.editor_holder.style.display = '';
+        self.collapsed = false;
+        self.setButtonText(self.toggle_button, '', 'collapse', self.translate('button_collapse'));
+      } else {
+        self.editor_holder.style.display = 'none';
+        self.collapsed = true;
+        self.setButtonText(self.toggle_button, '', 'expand', self.translate('button_expand'));
+      }
+    } else {
+      console.log("ERROR: showEditor('"+pEditor+"',pBoolean) Editor for ['"+pEditorID+"'] not found");
+    }
+  }
+
+  this.toggleSettings = function (pSettingsID,pDataID) {
+    // if(editor.getEditor('root.location').isEnabled()) alert("It's editable!");
+    // Check if Settings are enabled
+    //if (this.options.collapsed) {
+    //  $trigger(this.toggle_button,'click');
+    //}
+    if (this.aSettingsBOOL == false) {
+      alert("JSON-Editor: Show Settings");
+      this.showEditor(pSettingsID,true)
+      this.showEditor(pDataID,false)
+    } else {
+      alert("JSON-Editor: Hide Settings");
+      this.showEditor(pSettingsID,false)
+      this.showEditor(pDataID,true)
+    };
+    this.aSettingsBOOL = !this.aSettingsBOOL;
+  };
+
   this.toggleEnable = function () {
-    if(this.aEditor.isEnabled()) {
-      this.aEditor.enable()
+    if (this.aEditor.isEnabled()) {
+      this.aEditor.disable()
     } else {
       this.aEditor.enable()
     };
   };
 
-  this.enable = function () {
-    this.aEditor.enable();
+  this.enable = function (pID) {
+    if (pID) {
+      this.aEditor.getEditor(pID).enable()
+    } else {
+      this.aEditor.enable();
+    }
   };
 
-  this.disable = function () {
-    this.aEditor.disable();
+  this.disable = function (pID) {
+    if (pID) {
+      this.aEditor.getEditor(pID).disable()
+    } else {
+      this.aEditor.disable();
+    }
   };
 
   this.init_buttons = function () {
@@ -231,28 +385,48 @@ function JSONEditor4Code () {
     });
   }
 
+
+
   this.init_watch = function () {
+    console.log("CALL: init_watch() ");
+    // watch event is fired before the value is changed,
+    // so getValue() provides the value before alteration of JSON.
+    // USE: onchange event with editor.on
     var vThis = this; // "vThis" used because "this" is not available in function
     if (this.aEditor) {
-      this.aEditor.watch('root.settings.baseclasses',function() {
-        vThis.update_schema();
+      /*
+      var vEditor = this.aEditor;
+      if (vEditor) {
+        if (typeof vEditor.on === 'function') {
+          vEditor.on('change',function() {
+            console.log("onchange-Event 'root.data.classname'");
+            vThis.update_filename();
+          });
+        } else {
+          console.log("WARNING: In JSON-Editor ['"+vEditID+"'] on-Method not defined!");
+        }
+      };
+
+      this.aEditor.watch('root.data.classname',function() {
+        console.log("Watch-Event 'root.data.classname'");
+        vThis.update_filename();
         //update_editor();
       });
-      /*
+
       this.aEditor.watch('root.settings.baseclasslist',function() {
-        vThis.update_schema();
+        vThis.update_watchclasslist();
         //update_editor();
       });
       this.aEditor.watch('root.settings.localclasslist',function() {
-        vThis.update_schema();
+        vThis.update_watchclasslist();
         //update_editor();
       });
       this.aEditor.watch('root.settings.remoteclasslist',function() {
-        vThis.update_schema();
+        vThis.update_watchclasslist();
         //update_editor();
       });
       */
-      this.start_watch()
+      //this.start_watch()
     } else {
       console.log("aEditor not defined in init_watch()-call");
     }
@@ -264,7 +438,7 @@ function JSONEditor4Code () {
       console.log("start_watch()-call");
       this.aEditor.on('change',function() {
         vThis.validate_errors();
-        vThis.saveLS("jsondata");
+        //vThis.saveLS("jsondata");
         vThis.update_filename();
         //update_editor();
       });
@@ -314,70 +488,93 @@ function JSONEditor4Code () {
     this.aJSON = pJSON;
     if (this.aEditor) {
       this.aEditor.setValue(pJSON);
+      console.log("setValue() executed!\n"+JSON.stringify(pJSON,null,4));
     } else {
       console.log("this.aEditor undefined in JSONEditor4Code.setValue(pJSON)");
     };
-    return vJSON;
   }
 
   this.update_filename = function () {
-    var vNode = this.el(this.aOptions["filename_id"]); // e.g. filename_id = "load_filename";
-    if (vNode) {
-        var vJSON = this.getValue();
-        var vPath = this.aOptions["filename_key"];
+
+    if (this.aOptions.hasOwnProperty("filename_key")) {
+      var vNode = this.el(this.aOptions["filename_id"]); // e.g. filename_id = "load_filename";
+      var vJSON = this.aJSON;
+      if (vNode) {
+        if (this.aEditor) {
+          console.log("CALL: update_filename() - use vJSON = this.aEditor.getValue()!");
+          vJSON = this.aEditor.getValue();
+        } else {
+          console.log("CALL: update_filename() - this.aEditor not defined!");
+        }
+      };
+      var vDOMID = this.aOptions["filename_id"];
+      if (this.el(vDOMID)) {
         if (vJSON.data) {
-          if (vJSON.data.hasOwnProperty()) {
+          if (vJSON.data.hasOwnProperty("classname")) {
+            console.log("CALL: update_filename('"+vJSON.data.classname+"') - Name of class was updated in DOM node ["+vDOMID+"]!");
             vNode.innerHTML = class2filename(vJSON.data.classname)+vJSON.settings.extension4code;
-          }
+          } else {
+            console.log("WARNING: update_filename() - Attribute 'classname' in 'this.aJSON.data.classname' - was not defined!");
+          };
+        } else {
+          console.log("WARNING: update_filename() - this.aJSON does not contain the hash 'this.aJSON.data' for access to classname 'this.aJSON.data.classname' - update of classname in DOM was not performed!");
         };
+      } else {
+        console.log("WARNING: update_filename() - DOM node ["+vDOMID+"] does not exist!");
+      }
     } else {
-        console.log("DOM node ["+this.aOptions["filename_id"]+"] not found");
+      console.log("WARNING: update_filename() - DOM-ID is not defined in this.aOptions['filename_id']");
     };
   }
 
-  this.update_schema = function () {
-    this.stop_watch();
+  this.update_watchclasslist = function () {
     // updates the defintions/selectorclass in the schema
-    console.log("Call: update_schema() Update Class in Schema ");
-    this.update_filename(); // update the filename in the DOM node with id "load_filename"
+    console.log("Call: update_watchclasslist() Update Class in Schema ");
+    //this.update_filename(); // update the filename in the DOM node with id "load_filename"
     if (this.aJSON && this.aJSON.settings) {
       if (this.aEditor) {
-        console.log("Call: update_schema() Editor defined ");
-        this.aJSON = this.aEditor.getValue();
-        this.update_baseclasses();
-        var s = this.aJSON.settings;
-        var vRequired_Classes = concat_array(s.remoteclasslist,s.localclasslist);
-        //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
-        s.classlist = concat_array(s.baseclasslist,vRequired_Classes);
-        //console.log("vRequired_Classes: ('"+s.classlist.join("','")+"')");
-        s.classlist.sort();
-        this.update_subeditor('root.settings.classlist',s.classlist)
-        // update the class selector in the schema with classes submitted to the editor by pJSON.
-        this.aSchema.definitions.selectorclass.enum = s.classlist;
+        var watchclasses = [" "]; //
+        console.log("Call: update_watchclasslist() Editor defined ");
+        var basecl = this.getEditor("root.settings.baseclasslist").getValue();
+        // BASIC CLASSES: push all basic classes
+        if (basecl) {
+          for (var i = 0; i <  basecl.length; i++) {
+            watchclasses.push(basecl[i].name)
+          }
+        };
+        // LOCAL CLASSES: push all local classes
+        var cl = [];
+        var localcl= this.getEditor("root.settings.localclasslist").getValue();
+        if (localcl) {
+          for (var i = 0; i < localcl.length; i++) {
+            cl.push(localcl[i].name)
+          }
+        };
+        // REMOTE CLASSES: push all remote classes
+        var remotecl = this.getEditor("root.settings.remoteclasslist").getValue();
+        if (remotecl) {
+          for (var i = 0; i < remotecl.length; i++) {
+            cl.push(remotecl[i].name)
+          }
+        };
+        cl.sort();
+        console.log("cl=("+cl.join(",")+")");
+        for (var i = 0; i < cl.length; i++) {
+          watchclasses.push(cl[i].name)
+        };
+        var vEditNode = this.getEditor("root.watchclasslist");
+        vEditNode.setValue(watchclasses);
       } else {
-        console.log("WARNING: update_schema()-call aEditor not defined");
+        console.log("WARNING: update_watchclasslist()-call aEditor not defined");
       };
     } else {
-      console.log("WARNING: src/exportmod.js - update_schema() - this.aJSON.settings undefined!");
+      console.log("WARNING: src/exportmod.js - update_watchclasslist() - this.aJSON.settings undefined!");
     };
-    this.start_watch();
   }
 
-  this.update_baseclasses = function () {
-    this.aJSON = this.aEditor.getValue();
-    var jsn = this.aEditor.getValue();
-    var s = jsn.settings;
-    var bc = s.baseclasses;
-    var bc_list = [];
-    for (var i = 0; i < bc.length; i++) {
-      bc_list.push(bc[i].name); // push classname "name" and do not use "initvalue"
-    };
-    console.log("update_baseclasses() bc_list=("+bc_list.join(",")+")");
-    this.update_subeditor('root.settings.baseclasslist',bc_list)
-  }
 
   this.update_subeditor = function (pEditPath,pJSON) {
-    var ed_classlist =  this.aEditor.getEditor(pEditPath);
+    var ed_classlist =  this.getEditor(pEditPath);
     // `getEditor` will return null if the path is invalid
     var s = this.aJSON.settings;
     if (ed_classlist) {
@@ -446,7 +643,7 @@ function JSONEditor4Code () {
 
   this.saveLS = function (pLSID) {
     var vLSID = pLSID || "jsondata";
-    console.log("saveJS('"+vLSID+"')-Call");
+    console.log("saveLS('"+vLSID+"')-Call");
     var vJSON = this.getValue();
     if (typeof(Storage) != "undefined") {
         // Store
@@ -455,7 +652,7 @@ function JSONEditor4Code () {
           if (vJSON) {
             //console.log("pJSONDB '"+vLSID+"' is saved to Local Storage");
             var vJSONstring = JSON.stringify(vJSON)
-            console.log("LocalStorage: saveLS('"+vLSID+"') JSONstring='"+vJSONstring.substr(0,120)+"...' DONE");
+            console.log("LocalStorage: saveLS('"+vLSID+"') JSONstring='"+vJSONstring.substr(0,240)+"...' DONE");
             localStorage.setItem(vLSID,vJSONstring);
           } else {
             console.log("vJSON with JSON is NOT defined");
@@ -482,6 +679,7 @@ function JSONEditor4Code () {
           //alert("textFromFileLoaded="+textFromFileLoaded);
           try {
             vThis.aEditor.setValue(JSON.parse(vTextFromFileLoaded));
+            vThis.update_filename();
             alert("File JSON '"+fileToLoad.name+"' loaded successfully!");
             vThis.validate_errors();
           } catch(e) {
@@ -498,18 +696,25 @@ function JSONEditor4Code () {
   }
 
   this.getClassname4File = function () {
-    return class2filename(this.aJSON.data.classname,"_uml.json");
+    return class2filename(getClassName(this.aJSON),"_juml.json");
   }
 
-  this.getFilename = function() {
-    var vFilename = "jsondata.json";
-    if (this.aJSON) {
-      if (this.aJSON.data) {
-        if (this.aJSON.data.classname) {
-          vFilename = this.getClassname4File(this.aJSON.data.classname);
+  this.getFilename = function(pJSON) {
+    var vClassName = "Undefined_Class";
+    if (pJSON) {
+      if (pJSON.data) {
+        if (pJSON.data.classname) {
+          vClassName  = pJSON.data.classname;
+        } else {
+          console.log("WARNING: pJSON.data.classname undefined in JSONEditor4Code.getFilename()");
         }
+      } else {
+        console.log("WARNING: pJSON.data undefined in JSONEditor4Code.getFilename()");
       }
+    } else {
+      console.log("WARNING: pJSON undefined in JSONEditor4Code.getFilename()");
     };
+    var vFilename = class2filename(vClassName)+"_uml.json";
     return vFilename;
   }
 
@@ -528,7 +733,7 @@ function JSONEditor4Code () {
     //alert("saveJSON()-Call");
     var vJSON = this.aEditor.getValue();
     this.saveLS("jsondata");
-    var vFile = this.getFilename();
+    var vFile = this.getFilename(vJSON);
    // set modified date in reposinfo.modified
     this.update_modified();
     var vContent = JSON.stringify(vJSON,null,4);
@@ -604,8 +809,10 @@ function JSONEditor4Code () {
         console.log("reposinfo.modified updated with: '"+this.aJSON.reposinfo.modified+"'");
       } else {
         console.log("this.aJSON.reposinfo.modified was undefined - src/libs/exportmod.js:518");
-      }
+      };
+      this.update_filename();
     };
   }
+
 
 }; // end JSONEditor4Code

@@ -31,22 +31,6 @@ vDataJSON["class_schema"] = {
             "no"
         ]
       },
-      "dynselectorclass":{
-        "type": "string",
-         "watch":{
-              	"dynlocal": "localclasslist",
-              	"dynremote": "remoteclasslist",
-              	"dynbase": "baseclasses"
-          },
-          "enumSource": [
-              {
-                "source": "dynbaseclasses",
-                "value": "{{item.name}}"
-              },
-              "dynlocal",
-              "dynremote"
-      		 ]
-      },
       "selectorclass": {
         "type": "string",
         "default": "",
@@ -74,32 +58,10 @@ vDataJSON["class_schema"] = {
     "id": "https://niebert.github.io/json-editor",
     "defaultProperties": [
         "data",
-        "settings",
-        "testclasslist"
+        "settings"
     ],
     "properties": {
-      "testclasslist": {
-          "type": "array",
-          "title": "Test List of Classes",
-          "format": "table",
-          "propertyOrder": 40,
-          "options": {
-            "collapsed": false
-          },
-          "description":"A test class is a module required from a package manager like NPM.",
-          "items": {
-              "type": "string",
-              "id": "/properties/settings/properties/remoteclasslist/items",
-              "title": "Remote Class",
-              "default": "LinkParam",
-              "format": "text"
-          },
-          "default": [
-              "TestParam",
-              "TestJSONEditor"
-          ]
-      },
-      "data": {
+        "data": {
             "title":"JSON Data",
             "type": "object",
             "headerTemplate": "Class: {{self.classname}}",
@@ -130,11 +92,7 @@ vDataJSON["class_schema"] = {
                     "id": "/properties/data/properties/superclassname",
                     "title": "Super Class",
                     "default": "",
-                    //"$ref": "#/definitions/selectorclass"
-                    "watch":{
-                           "dyntest": "testclasslist"
-                     },
-                     "enumSource": ["dyntest"]
+                    "$ref": "#/definitions/selectorclass"
                 },
                 "comment": {
                     "type": "string",
@@ -280,7 +238,7 @@ vDataJSON["class_schema"] = {
                     "uniqueItems": true,
                     "id": "/properties/data/properties/attributes",
                     "options": {
-                      "collapsed": true
+                      "collapsed": false
                     },
                     "items": {
                         "title": "Attrib",
@@ -338,7 +296,7 @@ vDataJSON["class_schema"] = {
                     "format": "tabs",
                     "uniqueItems": true,
                     "options": {
-                      "collapsed": true
+                      "collapsed": false
                     },
                     "items": {
                         "type": "object",
@@ -509,23 +467,49 @@ vDataJSON["class_schema"] = {
                     "type": "array",
                     //"id": "/properties/settings/properties/localclasslist",
                     "title": "Local List of Classes",
-                    "description":"A local class is a module required from local repository. The path name defined in the 'Repository Info' is used as prefix to require those local definition of classes.",
+                    "description":"A local class is a module that is required and implemented on your local filesystem (and NOT installed from a remote repository via NPM). The pathname prefix is defined in 'Repository Info'. The prefix is concatenated for all local modules that are listed in  Local Classes.",
                     "format": "table",
                     "propertyOrder": 30,
         						"options": {
                       "collapsed": true
                     },
                     "items": {
-                        "type": "string",
+                        "type": "object",
                         "id": "/properties/settings/properties/localclasslist/items",
-                        "title": "Class",
-                        "default": "App",
-                        "format": "text"
-                    },
-                    "default": [
-                        "App",
-                        "AppAbstract"
-                    ],
+                        "title": "Local Class",
+                        "headerTemplate": "{{self.name}}()",
+                        "defaultProperties": [
+                            "name",
+                            "initvalue",
+                            "repo"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/localclasslist/items/properties/name",
+                                "title": "Base Class Name",
+                                "default": "",
+                                "propertyOrder": 10,
+                                "format": "text"
+                            },
+                            "initvalue": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/localclasslist/items/properties/initvalue",
+                                "title": "Init Value",
+                                "default": "",
+                                "propertyOrder": 20,
+                                "format": "text"
+                            },
+                            "repo": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/baseclasses/items/properties/repo",
+                                "title": "Module Name (repo)",
+                                "default": "",
+                                "propertyOrder": 20,
+                                "format": "text"
+                            }
+                        }
+                    }
                 },
                 "remoteclasslist": {
                     "type": "array",
@@ -538,38 +522,46 @@ vDataJSON["class_schema"] = {
                     },
                     "description":"A remote class is a module required from a package manager like NPM.",
                     "items": {
-                        "type": "string",
+                        "type": "object",
                         "id": "/properties/settings/properties/remoteclasslist/items",
-                        "title": "Remote Class",
-                        "default": "LinkParam",
-                        "format": "text"
-                    },
-                    "default": [
-                        "LinkParam",
-                        "JSONEditor"
-                    ],
+                        "title": "Base Class",
+                        "headerTemplate": "{{self.name}}()",
+                        "defaultProperties": [
+                            "name",
+                            "initvalue",
+                            "repo"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/remoteclasslist/items/properties/name",
+                                "title": "Base Class Name",
+                                "default": "",
+                                "propertyOrder": 10,
+                    						"format": "text"
+                            },
+                            "initvalue": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/remoteclasslist/items/properties/initvalue",
+                                "title": "Init Value",
+                                "default": "",
+                                "propertyOrder": 20,
+                                "format": "text"
+                            },
+                            "repo": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/baseclasses/items/properties/repo",
+                                "title": "Module Name (repo)",
+                                "default": "",
+                                "propertyOrder": 20,
+                                "format": "text"
+                            }
+                        }
+                    }
                 },
                 "baseclasslist": {
                     "type": "array",
                     "id": "/properties/settings/properties/baseclasslist",
-                    "title": "List of Base Classes - Watch Auto Update",
-                    "format": "table",
-                    "propertyOrder": 50,
-        						"options": {
-                      "collapsed": true
-                    },
-                    "description":"A base class is provide by the programming language '"+vProgLanguage+"' itself, so using these classes in a module does not imply that the special module must be required locally of from a package manager.",
-                    "items": {
-                        "type": "string",
-                        "id": "/properties/settings/properties/baseclasslist/items",
-                        "title": "Base Class List",
-                        "default": "",
-                        "format": "text"
-                    }
-                },
-                "baseclasses": {
-                    "type": "array",
-                    "id": "/properties/settings/properties/baseclasses",
                     "title": "List of Base Classes",
                     "format": "table",
                     "propertyOrder": 60,
