@@ -1,4 +1,7 @@
-  <!-- ### Handelbars4Code Init JSON  ############### -->
+  <!-- ### UML Default File  #####################
+  used for initializing afte delete class command -->
+  <script src="db/uml_default.js"></script>
+  <!-- ### UML Loaded File  ##################### -->
   <script src="db/umljs.js"></script>
   <!-- ### HANDLEBARS TEMPLATE  #####################
   Template ID: "javascript"
@@ -10,4 +13,14 @@
   Template: vDataJSON["tpl"]["docu4github"]
   -->
   <script src="tpl/docu4github_tpl.js"></script>
-  <script src="js/handlebars4code.js"></script>
+  <!-- ### SCHEMA LOADER ############################
+  script tag stores the JSON schema in
+  vDataJSON.tpl.["class_schema"]
+  <script src="schema/class_uml_schema.js"></script>
+  -->
+  <script src="schema/class_uml_schema.js"></script>
+  <!-- ############################################## -->
+  <script>
+    // Delete JSON load the following default-JSON into JSON Editor
+    var vDefaultJSON = vDataJSON[vDefaultID4JSON]; //see file "db/uml_default.js"
+  </script>

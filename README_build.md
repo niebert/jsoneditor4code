@@ -1,6 +1,6 @@
-# undefined
-`undefined` is a Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
-* **[Demo undefined](https://undefined.github.io/undefined)**
+# JSONEditor4Code
+`JSONEditor4Code` is a Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
+* **[Demo JSONEditor4Code](https://niebert.github.io/JSONEditor4Code)**
 
 <!-- BEGIN: src/readme/headerinto.md -->
 The following table of contents is generated with `node doctoc README.md`.
@@ -14,20 +14,20 @@ The following table of contents is generated with `node doctoc README.md`.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-## Installation `undefined`
-If you want to install `undefined` in Node NPM use the following require-call:
+## Installation `JSONEditor4Code`
+If you want to install `JSONEditor4Code` in Node NPM use the following require-call:
 ```javascript
-const  undefined = require('jsoneditor4code');
-let  vjsoneditor4code = new undefined();
+const  JSONEditor4Code = require('jsoneditor4code');
+let  vjsoneditor4code = new JSONEditor4Code();
 ```
 If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder (e.g. `docs/js`) and
 import the library with `script`-tag with:
 ```html
 <script src="js/jsoneditor4code.js"></script>
 ```
-Now it is possible to use the constructor of `undefined`
+Now it is possible to use the constructor of `JSONEditor4Code`
 ```javascript
-var  vjsoneditor4code = new undefined();
+var  vjsoneditor4code = new JSONEditor4Code();
 ```
 <!-- BEGIN: src/readme/usage.md -->
 
@@ -596,9 +596,9 @@ After the build process the `README.md` is generated and if you want to have the
 <!-- END:   src/readme/build_process.md -->
 ## Build and Compress with Browserify, Watchify, UglifyJS
 The NodeJS modules can use `require()`-command. Browsers cannot execute the `require()`-command and other node specific programming features.
-* `Browserify` loads the file `___PKG_MAIN___` as input file and resolves e.g. the `require()`-command and creates an output file in `dist/___PKG_NAME___.brows.js`
-* `Watchify` observes any changes in the source files in `src/` and starts on the event of changes the build process of the file `___PKG_MAIN___` as input file and creates an output file in `dist/___PKG_NAME___.brows.js`.
-* `UglifyJS` compresses the code in `dist` and takes the file `dist/___PKG_NAME___.js` and generates the compressed library in `dist/___PKG_NAME___.min.js`. The same is applied for `docs/js/___PKG_NAME___.js` and the output is `docs/js/___PKG_NAME___.min.js`. The compression of the source code can be perform without a total build by `npm run compress`.
+* `Browserify` loads the file `src/main.js` as input file and resolves e.g. the `require()`-command and creates an output file in `dist/jsoneditor4code.brows.js`
+* `Watchify` observes any changes in the source files in `src/` and starts on the event of changes the build process of the file `src/main.js` as input file and creates an output file in `dist/jsoneditor4code.brows.js`.
+* `UglifyJS` compresses the code in `dist` and takes the file `dist/jsoneditor4code.js` and generates the compressed library in `dist/jsoneditor4code.min.js`. The same is applied for `docs/js/jsoneditor4code.js` and the output is `docs/js/jsoneditor4code.min.js`. The compression of the source code can be perform without a total build by `npm run compress`.
 
 
 ### Browserify and Watchify
@@ -644,8 +644,8 @@ In the current repository `Browserfy` and `Watchify` are expected to be installe
 Watchify will trigger the `npm run build` process if files were change due to alteration of code. To start watching the files, run the npm-watch script by `npm run watch`, which is defined in `package.json`
 
 ### Source JS file and development bundle output
-The main JS source file for the build process is `src/main.js`. The output library (resp. output file of build process) is stored in distrubtion library for browser based web-development in `dist/___PKG_NAME___.js`. Compressed code is generated with `UglifyJS`. It takes the `dist/___PKG_NAME___.js` as input file and creates the compressed file `dist/___PKG_NAME___.min.js`.
-The compression of `dist/___PKG_NAME___.js` into `dist/___PKG_NAME___.min.js` uses `uglify-js` module and can be started by
+The main JS source file for the build process is `src/main.js`. The output library (resp. output file of build process) is stored in distrubtion library for browser based web-development in `dist/jsoneditor4code.js`. Compressed code is generated with `UglifyJS`. It takes the `dist/jsoneditor4code.js` as input file and creates the compressed file `dist/jsoneditor4code.min.js`.
+The compression of `dist/jsoneditor4code.js` into `dist/jsoneditor4code.min.js` uses `uglify-js` module and can be started by
 
   `npm run compress`
 
@@ -663,7 +663,7 @@ The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 
 * [3 ways to define a JavaScript class](https://www.phpied.com/3-ways-to-define-a-javascript-class/) by Stoyan Stefanov
 * [JQuery](https://jqueryui.com) is used for the theme and standard operations in the Document Object Model (DOM) of HTML-pages. The [JQuery-Themeroller](https://jqueryui.com/themeroller/) was used to create a JQuery theme for JSCC.
 
-## Libraries required for  `undefined`
+## Libraries required for  `JSONEditor4Code`
 The following libraries are necessary for `jsoneditor4code.js`:
 * Lib: `handlebars` Version: `^4.0.11`
 * Lib: `linkparam` Version: `^1.0.8`
@@ -680,15 +680,15 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 * Lib: `watchify` Version: `^3.9.0`
 
 ## NPM Library Information
-* Exported Module Variable: `undefined`
+* Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `0.9.4`   (last build 2018/12/15 12:14:56)
-* Homepage: `https://niebert.github.io/ClassEditorUML`
+* Version:  `0.9.8`   (last build 2018/12/18 16:12:54)
+* Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2018/12/15 12:14:56
+* Date:     2018/12/18 16:12:54
 * Require Module with:
 ```javascript
-    const vundefined = require('jsoneditor4code');
+    const vJSONEditor4Code = require('jsoneditor4code');
 ```
 * JSHint: installation can be performed with `npm install jshint -g`
 <!-- BEGIN: src/readme/tail.md -->

@@ -1,8 +1,14 @@
 <script language="javascript">
-    el("jsonstring").value = JSON.stringify(vDataJSON["umljs"],null,2);
+      //---- Initialize the JSONEditor for Code ----------
+      // Initialization expect certain DOM nodes to be available,
+      // so that event handlers can assigned e.g. to buttons.
+      // Therefore the init method is called
+      // at the very end of the HTML file.
 
-    Handlebars4Code.create_compiler(vDataJSON.tpl);
-    vDataJSON.out = Handlebars4Code.get_compiler();
-
-
+      vJSONEditor.init(vJSON,
+        vDefaultJSON,
+        vDataJSON["class_schema"],
+        vDataJSON["tpl"],
+        vOptions);
+        
 </script>

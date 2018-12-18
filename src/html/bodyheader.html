@@ -1,5 +1,48 @@
-</head>
-<body style="font-family:Arial,Verdana; font-size:12pt; color:black" bgcolor="#CACACA">
+ </head>
+<body  style="margin:20px">
+  	<div>
+    	<h1>___PKG_EXPORTVAR___</h1>
 
-  <h1>Handelbars4Code Demo</h1>
-  <h4>Demo JSON Source as input for was <tt>Handelbars4Code</tt> was generated with <a href="https://niebert/github.io/ClassEditorUML" target="_blank">ClassEditorUML</a></h4>
+  <div data-role="fieldcontain" style="display:none">
+         <input type="file" id="fileJSON" name="fileJSON" value="Select JSON File" id="fileJSON" onchange="vJSONEditor.loadJSON(this.id)"/>
+    </div>
+
+  	<div id="divNavigate"  align="center">
+    <!-- the button vOpenJSON generates an onclick event for the fileJSON input file element in the DOM -->
+ 	 	<button id='bOpenJSON' style="color: white;background-color: #225988"  onclick="$( '#fileJSON' ).trigger('click');return false">
+			<i class="fa fa-folder-open-o" aria-hidden="true"></i> Load
+		</button>
+    <button id='bSaveJSON' style="color: white;background-color: #225988"  onclick="vJSONEditor.saveJSON();return false">
+			<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+		</button>
+   &nbsp;
+		&nbsp;
+    <b>File: </b>  <tt id="display_filename">class.json</tt>
+		&nbsp;
+		&nbsp;
+    <!-- Function: exportCode() is defined in js/classeditor.js -->
+    <button id='bExportHTML' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('javascript','.js','Javascript Code for Class');return false">
+			<i class="fa fa-floppy-o" aria-hidden="true"></i> Export Code
+	 </button>
+   <!-- Function: exportDocumentation() is defined in js/classeditor.js -->
+   <button id='bExportDoc' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('docu4github','_github.md','Github Documentation for Class');return false">
+     <i class="fa fa-floppy-o" aria-hidden="true"></i> Export Documentation
+  </button>
+  <button id='bSettings' style="color: white;background-color: #A0A0A0"  onclick="vJSONEditor.toggleSettings('root.settings','root.data');return false">
+    <i class="fa fa-cog" aria-hidden="true"></i> Settings
+  </button>
+    <!--
+		<button id='bAddRecord' style="color: white;background-color: #225988"  onclick="vEditor4JSON.add();return false">
+			<i class="fa fa-plus-square" aria-hidden="true"></i> Add
+		</button>
+    <button id='bInitDB' style="color: white;background-color: #c10303"  onclick="vEditor4JSON.initAsk();return false">
+      <i class="fa fa-minus-square" aria-hidden="true"></i> Init DB
+    </button>
+    -->
+		<button id='bDeleteClass' style="color: white;background-color: #c10303"  onclick="vJSONEditor.init_ask();return false">
+			<i class="fa fa-trash" aria-hidden="true"></i> Delete
+		</button>
+
+    <span id='valid_indicator'></span>
+	</div>
+<hr>

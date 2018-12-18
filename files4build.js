@@ -13,9 +13,13 @@ const getLibs4Build = function (pLibPath) {
     pLibPath+'savefile.js',
     pLibPath+'filesaver.js',
     pLibPath+'jsoneditor.js',
+    //-----------------------------------------------
+    //---- Load Handlebars4Code or ------------------
     //pLibPath+'handlebars4code.js',
+    //- OR Load Handlebars with Handlebars Helpers---
     pLibPath+'handlebars.js',
     pLibPath+'handlebars_helper.js',
+    //-----------------------------------------------
     pLibPath+'linkparam.js',
     //pLibPath+'localstorage.js',
     pLibPath+'exportmod.js'
@@ -28,8 +32,8 @@ const getHtml4Build = function (pPath) {
     pPath+'header.html',
     './src/html_title.html',
     pPath+'datajson.html',
-    pPath+'headerlibs.html',
     pPath+'headerscript.html',
+    pPath+'headerlibs.html',
     pPath+'bodyheader.html',
     './src/html_description.html',
     pPath+'body.html',

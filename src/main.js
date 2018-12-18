@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  0.9.8  Date: 2018/12/15 16:33:17
+ Version:  0.9.8  Date: 2018/12/18 16:12:54
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2018/12/15 16:33:17
+ Date:     2018/12/18 16:12:54
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
     var  compileCode = JSONEditor4Code.compile(vTemplate);
@@ -18051,7 +18051,16 @@ function JSONEditor4Code () {
     this.save4Template("docu4github","_github.md","Github MarkDown Documentation")
   }
 
-
+  this.viewOutput = function (pContent) {
+    //--Textarea Output----------------
+    var vOutNode = this.el("tOutput");
+    if (vOutNode) {
+      vOutNode.value = pContent;
+    } else {
+      console.log("WARNING: JSONEditor4Code.viewOutput()-call - textarea 'tOutput' not defined in DOM");
+    };
+    //---------------------------------
+  }
 
   this.getOutput4Template = function (pTplID) {
       console.log("getOutput4Template('"+pTplID+"')");
@@ -18062,7 +18071,10 @@ function JSONEditor4Code () {
       // Compile functions was generated from "tpl/docu4github_tpl.js"
       var vContent = "Undefined Handlebars Compiler TplID='"+pTplID+"'";
       if (this.compileCode[pTplID]) {
-        vContent = this.compileCode[pTplID](this.aJSON);
+        vContent = this.compileCode[pTplID](vJSON);
+        //--Textarea Output----------------
+        this.viewOutput(vContent);
+        //---------------------------------
       } else {
         console.log("compileCode['"+pTplCode+"'] undefined");
       };
@@ -18076,9 +18088,9 @@ function JSONEditor4Code () {
       var vContent = this.getOutput4Template(pTplID);
       console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
       //--Textarea Output----------------
-      var vOutNode = this.el("tOutput");
-      vOutNode.value = vContent;
-      //--JSON Output----------------
+      this.viewOutput(vContent);
+      //---------------------------------
+      //--JSON Output--------------------
       var vJSON = this.getValue();
       var vFile = class2filename(vJSON.data.classname,pExtension);
       saveFile2HDD(vFile,vContent);

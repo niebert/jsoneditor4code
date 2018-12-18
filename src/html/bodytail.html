@@ -1,2 +1,34 @@
+	<!-- BEGIN of JSON Editor -->
+  <div id='editor_holder' style="margin:20px"></div>
+  <div id='settings_holder' style="margin:20px"></div>
+<!-- END of JSON Editor -->
+    <button id='restore' style="display:none" onclick="vJSONEditor.restore();return false">Restore to Default</button>
+    <button id='enable_disable' style="display:none" onclick="vJSONEditor.toggleEnable();return false">Disable/Enable</button>
+    <button id='submit' Xstyle="display:none" onclick="vJSONEditor.submit2callback();return false">Submit</button>
+    <button id='bExportJSON' onclick="vJSONEditor.saveJSON();return false">Export JSON</button>
+    <button id='bExportSchemaJSON'  onclick="vJSONEditor.saveSchema();return false">Export JSON Schema</button>
+    <button id='bUpdateSchema' style="color: white;background-color: #225988;display:none"  onclick="vJSONEditor.update();return false">
+      <i class="fa fa-refresh" aria-hidden="true"></i>
+      Update Schema
+    </button>
+		<button id='bTemplate' onclick="$('#divTemplates').toggle()">Debug Output</button>
+  <hr>
 
-  </body>
+  <div id="divTemplates" style="display:none">
+
+    <b>Output</b> <tt>[tOutput]</tt><br>
+    <form id="fSubmitJSONdata" action="jsondata2submit.html" method="get" target="_blank">
+      <textarea id="tOutput" name="jsondata" cols="125" rows="10"></textarea>
+      <br>
+      <input type="submit">
+    </form>
+    <hr>
+    <b>JSON</b> <tt>[tOutJSON]</tt><br>
+    <textarea id="tOutJSON" name="tOutJSON" cols="125" rows="10"></textarea>
+    <hr>
+    <b>JSON Errors</b> <tt>[tErrors]</tt><br>
+    <textarea id="tErrors" name="tErrors" cols="125" rows="10">
+    </textarea>
+    <hr>
+
+  </div>

@@ -756,7 +756,16 @@ function JSONEditor4Code () {
     this.save4Template("docu4github","_github.md","Github MarkDown Documentation")
   }
 
-
+  this.viewOutput = function (pContent) {
+    //--Textarea Output----------------
+    var vOutNode = this.el("tOutput");
+    if (vOutNode) {
+      vOutNode.value = pContent;
+    } else {
+      console.log("WARNING: JSONEditor4Code.viewOutput()-call - textarea 'tOutput' not defined in DOM");
+    };
+    //---------------------------------
+  }
 
   this.getOutput4Template = function (pTplID) {
       console.log("getOutput4Template('"+pTplID+"')");
@@ -767,7 +776,10 @@ function JSONEditor4Code () {
       // Compile functions was generated from "tpl/docu4github_tpl.js"
       var vContent = "Undefined Handlebars Compiler TplID='"+pTplID+"'";
       if (this.compileCode[pTplID]) {
-        vContent = this.compileCode[pTplID](this.aJSON);
+        vContent = this.compileCode[pTplID](vJSON);
+        //--Textarea Output----------------
+        this.viewOutput(vContent);
+        //---------------------------------
       } else {
         console.log("compileCode['"+pTplCode+"'] undefined");
       };
@@ -781,9 +793,9 @@ function JSONEditor4Code () {
       var vContent = this.getOutput4Template(pTplID);
       console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
       //--Textarea Output----------------
-      var vOutNode = this.el("tOutput");
-      vOutNode.value = vContent;
-      //--JSON Output----------------
+      this.viewOutput(vContent);
+      //---------------------------------
+      //--JSON Output--------------------
       var vJSON = this.getValue();
       var vFile = class2filename(vJSON.data.classname,pExtension);
       saveFile2HDD(vFile,vContent);
