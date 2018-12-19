@@ -4,3 +4,6 @@ Version is outdated and does not use `libs4build.js`
 
 libs4build.js
 README_orginal is not decomposed into parts in `src/readme` for building a readme automatically.
+
+requires all used classes in the parameters even "Integer" "String" as base classes.
+Instead of requiring classes list the classes in settings.

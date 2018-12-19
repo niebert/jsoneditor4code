@@ -25,9 +25,9 @@
     "compress": "node ./build.js;browserify docs/js/jsoneditor4code.js  | uglifyjs -mc warnings=false > dist/jsoneditor4code.min.js"
   },
   "build":{
-    "html":"docs/index_build.html",
+    "html":"docs/index.html",
     "css":"docs/css/build.css",
-    "readme":"README_build.md"
+    "readme":"README.md"
   },
   "repository": {
     "type": "git",

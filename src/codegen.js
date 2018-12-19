@@ -106,7 +106,7 @@ function processJSON(pContent,pJSON) {
 			pContent = replaceString(pContent,vSearch,pJSON[key])
 		}
 	};
-	//console.log("REPLACE: "+pContent);
+	console.log("REPLACE: "+pContent);
 	return pContent
 }
 
