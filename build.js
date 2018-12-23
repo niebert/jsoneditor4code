@@ -5,8 +5,13 @@ const pkg = require('./package');
 const codegen = require('./src/codegen.js');
 // ------ Build Settings -----------------
 pkg.githubuser = pkg.githubuser || "githubuser";
-pkg.build = pkg.build || {};
-pkg.build.readme = pkg.readme || "README_build.md";
+pkg.build = pkg.build || {
+      readme: "README_build.md",
+      html: "docs/index_build.html",
+      htmlsrc: "docs/index_src_libs_build.html",
+      css: "docs/css/build.css"
+    };
+pkg.build.readme = pkg.build.readme || "README_build.md";
 pkg.build.html = pkg.build.html || "docs/index_build.html";
 pkg.build.css = pkg.build.css || "docs/css/build.css";
 pkg.build.htmlsrc = pkg.build.htmlsrc || "docs/index_src_libs_build.html";

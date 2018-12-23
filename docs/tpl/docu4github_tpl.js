@@ -1,12 +1,12 @@
 vDataJSON["tpl"]["docu4github"] = `
 ## Javascript Class: \`{{data.classname}}\`
 
-{{data.comment}}
+{{{data.comment}}}
 * created with [ClassEditorUML](https://niebert.github.io/ClassEditorUML) - Date: {{data.reposinfo.created}}
 * last modifications at {{data.reposinfo.modified}}
 * URL Class Editor for UML: https://niebert.github.io/ClassEditorUML
 * File: \`js/{{filename data.classname}}.js\`
-{{#ifcond data.superclassname "!=" ""}}
+{{#ifcond data.superclassname "!=" " "}}
 * Superclass: \`{{data.superclassname}}\` - code generation in \`ClassEditorUML\` can insert the require-commands automatically. For the settings expand the \`Repository Info\` in ClassEditorUML. You can set \`Require Classes NPM:\` to \`Yes\` and \`ClassEditorUML\` will include require command for super class. ClassEditorUML assumes, that the super class is a locally available.
 \`\`\`javascript
 const {{data.superclassname}} = require('./{{filename data.superclassname}}');
@@ -15,7 +15,7 @@ The require command assumes the file \`{{filename data.classname}}.js\` in the s
 {{/ifcond}}
 
 ### Diagram
-{{#ifcond data.superclassname "!=" ""}}
+{{#ifcond data.superclassname "!=" " "}}
 The class  \`{{data.classname}}\` inherits all attributes and methods from superclass: \`{{data.superclassname}}\` please require NPM module for super class if it is not available locally by:
 \`\`\`javascript
 const {{data.superclassname}} = require('{{filename data.superclassname}}');
@@ -49,7 +49,7 @@ For class \`{{data.classname}}\` the following attributes are defined:
 {{#foreach data.attributes data}}
 
 #### Attribute \`{{name}} : {{class}}\`
-{{comment}}
+{{{comment}}}
 * Visibility: \`{{visibility}}\`
 * Class: \`{{class}}\`
 {{#ifcond visibility "==" "public"}}
@@ -67,9 +67,9 @@ For class \`{{data.classname}}\` the following methods are defined:
 {{#foreach data.methods data}}
 
 #### Method \`{{name}}({{#paramcall parameter}}{{/paramcall}})\`
-{{comment}}
+{{{comment}}}
 * Visibility: \`{{visibility}}\`
-{{#ifcond return "!=" ""}}
+{{#ifcond return "!=" " "}}
 * Returns: \`{{return}}\`
 {{#ifcond visibility "==" "public"}}
 * Call: \`var v{{return}}Ret = v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{data.classname}} = new {{data.classname}}()\` is an instance of the class \`= {{data.classname}}\`.
@@ -78,7 +78,7 @@ For class \`{{data.classname}}\` the following methods are defined:
 * Call: \`var v{{return}}Ret = {{name}}({{#paramcall parameter}}{{/paramcall}});\`
 {{/ifcond}}
 {{/ifcond}}
-{{#ifcond return "==" ""}}
+{{#ifcond return "==" " "}}
 {{#ifcond visibility "==" "public"}}
 * Call: \`v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});\` where \`v{{data.classname}} = new {{data.classname}}()\` is an instance of the class \`{{data.classname}}\`.
 {{/ifcond}}
@@ -88,7 +88,7 @@ For class \`{{data.classname}}\` the following methods are defined:
 {{/ifcond}}
 * Parameter List:
 {{#each parameter}}
-   * \`{{name}}:{{class}}\` {{removereturn comment}}
+   * \`{{name}}:{{class}}\` {{{removereturn comment}}}
 {{/each}}
 {{/foreach}}
 `;

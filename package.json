@@ -27,7 +27,8 @@
   "build":{
     "html":"docs/index.html",
     "css":"docs/css/build.css",
-    "readme":"README.md"
+    "readme":"README.md",
+    "htmlsrc": "docs/index_src_libs_build.html"
   },
   "repository": {
     "type": "git",

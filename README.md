@@ -596,9 +596,9 @@ After the build process the `README.md` is generated and if you want to have the
 <!-- END:   src/readme/build_process.md -->
 ## Build and Compress with Browserify, Watchify, UglifyJS
 The NodeJS modules can use `require()`-command. Browsers cannot execute the `require()`-command and other node specific programming features.
-* `Browserify` loads the file `___PKG_MAIN___` as input file and resolves e.g. the `require()`-command and creates an output file in `dist/___PKG_NAME___.brows.js`
-* `Watchify` observes any changes in the source files in `src/` and starts on the event of changes the build process of the file `___PKG_MAIN___` as input file and creates an output file in `dist/___PKG_NAME___.brows.js`.
-* `UglifyJS` compresses the code in `dist` and takes the file `dist/___PKG_NAME___.js` and generates the compressed library in `dist/___PKG_NAME___.min.js`. The same is applied for `docs/js/___PKG_NAME___.js` and the output is `docs/js/___PKG_NAME___.min.js`. The compression of the source code can be perform without a total build by `npm run compress`.
+* `Browserify` loads the file `src/main.js` as input file and resolves e.g. the `require()`-command and creates an output file in `dist/jsoneditor4code.brows.js`
+* `Watchify` observes any changes in the source files in `src/` and starts on the event of changes the build process of the file `src/main.js` as input file and creates an output file in `dist/jsoneditor4code.brows.js`.
+* `UglifyJS` compresses the code in `dist` and takes the file `dist/jsoneditor4code.js` and generates the compressed library in `dist/jsoneditor4code.min.js`. The same is applied for `docs/js/jsoneditor4code.js` and the output is `docs/js/jsoneditor4code.min.js`. The compression of the source code can be perform without a total build by `npm run compress`.
 
 
 ### Browserify and Watchify
@@ -644,8 +644,8 @@ In the current repository `Browserfy` and `Watchify` are expected to be installe
 Watchify will trigger the `npm run build` process if files were change due to alteration of code. To start watching the files, run the npm-watch script by `npm run watch`, which is defined in `package.json`
 
 ### Source JS file and development bundle output
-The main JS source file for the build process is `src/main.js`. The output library (resp. output file of build process) is stored in distrubtion library for browser based web-development in `dist/___PKG_NAME___.js`. Compressed code is generated with `UglifyJS`. It takes the `dist/___PKG_NAME___.js` as input file and creates the compressed file `dist/___PKG_NAME___.min.js`.
-The compression of `dist/___PKG_NAME___.js` into `dist/___PKG_NAME___.min.js` uses `uglify-js` module and can be started by
+The main JS source file for the build process is `src/main.js`. The output library (resp. output file of build process) is stored in distrubtion library for browser based web-development in `dist/jsoneditor4code.js`. Compressed code is generated with `UglifyJS`. It takes the `dist/jsoneditor4code.js` as input file and creates the compressed file `dist/jsoneditor4code.min.js`.
+The compression of `dist/jsoneditor4code.js` into `dist/jsoneditor4code.min.js` uses `uglify-js` module and can be started by
 
   `npm run compress`
 
@@ -682,10 +682,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `0.9.8`   (last build 2018/12/18 11:31:36)
+* Version:  `1.0.0`   (last build 2018/12/23 11:23:05)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2018/12/18 11:31:36
+* Date:     2018/12/23 11:23:05
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

@@ -422,17 +422,27 @@ vDataJSON["class_schema"] = {
                 "baseclasses"
             ],
             "properties": {
-                "extension4code": {
-                  "type": "string",
-                  "id": "/properties/settings/properties/extension4code",
-                  "title": "Extension for Generated Code:",
-                  "default": ".js",
-                  "format": "text",
-                  "propertyOrder": 10,
-      						"size":12,
-                  "description": "When ClassEditorUML generates code, it stores a generated file in the programming language '"+vProgLanguage+"' with this file extension"
-                },
-                "classlist": {
+              "extension4code": {
+                "type": "string",
+                "id": "/properties/settings/properties/extension4code",
+                "title": "Extension for Generated Code:",
+                "default": ".js",
+                "format": "text",
+                "propertyOrder": 10,
+                "size":12,
+                "description": "When ClassEditorUML generates code, it stores a generated file in the programming language '"+vProgLanguage+"' with this file extension"
+              },
+              "extension4json": {
+                "type": "string",
+                "id": "/properties/settings/properties/extension4json",
+                "title": "Extension for saved JSON:",
+                "default": ".json",
+                "format": "text",
+                "propertyOrder": 10,
+                "size":12,
+                "description": "JSON Editor stores a JSON file with this file extension"
+              },
+              "classlist": {
                     "type": "array",
                     //"id": "/properties/settings/properties/classlist",
                     "title": "Select List of Classes",
@@ -446,11 +456,11 @@ vDataJSON["class_schema"] = {
                         "type": "string",
                         "id": "/properties/settings/properties/classlist/items",
                         "title": "Class",
-                        "default": "",
+                        "default": " ",
                         "format": "text"
                     },
                     "default": [
-                        "",
+                        " ",
                         "Array",
                         "Boolean",
                         "Document",
