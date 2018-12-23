@@ -357,7 +357,7 @@ function create_readme_header(pkg) {
   var vOut = "";
   vOut += "# "+pkg.exportvar;
   vOut += "\n`"+pkg.exportvar+"` is a "+pkg.description;
-  vOut += "\n* **[Demo "+pkg.exportvar+"](https://"+pkg.githubuser+".github.io/"+pkg.exportvar+")**";
+  vOut += "\n* **[Demo "+pkg.exportvar+"](https://"+pkg.githubuser+".github.io/"+pkg.name+")**";
   vOut += "\n";
   save_file("./src/"+vFileName, vOut,"README.md code file 'src/"+vFileName+"' was saved!");
 }

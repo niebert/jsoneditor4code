@@ -1,6 +1,6 @@
 # JSONEditor4Code
 `JSONEditor4Code` is a Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
-* **[Demo JSONEditor4Code](https://niebert.github.io/JSONEditor4Code)**
+* **[Demo JSONEditor4Code](https://niebert.github.io/jsoneditor4code)**
 
 <!-- BEGIN: src/readme/headerinto.md -->
 The following table of contents is generated with `node doctoc README.md`.
@@ -682,10 +682,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.0.0`   (last build 2018/12/23 11:23:05)
+* Version:  `1.0.0`   (last build 2018/12/23 11:42:23)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2018/12/23 11:23:05
+* Date:     2018/12/23 11:42:23
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
