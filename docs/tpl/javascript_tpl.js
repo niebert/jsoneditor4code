@@ -2,15 +2,19 @@ vDataJSON["tpl"]["javascript"] = `
 //#################################################################
 {{#ifcond data.reposinfo.static "!=" "yes"}}
 //# Javascript Class: {{data.classname}}()
+{{#ifcond data.superclassname "!=" " "}}
 {{#ifcond data.superclassname "!=" ""}}
 //#       SuperClass: {{data.superclassname}}
+{{/ifcond}}
 {{/ifcond}}
 //#   Class Filename: {{filename data.classname}}.js
 {{/ifcond}}
 {{#ifcond data.reposinfo.static "==" "yes"}}
 //# Javascript Module: {{data.classname}}
+{{#ifcond data.superclassname "!=" " "}}
 {{#ifcond data.superclassname "!=" ""}}
 //#           Extends: {{data.superclassname}}
+{{/ifcond}}
 {{/ifcond}}
 //#       Filename: {{filename data.classname}}.js
 {{/ifcond}}
@@ -33,18 +37,17 @@ vDataJSON["tpl"]["javascript"] = `
 {{#ifcond data.reposinfo.require_classes "==" "yes"}}
 //---------------------------------------------------------------------
 {{#ifcond data.superclassname "!=" ""}}
-{{#ifcond data.superclassname "!=" "_"}}
 {{#ifcond data.superclassname "!=" " "}}
 //---------------------------------------------------------------------
 // NodeJS: require the super class
 const {{data.superclassname}} = require('{{filename data.superclassname}}');
 {{/ifcond}}
 {{/ifcond}}
-{{/ifcond}}
 
-// NodeJS: Require used classes
+//---- USED CLASSES: ----
+// Used classes in parameters of methods, return values of methods and attributes
 {{#requireclass data settings}}
-const {{variable}} = require('{{module}}'); // Class: {{variable}}
+// - {{variable}}
 {{/requireclass}}
 
 // NodeJS: Require additional Modules
@@ -79,6 +82,7 @@ const {{variable}} = require('{{module}}'); // Module: {{module}}
 // This approach consumes less memory for instances.
 //---------------------------------------------------------------------
 
+{{#ifcond data.superclassname "!=" " "}}
 {{#ifcond data.superclassname "!=" ""}}
 //--------------------------------------
 //---Super Class------------------------
@@ -89,6 +93,7 @@ const {{variable}} = require('{{module}}'); // Module: {{module}}
 {{data.classname}}.prototype.constructor={{data.classname}};
 // see http://phrogz.net/js/classes/OOPinJS2.html for explanation
 //--------------------------------------
+{{/ifcond}}
 {{/ifcond}}
 
 
@@ -113,7 +118,22 @@ function {{data.classname}} () {
     //---------------------------------------------------------------------
     //---Methods of Class "{{data.classname}}()"
     //---------------------------------------------------------------------
+{{#foreach data.methods data}}
 
+    // #################################################################
+    // # {{visibility}} Method: {{name}}()  Class: {{data.classname}}
+    // # Parameter:
+    // #    {{parameterlist parameter "    // #    "}}
+    // # Comment:
+{{indent comment "    // #    "}}
+    // # {{{returncomment}}}
+    // #################################################################
+{{/foreach}}
+
+}
+//---------------------------------------------------------------------
+//---END Constructor for Call  "new {{data.classname}}()"
+//---------------------------------------------------------------------
 {{#foreach data.methods data}}
 
     //#################################################################
@@ -203,11 +223,14 @@ var {{data.classname}} = {{data.superclassname}};
 {{#ifcond visibility "==" "private"}}
     function {{name}}({{#paramcall parameter}}{{/paramcall}}) {
 {{/ifcond}}
+
+{{#ifcond data.reposinfo.debugheader "==" "yes"}}
       //----Debugging------------------------------------------
       // console.log("{{filename data.classname}}.js - Call: {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}})");
       //----Call Function {{name}}()----
       //    {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
       //-------------------------------------------------------
+{{/ifcond}}
       {{indent code indent="      "}}
     }
     // ---- Method: {{name}}() Class: {{data.classname}} ------

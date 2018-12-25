@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  1.0.0  Date: 2018/12/23 11:42:23
+ Version:  1.0.1  Date: 2018/12/25 8:36:19
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2018/12/23 11:42:23
+ Date:     2018/12/25 8:36:19
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
     var  compileCode = JSONEditor4Code.compile(vTemplate);
@@ -17624,27 +17624,27 @@ function JSONEditor4Code () {
     //}
     if (this.aSettingsBOOL == false) {
       alert("JSON-Editor: Show Settings");
-      this.showEditor(pSettingsID,true)
-      this.showEditor(pDataID,false)
+      this.showEditor(pSettingsID,true);
+      this.showEditor(pDataID,false);
     } else {
       alert("JSON-Editor: Hide Settings");
-      this.showEditor(pSettingsID,false)
-      this.showEditor(pDataID,true)
-    };
+      this.showEditor(pSettingsID,false);
+      this.showEditor(pDataID,true);
+    }
     this.aSettingsBOOL = !this.aSettingsBOOL;
   };
 
   this.toggleEnable = function () {
     if (this.aEditor.isEnabled()) {
-      this.aEditor.disable()
+      this.aEditor.disable();
     } else {
-      this.aEditor.enable()
-    };
+      this.aEditor.enable();
+    }
   };
 
   this.enable = function (pID) {
     if (pID) {
-      this.aEditor.getEditor(pID).enable()
+      this.aEditor.getEditor(pID).enable();
     } else {
       this.aEditor.enable();
     }
@@ -17652,7 +17652,7 @@ function JSONEditor4Code () {
 
   this.disable = function (pID) {
     if (pID) {
-      this.aEditor.getEditor(pID).disable()
+      this.aEditor.getEditor(pID).disable();
     } else {
       this.aEditor.disable();
     }
@@ -17663,7 +17663,7 @@ function JSONEditor4Code () {
     this.set_button_click("submit",function() {
         // Get the value from the editor
         var vContent = JSON.stringify(vThis.aEditor.getValue(),null,4);
-        vThis.el("tJSON")
+        vThis.el("tJSON");
         console.log("JSON Data:\n"+vContent);
     });
     this.set_button_click("enable_disable",function() {
@@ -17678,7 +17678,7 @@ function JSONEditor4Code () {
             }
         }
     });
-  }
+  };
 
 
 
@@ -17725,7 +17725,7 @@ function JSONEditor4Code () {
     } else {
       console.log("aEditor not defined in init_watch()-call");
     }
-  }
+  };
 
   this.start_watch = function () {
     var vThis = this; // "vThis" used because "this" is not available in function
@@ -17752,8 +17752,8 @@ function JSONEditor4Code () {
 
   // ---- getElementById call ---
   this.el = function (pID) {
-    return this.aDoc.getElementById(pID)
-  }
+    return this.aDoc.getElementById(pID);
+  };
 
   this.set_button_click = function (pID,pFunction) {
     var vNode = this.el(pID);
@@ -17762,12 +17762,12 @@ function JSONEditor4Code () {
     } else {
         console.log("DOM node ["+pID+"] does not exist. Could not assign");
     }
-  }
+  };
 
   this.update = function () {
-    alert("update Schema changes for the JSONEditor4Code")
+    alert("update Schema changes for the JSONEditor4Code");
     this.create_editor();
-  }
+  };
 
   this.getValue = function () {
     var vJSON = this.aJSON;
@@ -17777,7 +17777,7 @@ function JSONEditor4Code () {
       console.log("this.aEditor undefined in JSONEditor4Code.getValue()");
     };
     return vJSON;
-  }
+  };
 
   this.setValue = function (pJSON) {
     this.aJSON = pJSON;
@@ -17786,13 +17786,13 @@ function JSONEditor4Code () {
       console.log("setValue() executed!\n"+JSON.stringify(pJSON,null,4));
     } else {
       console.log("this.aEditor undefined in JSONEditor4Code.setValue(pJSON)");
-    };
-  }
+    }
+  };
 
   this.update_filename = function () {
 
     if (this.aOptions.hasOwnProperty("filename_key")) {
-      var vNode = this.el(this.aOptions["filename_id"]); // e.g. filename_id = "load_filename";
+      var vNode = this.el(this.aOptions.filename_id); // e.g. filename_id = "load_filename";
       var vJSON = this.aJSON;
       if (vNode) {
         if (this.aEditor) {
@@ -17800,9 +17800,10 @@ function JSONEditor4Code () {
           vJSON = this.aEditor.getValue();
         } else {
           console.log("CALL: update_filename() - this.aEditor not defined!");
-        }
-      };
-      var vDOMID = this.aOptions["filename_id"];
+        };
+      }
+
+      var vDOMID = this.aOptions.filename_id;
       if (this.el(vDOMID)) {
         if (vJSON.data) {
           if (vJSON.data.hasOwnProperty("classname")) {
@@ -17810,17 +17811,17 @@ function JSONEditor4Code () {
             vNode.innerHTML = class2filename(vJSON.data.classname)+vJSON.settings.extension4code;
           } else {
             console.log("WARNING: update_filename() - Attribute 'classname' in 'this.aJSON.data.classname' - was not defined!");
-          };
+          }
         } else {
           console.log("WARNING: update_filename() - this.aJSON does not contain the hash 'this.aJSON.data' for access to classname 'this.aJSON.data.classname' - update of classname in DOM was not performed!");
-        };
+        }
       } else {
         console.log("WARNING: update_filename() - DOM node ["+vDOMID+"] does not exist!");
       }
     } else {
       console.log("WARNING: update_filename() - DOM-ID is not defined in this.aOptions['filename_id']");
-    };
-  }
+    }
+  };
 
   this.update_watchclasslist = function () {
     // updates the defintions/selectorclass in the schema
@@ -17834,17 +17835,17 @@ function JSONEditor4Code () {
         // BASIC CLASSES: push all basic classes
         if (basecl) {
           for (var i = 0; i <  basecl.length; i++) {
-            watchclasses.push(basecl[i].name)
+            watchclasses.push(basecl[i].name);
           }
-        };
+        }
         // LOCAL CLASSES: push all local classes
         var cl = [];
         var localcl= this.getEditor("root.settings.localclasslist").getValue();
         if (localcl) {
           for (var i = 0; i < localcl.length; i++) {
-            cl.push(localcl[i].name)
+            cl.push(localcl[i].name);
           }
-        };
+        }
         // REMOTE CLASSES: push all remote classes
         var remotecl = this.getEditor("root.settings.remoteclasslist").getValue();
         if (remotecl) {
@@ -17996,6 +17997,7 @@ function JSONEditor4Code () {
 
   this.getFilename = function(pJSON) {
     var vClassName = "Undefined_Class";
+    var vExtension = pJSON.settings.extension4json || "_uml.json";
     if (pJSON) {
       if (pJSON.data) {
         if (pJSON.data.classname) {
@@ -18009,7 +18011,7 @@ function JSONEditor4Code () {
     } else {
       console.log("WARNING: pJSON undefined in JSONEditor4Code.getFilename()");
     };
-    var vFilename = class2filename(vClassName)+"_uml.json";
+    var vFilename = class2filename(vClassName) + vExtension;
     return vFilename;
   }
 

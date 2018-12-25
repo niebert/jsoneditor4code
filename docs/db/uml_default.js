@@ -18,6 +18,7 @@ vDataJSON["uml_default"]={
     },
     "settings":{
       "extension4code":".js",
+      "extension4json":"_uml.json",
       "localclasslist": [
           "LoadSaver",
           "LinkParam"

@@ -119,6 +119,7 @@ vDataJSON["umljs"]= {
   },
   "settings": {
     "extension4code":".js",
+    "extension4json":"_uml.json",
     "localclasslist": [
       {
         "name":"LinkParam",
@@ -191,4 +192,4 @@ vDataJSON["umljs"]= {
         }
     ]
   }
-}
+};

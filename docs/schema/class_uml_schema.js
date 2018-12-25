@@ -114,6 +114,7 @@ vDataJSON["class_schema"] = {
                         "JSCC_version",
                         "repository",
                         "static",
+                        "debugheader",
                         "require_classes",
                         "author",
                         "email",
@@ -166,6 +167,14 @@ vDataJSON["class_schema"] = {
                             "title": "Static Class:",
                             "default": "no",
                             "description": "If set to 'Yes' the generated class will be an Object (hash) with attributes and assigned functions. You do not need to instantiate a class with new MyClass()"
+                        },
+                        "debugheader": {
+                            "type": "string",
+                            "id": "/properties/data/properties/reposinfo/properties/debugheader",
+                            "$ref": "#/definitions/yesno",
+                            "title": "Debug Header Methods:",
+                            "default": "no",
+                            "description": "If set to 'Yes' the generated methods of the class will be have a debug header for assigned functions. The debug header will create an commented alert-call and a console.log command with the method name for easier debugging"
                         },
                         "requirelist": {
                             "title":"Require List",
