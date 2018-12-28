@@ -6,6 +6,7 @@ vDataJSON["tpl"]["docu4github"] = `
 * last modifications at {{data.reposinfo.modified}}
 * URL Class Editor for UML: https://niebert.github.io/ClassEditorUML
 * File: \`js/{{filename data.classname}}.js\`
+* UML-File: \`jscc/{{filename data.classname}}_uml.json\` - open with [ClassEditorUML](https://niebert.github.io/ClassEditorUML)
 {{#ifcond data.superclassname "!=" " "}}
 * Superclass: \`{{data.superclassname}}\` - code generation in \`ClassEditorUML\` can insert the require-commands automatically. For the settings expand the \`Repository Info\` in ClassEditorUML. You can set \`Require Classes NPM:\` to \`Yes\` and \`ClassEditorUML\` will include require command for super class. ClassEditorUML assumes, that the super class is a locally available.
 \`\`\`javascript
@@ -53,12 +54,12 @@ For class \`{{data.classname}}\` the following attributes are defined:
 * Visibility: \`{{visibility}}\`
 * Class: \`{{class}}\`
 {{#ifcond visibility "==" "public"}}
-* Default Init: \`{{init}}\` set by \`my_instance.{{name}} = {{init}};\`
-* Access of attribute in the code of methods by \`this.{{name}} = {{init}};\`
+* Default Init: \`{{{init}}}\` set by \`my_instance.{{name}} = {{{init}}};\`
+* Access of attribute in the code of methods by \`this.{{name}} = {{{init}}};\`
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
-* Default Init: \`{{init}}\` set inside class by \`{{name}} = {{init}};\`
-* Access of attribute in the code of methods by \`{{name}} = {{init}};\`
+* Default Init: \`{{{init}}}\` set inside class by \`{{name}} = {{{init}}};\`
+* Access of attribute in the code of methods by \`{{name}} = {{{init}}};\`
 {{/ifcond}}
 {{/foreach}}
 

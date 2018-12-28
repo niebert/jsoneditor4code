@@ -1,0 +1,306 @@
+{
+    "data": {
+        "classname": "LoadFile4DOM",
+        "superclassname": " ",
+        "comment": "Creates hidden file tag in the DOM to emulated loading interactively files from the local file system of you computer or mobile device into the browser for further processing\n",
+        "reposinfo": {
+            "JSCC_type": "CLASS",
+            "JSCC_version": "2",
+            "repository": "https://www.gitlab.com/niehausbert/loadfile4dom",
+            "static": "no",
+            "debugheader": "no",
+            "require_classes": "yes",
+            "author": "Bert Niehaus",
+            "email": "niebert GitHub",
+            "created": "2018/12/12 14:49:10",
+            "modified": "2018/12/27 11:43:09",
+            "configcode": "// the configuration code can be used to create some constants or local functions",
+            "requirelist": []
+        },
+        "attributes": [
+            {
+                "visibility": "public",
+                "name": "aDoc",
+                "init": "null",
+                "class": "Document",
+                "comment": "This attribute stores a reference to the document object of the browser. Reference provided with the init-method"
+            },
+            {
+                "visibility": "public",
+                "name": "aOptions",
+                "init": "null",
+                "class": "Hash",
+                "comment": "This hash stores the options of the init method - e.g. \"id4loadfile\" as DIV container for the input elements in the DOM that holds all created file loaders i.e. holding the input-file-tags for load a JSON file"
+            },
+            {
+                "visibility": "public",
+                "name": "aFileLoader",
+                "init": "{}",
+                "class": "Hash",
+                "comment": "This attribute stores the number of file loaders created with instance"
+            },
+            {
+                "visibility": "public",
+                "name": "aLoadFileHolder",
+                "init": "{    \"id\": \"div_id\",    \"dom\": null,    \"timeout\": 0,    \"var4dom\": \"undef_call_var\",    \"debug\": false}",
+                "class": "Hash",
+                "comment": "This attribute stores the reference to the DIV node of the file holder node in the DOM that is created by this.create_holder()"
+            },
+            {
+                "visibility": "public",
+                "name": "defaults_options",
+                "init": "{    \"id\": \"loadfile_holder_div\",    \"dom\": null,    \"timeout\": 1000,    \"debug\": false}",
+                "class": "Hash",
+                "comment": "the attribute stores the default options for LoadFile4DOM"
+            },
+            {
+                "visibility": "public",
+                "name": "defaults_loader",
+                "init": "{    \"type\": \"text\",    \"id\": \"loader123456789\",    \"name\": \"defaultloader\",    \"value\": \"Dialog Loader Button\",    \"onload\": \"console.log('open dialog click on 'defaultloader')\",    \"multiple\": true}",
+                "class": "Hash",
+                "comment": "the attribute stores the default settings for each loader generated with LoadFIle4DOM"
+            },
+            {
+                "visibility": "public",
+                "name": "aLoaderCount",
+                "init": "0",
+                "class": "Integer",
+                "comment": "the attribute counts the number of generated loaders to create a unique loader ID together with a timestamp"
+            }
+        ],
+        "methods": [
+            {
+                "visibility": "public",
+                "name": "init",
+                "parameter": [
+                    {
+                        "name": "pDoc",
+                        "class": "Document",
+                        "comment": "the parameter contains a reference to the document object of the browser"
+                    },
+                    {
+                        "name": "pOptions",
+                        "class": "Hash",
+                        "comment": "the parameter stores options"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs the initialization of the instance of LoadFile4DOM. pOptions contains the ID for the LoadFile4DOM holder, it is in general a DIV element with the HTML-input-tags for uploading a files.",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  console.log(\"loadfile4dom.js - Call: init(pDoc,pOptions)\");\n      //  alert(\"loadfile4dom.js - Call: init(pDoc,pOptions)\");\n      // ----Create Object/Instance of LoadFile4DOM and call init()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.init(pDoc,pOptions);\n      // -------------------------------------------------------\n      var self = this;\n      var vOptions = pOptions || {};\n      //  save the reference \"document\" object\n      this.aDoc = pDoc;\n      //  store options provided as parameter in the init-method\n      /*\n      this.defaults = {\n        \"id4loadfile\": \"loadfile_div\",\n        \"dom\": null,\n        \"var4dom\": \"loadfile_div\"+this.getTimeStamp()\n      };\n      */\n      // set default options and store options as attribute\n      this.aOptions = this.set_defaults(vOptions,this.defaults_options);\n      // Create var4dom that is unique in DOM for calling the instance \n      var var4dom = \"var4dom\" + this.getTimeStamp();\n      this.aLoadFileHolder.var4dom = var4dom;\n      this.aDoc[var4dom] = this;\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "getTimeStamp",
+                "parameter": [
+                ],
+                "return": "Integer",
+                "comment": "the method performs ...",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  console.log(\"loadfile4dom.js - Call: getTimeStamp()\");\n      //  alert(\"loadfile4dom.js - Call: getTimeStamp()\");\n      // ----Create Object/Instance of LoadFile4DOM and call getTimeStamp()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.getTimeStamp();\n      // -------------------------------------------------------\n      //  create a time stamp with a number\n      var now = new Date();\n      var timestamp = this.aLoaderCount + 't' + now.getTime();\n      this.aLoaderCount++;\n      //  return the integer as time in milli seconds since January 1st, 1970 0:00am\n      return timestamp;\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "create_input_tags",
+                "parameter": [
+                ],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "\n      // ----Debugging------------------------------------------\n      console.log(\"loadfile4dom.js - Call: create()\");\n      //  alert(\"loadfile4dom.js - Call: create()\");\n      // ----Create Object/Instance of LoadFile4DOM and call create()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.create(pLoaderID);\n      // -------------------------------------------------------\n      //  create a hidden DOM node and append the DOM node to this.aLoadFileHolder\n      var fl = this.aFileLoader;\n      var vLoadFileHolder = this.get_holder();\n      for (var loadid in fl) {\n        console.log(\"CALL: create_input_tags('\"+ loadid +\"')\");\n        if (fl.hasOwnProperty(loadid)) {\n          console.log(\"CALL: create_input_tags('\"+ loadid +\"') exists\");\n          // append the created \"input\" tag to the holder\n          if (vLoadFileHolder) {\n              if (fl[loadid].dom) {\n                console.log(\"CALL: create_input_tags('\" + loadid + \"') for DOM node for input-file tag with ID ['\" + fl[loadid].id + \"'] appended to DOM!\");\n                vLoadFileHolder.appendChild(fl[loadid].dom);\n              } else {\n                console.log(\"ERROR: DOM node for input-file tag with ID ['\" + fl[loadid].id + \"'] was not created with !\");\n              }\n          } else {\n            console.log(\"ERROR:  LoadFile4DOM holder does not exist - no append Loader Dialog ['\" + loadid + \"'] to holder possible\");\n          }\n        }\n      }\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "create",
+                "parameter": [
+                 ],
+                "return": " ",
+                "comment": "the method creates a DOM node for the file in the `window.document` of the browser and  adds an object in `this.aFileLoader` the each constructed file loader with the appropriate ID.",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  console.log(\"loadfile4dom.js - Call: create()\");\n      //  alert(\"loadfile4dom.js - Call: create()\");\n      // ----Create Object/Instance of LoadFile4DOM and call create()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.create(pLoaderID);\n      // -------------------------------------------------------\n      //  create a hidden DOM node and append the DOM node to this.aLoadFileHolder\n      if (this.aLoadFileHolder) {\n        if (this.aLoadFileHolder.dom) {\n          console.log(\"LoadFile4DOM.create()-Call: aLoadFileHolder.dom exists\");\n        } else {\n          console.log(\"LoadFile4DOM.create()-Call: Create DIV node in DOM! this.aOptions.debug=\"+this.aOptions.debug);\n          this.create_holder();\n        }\n      } else {\n        console.log(\"CALL: LoadFile4DOM.create(): Create DIV node for LoadFile input-tagss: LoadFile4DOM.create_holder() because aLoadFileHolder is not defined!\");\n        this.create_holder();\n      }\n      this.create_input_tags();\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "get_holder",
+                "parameter": [
+                 ],
+                "return": "Object",
+                "comment": "the method returns the LoadFile4DOM holder as DOM node. The id of the LoadFile4DOM holder is stored in this.aOptions.id4loadfile. The holder is an existing DIV node in the DOM (Document Object Model) or it will be created by the create_holder",
+                "code": "\n      var vHolder = null;\n      if (this.aOptions.hasOwnProperty(\"id4loadfile\")) {\n          console.log(\"CALL: get_holder(): id4loadfile=[\"+this.aOptions.id4loadfile+\"]\");\n      } else {\n          this.aOptions.id4loadfile = \"randomid4fileloader\";\n          console.log(\"CALL: get_holder():id4loadfile=[\"+this.aOptions.id4loadfile+\"] was generated\");\n      }\n      // set the LoadFile4DOM holder ID\n      this.aLoadFileHolder.id = this.aOptions.id4loadfile;\n      //  check if a div-node in the DOM exists with the ID\n      var vID = this.aOptions.id4loadfile;\n      //  vLoadFileHolder refers to hidden DIV-node that is used for adding the LoadFile instances.\n      vHolder = this.aDoc.getElementById(vID);\n      if (vHolder) {\n          console.log(\"CALL: get_holder() DOM Node [\"+this.aOptions.id4loadfile+\"] exists!\");\n          this.aLoadFileHolder.dom = vHolder;\n      } else {\n          console.log(\"CALL: get_holder(): DIV Node [\"+this.aOptions.id4loadfile+\"] as LoadFile4DOM holder does not exist!\");\n      }\n\n      return vHolder;\n\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "create_load_dialog",
+                "parameter": [
+                    {
+                        "name": "pOptions",
+                        "class": " ",
+                        "comment": "the parameter provides the options for the created load dialog"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method creates hash for the loader in the attribute this.aFileLoader[loaderid] with a defined loader id in Options\nThe input file elements in the DOM will be created with method LoadFile4DOM.create() with the onload-event in the document.body",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  alert(\"loadfile4dom.js - Call: create_load_dialog(pID)\");\n      // ----Create Object/Instance of LoadFile4DOM and call create_load_dialog()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.create_load_dialog(pID);\n      // -------------------------------------------------------\n      //  create a node <input type=\"file\" id=\"myloaderid\" name=\"myloader\" value=\"Dialog myloaderid\" onchange=\"vJSONEditor.loadJSON(this.id)\"/>\n      var vID = pOptions.name; // use pOptions.name as ID because it has no time stamp at the end.\n      console.log(\"loadfile4dom.js - Call: create_load_dialog('\"+vID+\"')\");\n      var doc = this.aDoc;\n      // create the file-input element\n      var vInput = doc.createElement(\"input\");\n      //\n      var vAttDef = this.get_input_attributes(vID);\n      // if multiple files can be loaded then the \"name\" attribute needs array brackets for multiple files\n      if (vAttDef.multiple === true) {\n        vAttDef.name += \"[]\";\n      }\n      // now add all attributes to the created \"input\" tag.\n      var a = null;\n      for (var key in vAttDef) {\n      \tif (vAttDef.hasOwnProperty(key)) {\n              console.log(\"create_load_dialog() ['\"+vID+\"'].\" + key +  \"=\"+vAttDef[key]);\n              a = doc.createAttribute(key);\n              a.nodeValue = vAttDef[key];\n      \t\t    vInput.setAttributeNode(a)\n      \t}\n      }\n      // if we allow multiple file select, add the attribute \"multiple\" to the input tag\n      if (vAttDef.multiple === true) {\n        a = doc.createAttribute('multiple');\n        a.nodeValue = \"multiple\";\n        vInput.setAttributeNode(a);\n      }\n      this.aFileLoader[vID] = {\n          \"id\": vAttDef.id, //  e.g. \"loadjson9234090294\"\n          \"dom\": vInput, //  the element of the <input ...> tag in DOM (Document Object Model)\n          \"onload\": pOptions.onload\n      };\n\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "create_holder",
+                "parameter": [],
+                "return": " ",
+                "comment": "the method creates a hidden holder DIV element for the input-tags of the load file instance. The loader ID of the DIV element is stored in this.aOptions.id4loadfile",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  console.log(\"loadfile4dom.js - Call: create_holder()\");\n      //  alert(\"loadfile4dom.js - Call: create_holder()\");\n      // ----Create Object/Instance of LoadFile4DOM and call create_holder()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.create_holder();\n      // -------------------------------------------------------\n      //  this.aOptions.id4loadfile contains the ID of the DIV tag of the LoadFile holder.\n      //  get the LoadFile holder ID from Options that was defined in the init()-method\n      var vHolderID = \"id4loadfile\";\n      this.aLoadFileHolder.dom =  null;\n      //this.aLoadFileHolder.var4dom = \"onload4inputfile\" + this.getTimeStamp();\n      var doc = this.aDoc;\n      var vBody = doc.getElementsByTagName(\"body\")[0];\n      if (vBody) {\n        console.log(\"CALL: create_holder() document.body exists!\");\n      } else {\n        console.log(\"WARNING: create_holder() document.body does not exist!\");\n      }\n      if (this.aOptions.hasOwnProperty(\"id4loadfile\")) {\n          console.log(\"Options contain a holder ID [\"+this.aOptions.id4loadfile+\"]\");\n          vHolderID = this.aOptions.id4loadfile;\n      } else {\n        // appending a time stamp make the id unique,\n        // so that it is not in conflict with existing ids in the HTML DOM tree\n        vHolderID = \"id4loadfile\" + this.getTimeStamp();\n        console.log(\"Use default holder name of DIV tag [\"+vHolderID+\"]\");\n      }\n      // check if DIV element for holder exists\n      this.aLoadFileHolder.id = vHolderID;\n      this.aLoadFileHolder.dom = doc.getElementById(vHolderID);\n      if (this.aLoadFileHolder.dom) {\n        console.log(\"Load Dialog holder DIV tag with ID=[\"+vHolderID+\"] exists\");\n      } else {\n        var lf_holder = doc.createElement('div');\n        //  create the \"id\" attribute\n        var att = doc.createAttribute(\"id\");\n        //  create a unique ID for the DIV element\n        att.nodeValue = vHolderID;\n        //  append the DIV holder with the id id4loadfile\n        lf_holder.setAttributeNode(att);\n        // add \"var4dom\" variable to DIV tag\n        var attvar4dom = doc.createAttribute(\"var4dom\");\n        attvar4dom.nodeValue = this.aLoadFileHolder.var4dom;\n        lf_holder.setAttributeNode(attvar4dom);\n        //--- Hide Holder ---\n        if (this.aOptions.debug === false) {\n          // Hide Holder \"style=\"display:none\" if aOptions.debug=false\n          var atthide = doc.createAttribute(\"style\");\n          atthide.nodeValue = \"display:none\";\n          lf_holder.setAttributeNode(atthide);\n        } else {\n          console.log(\"DEBUG-MODE: Holder and input-file tags are visible browser\");\n        }\n        // --- Append Holder to body in DOM ---\n        // DOM Node create: <div id=\"id4loadfile872934878924\"></div>\n        //  append the LoadFileHolder at the document.body\n        vBody.appendChild(lf_holder);\n        // store reference to holder node\n        this.aLoadFileHolder.dom = lf_holder;\n        console.log(\"LoadFile holder created as DIV element with ID=[\"+vHolderID+\"]\");\n        //setTimeout(this)\n      }\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "open_dialog",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter provides the ID of the FileLoader input tag in the DOM"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method opens the dialog with id pID in the parameter. this.handle_file(pID) performs the file handling after a user has loaded a selected file.",
+                "code": "\n      // ----Debugging------------------------------------------\n      //  console.log(\"loadfile4dom.js - Call: open_dialog(pID)\");\n      //  alert(\"loadfile4dom.js - Call: open_dialog(pID)\");\n      // ----Create Object/Instance of LoadFile4DOM and call open_dialog()----\n      //     var vLoadFile4DOM = new LoadFile4DOM();\n      //     vLoadFile4DOM.open_dialog(pID);\n      // -------------------------------------------------------\n      //  get DOM id of the upload <input ...> tag with pID in this.aFileHolder\n      var fl = this.aFileLoader;\n      if (fl.hasOwnProperty(pID)) {\n          console.log(\"CLICK: File Loader with iD=[\"+pID+\"] will open the file dialog of browser\");\n          var vLoaderDOM = fl[pID].dom;\n          //  trigger a onclick event in the hidden Upload Button of the browser to open Load Dialog\n          vLoaderDOM.click();\n      } else {\n          console.log(\"WARNING: File Loader with iD=[\"+pID+\"] is not defined\");\n      }\n\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "set_defaults",
+                "parameter": [
+                    {
+                        "name": "options",
+                        "class": "Hash",
+                        "comment": "the parameter provides options that will be expanded with defaults if necessary"
+                    },
+                    {
+                        "name": " defaults",
+                        "class": "Hash",
+                        "comment": "the parameter provides the default values, that are set in 'options' if they are not defined"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method sets options with default values in defaults if the key/value pair in options does not exist.",
+                "code": "\n      var obj = {};\n      defaults = defaults || {};\n      for (var d in defaults) {\n        if (defaults.hasOwnProperty(d)) {\n          obj[d] = defaults[d];\n        }\n      }\n      for (var k in options) {\n        if (options.hasOwnProperty(k)) {\n          obj[k] = options[k];\n        }\n      }\n      return obj;\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "get_options",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter provides ID of the loader, must be unique ID in LoadFile4DOM"
+                    },
+                    {
+                        "name": "pType",
+                        "class": "String",
+                        "comment": "the parameter provides the type of loader e.g. 'text', 'image', 'zip', ... "
+                    },
+                    {
+                        "name": "pOptions",
+                        "class": "Hash",
+                        "comment": "the parameter provides loader options, that can be changed in the webbased application"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "\n      var vUniqueID = pID + this.getTimeStamp(); //  has to be uniqued in the DOM\n      var vType = pType || this.defaults_loader.type;\n      var vOptions = {\n        \"type\": vType,\n        \"id\":vUniqueID,\n        \"name\": pID,\n        \"value\": \"Dialog \"+pID,\n        //\"onload\":\"console.log('open dialog click '\"+pID+\"')\",\n        \"onload\": this.aLoadFileHolder.var4dom + \".open_dialog('\"+pID+\"')\",\n      };\n      // set defaults in options if not set by vOptions\n      this.set_defaults(vOptions,this.defaults_loader);\n      // overwrite specific options by pOptions e.g. multiple = false\n      this.set_defaults(pOptions,vOptions);\n      return vOptions;\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "get_input_attributes",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter provides ..."
+                    }
+                ],
+                "return": "Hash",
+                "comment": "the method return a Hash of input attributes for the loader ID 'pID'",
+                "code": "\n      console.log(\"get_input_attributes('\"+pID+\"')\");\n      var vUniqueID = pID + this.getTimeStamp(); //  has to be uniqued in the DOM\n      // the following hash contains all the input attributes\n      var vAtts = {\n        \"type\": \"file\",\n        \"id\":vUniqueID,\n        \"name\": pID,\n        \"value\": \"Dialog \"+pID,\n        \"onchange\": this.aLoadFileHolder.var4dom + \".handle_file('\"+pID+\"')\",\n        \"multiple\": this.defaults_loader.multiple\n      };\n      return vAtts;\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "handle_file",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": " ",
+                        "comment": "the parameter provides the ID for the loader. This is necessary to access the loaded file in the input-file-tag"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method handles the loaded files in case the user the selected a file.",
+                "code": "\n      //console.log(this.aFileHolder.var4dom + \".handle_file('\" + pID + \"')\");\n      console.log(\"FileHandler executed for Loader ['\" + pID + \"']\");\n    "
+            },
+            {
+                "visibility": "public",
+                "name": "onload",
+                "parameter": [],
+                "return": " ",
+                "comment": "the method assigned the onload method to the onload attribute of the body tag.",
+                "code": "\n\n      var vHolder = this.get_holder();\n      if (vHolder) {\n          console.log(\"DOM Node [\"+this.aOptions.id4loadfile+\"] exists!\");\n      } else {\n          console.log(\"DIV Node [\"+this.aOptions.id4loadfile+\"] as LoadFile4DOM holder will be created!\");\n          this.create_holder();\n      }\n      console.log(\"CALL: LoadFile4DOM.onload() - LoadFileHolder = \" + JSON.stringify(this.aLoadFileHolder,null,4));\n      var var4dom = this.aLoadFileHolder.var4dom;\n      // assign load caller to window.document\n      // after the following command the onchange event handler is able to call this instance of LoadFile4DOM\n      this.aDoc[var4dom] = this;\n      console.log(\"LoadFile4DOM variable in DOM is '\"+var4dom+\"'\");\n\n    "
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            " ",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ],
+        "localclasslist": [],
+        "remoteclasslist": [],
+        "baseclasslist": [
+           {
+                "name": "Array",
+                "initvalue": "[]"
+            },
+            {
+                "name": "Boolean",
+                "initvalue": "true"
+            },
+            {
+                "name": "Float",
+                "initvalue": "0.0"
+            },
+            {
+                "name": "Function",
+                "initvalue": "function my_fun() {}"
+            },
+            {
+                "name": "Document",
+                "initvalue": "document"
+            },
+            {
+                "name": "Integer",
+                "initvalue": "0"
+            },
+            {
+                "name": "String",
+                "initvalue": "\"\""
+            },
+            {
+                "name": "Hash",
+                "initvalue": "{}"
+            },
+            {
+                "name": "Object",
+                "initvalue": "null"
+            },
+            {
+                "name": "RegularExp",
+                "initvalue": "/search/g"
+            }
+        ],
+        "extension4json": ".json"
+    },
+    "classlist": null
+}

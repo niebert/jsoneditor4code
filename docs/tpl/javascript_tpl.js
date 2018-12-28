@@ -43,7 +43,6 @@ vDataJSON["tpl"]["javascript"] = `
 const {{data.superclassname}} = require('{{filename data.superclassname}}');
 {{/ifcond}}
 {{/ifcond}}
-
 //---- USED CLASSES: ----
 // Used classes in parameters of methods, return values of methods and attributes
 {{#requireclass data settings}}
@@ -55,6 +54,27 @@ const {{data.superclassname}} = require('{{filename data.superclassname}}');
 const {{variable}} = require('{{module}}'); // Module: {{module}}
 {{/requirelibs}}
 
+{{/ifcond}}
+//---------------------------------------------------------------------
+// Configuration Code:
+{{{data.reposinfo.configcode}}}
+{{#ifcond data.reposinfo.static "==" "yes"}}
+//---------------------------------------------------------------------
+//---Object: {{data.classname}}
+// The static object {{data.classname}} has attributes and functions.
+//--- Attributes: -------------------------------
+{{#foreach data.attributes data}}
+    // ------------------------------------------
+    // {{visibility}}: {{name}}   Type: {{class}}
+    // {{data.classname}}.{{name}} = {{{init}}};   // Class: {{class}}
+{{/foreach}}
+//--- Functions: -------------------------------
+{{#foreach data.methods data}}
+    // -----------------------------------------
+    // {{visibility}}: {{name}}
+    // {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
+{{/foreach}}
+//----------------------------------------------
 {{/ifcond}}
 {{#ifcond data.reposinfo.static "!=" "yes"}}
 //---------------------------------------------------------------------
@@ -109,10 +129,10 @@ function {{data.classname}} () {
 {{indent comment "    // "}}
 {{/ifcond}}
 {{#ifcond visibility "==" "public"}}
-    this.{{name}} = {{init}};   // Class: {{class}}
+    this.{{name}} = {{{init}}};   // Class: {{class}}
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
-    var {{name}} = {{init}};   // Class: {{class}}
+    var {{name}} = {{{init}}};   // Class: {{class}}
 {{/ifcond}}
 {{/foreach}}
     //---------------------------------------------------------------------
@@ -147,40 +167,46 @@ function {{data.classname}} () {
 
 {{#ifcond visibility "==" "public"}}
     {{data.classname}}.prototype.{{name}} = function ({{#paramcall parameter}}{{/paramcall}}) {
+{{#ifcond data.reposinfo.debugheader "==" "yes"}}
+            //----Debugging------------------------------------------
+            // console.log("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
+            // alert("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
+            //----Create Object/Instance of {{data.classname}} and call {{name}}()----
+            //    var v{{data.classname}} = new {{data.classname}}();
+            //    v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
+            //-------------------------------------------------------
+{{/ifcond}}
+
+
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
     function {{name}}({{#paramcall parameter}}{{/paramcall}}) {
+{{#ifcond data.reposinfo.debugheader "==" "yes"}}
+            //----Debugging------------------------------------------
+            // console.log("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
+            // alert("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
+            //-------------------------------------------------------
 {{/ifcond}}
-      //----Debugging------------------------------------------
-      // console.log("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
-      // alert("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
-      //----Create Object/Instance of {{data.classname}} and call {{name}}()----
-      //    var v{{data.classname}} = new {{data.classname}}();
-      //    v{{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
-      //-------------------------------------------------------
+{{/ifcond}}
 {{indent code "      "}}
     }
     // ---- Method: {{name}}() Class: {{data.classname}} ------
 {{/foreach}}
-}
-//-------------------------------------------------------------------------
-//---END Constructor of Class "{{data.classname}}()"
-//-------------------------------------------------------------------------
 {{/ifcond}}
 {{#ifcond data.reposinfo.static "==" "yes"}}
-{{#ifcond data.superclassname "==" ""}}
-//--------------------------------------
+{{#ifcond data.superclassname "==" " "}}
+//--------------------------------------------
 //---Define Static Class - Export Variable ---
 // A static class '{{data.classname}}' does not need a constructor 'new {{data.classname}}()'
-//--------------------------------------
+//--------------------------------------------
 var {{data.classname}} = {};
 {{/ifcond}}
-{{#ifcond data.superclassname "!=" ""}}
-//--------------------------------------
-//---Extend Static Class----------------
+{{#ifcond data.superclassname "!=" " "}}
+//-------------------------------------------
+//---Extend Static Class---------------------
 // A static class '{{data.classname}}' does not need a constructor 'new {{data.classname}}()'
 // to create an instance of the class.
-// Extend static class: '{{data.classname}}' inherits from static class '{{data.superclassname}}' by:
+// Extend static class: '{{data.classname}}' inherits from static object '{{data.superclassname}}' by:
 var {{data.classname}} = {{data.superclassname}};
 // The following definitions extend/overwrite the existing attributes and methods of '{{data.superclassname}}'
 //--------------------------------------
@@ -196,10 +222,10 @@ var {{data.classname}} = {{data.superclassname}};
 {{indent comment "    // "}}
 {{/ifcond}}
 {{#ifcond visibility "==" "public"}}
-    {{data.classname}}.{{name}} = {{init}};   // Class: {{class}}
+    {{data.classname}}.{{name}} = {{{init}}};   // Class: {{class}}
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
-    var {{name}} = {{init}};   // Class: {{class}}
+    var {{name}} = {{{init}}};   // Class: {{class}}
 {{/ifcond}}
 {{/foreach}}
 //---------------------------------------------------------------------
@@ -219,19 +245,26 @@ var {{data.classname}} = {{data.superclassname}};
 
 {{#ifcond visibility "==" "public"}}
     {{data.classname}}.{{name}} = function ({{#paramcall parameter}}{{/paramcall}}) {
+{{#ifcond data.reposinfo.debugheader "==" "yes"}}
+          //----Debugging------------------------------------------
+          // console.log("{{filename data.classname}}.js - Call: {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}})");
+          //----Call Function {{name}}()----
+          //    {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
+          //-------------------------------------------------------
+{{/ifcond}}
 {{/ifcond}}
 {{#ifcond visibility "==" "private"}}
     function {{name}}({{#paramcall parameter}}{{/paramcall}}) {
+{{#ifcond data.reposinfo.debugheader "==" "yes"}}
+          //----Debugging------------------------------------------
+          // console.log("{{filename data.classname}}.js - Call: {{name}}({{#paramcall parameter}}{{/paramcall}})");
+          //----Call Function {{name}}()----
+          //    {{name}}({{#paramcall parameter}}{{/paramcall}});
+          //-------------------------------------------------------
+{{/ifcond}}
 {{/ifcond}}
 
-{{#ifcond data.reposinfo.debugheader "==" "yes"}}
-      //----Debugging------------------------------------------
-      // console.log("{{filename data.classname}}.js - Call: {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}})");
-      //----Call Function {{name}}()----
-      //    {{data.classname}}.{{name}}({{#paramcall parameter}}{{/paramcall}});
-      //-------------------------------------------------------
-{{/ifcond}}
-      {{indent code indent="      "}}
+{{indent code indent="      "}}
     }
     // ---- Method: {{name}}() Class: {{data.classname}} ------
 {{/foreach}}

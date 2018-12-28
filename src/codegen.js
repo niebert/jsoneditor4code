@@ -8,13 +8,13 @@ function replaceString(pString,pSearch,pReplace)
 // replaces in the string "pString" multiple substrings "pSearch" by "pReplace"
 {
 	//alert("cstring.js - replaceString() "+pString);
+	var vReturnString = '';
 	pString = pString || "undefined string parameter in replaceString() call ";
 	if (!pString) {
 		console.log("replaceString()-Call - pString not defined!");
 	} else if (pString != '') {
 		var vHelpString = '';
     var vN = pString.indexOf(pSearch);
-		var vReturnString = '';
 		while ( vN+1 > 0 ) {
 			if (vN > 0) {
 				vReturnString += pString.substring(0, vN);
@@ -29,7 +29,7 @@ function replaceString(pString,pSearch,pReplace)
 		};
 	};
 	return vReturnString + pString;
-};
+}
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -67,8 +67,8 @@ function replaceJSON(pContent,pJSON) {
       	pContent = replaceString(pContent,"{{"+id+"}}",pJSON[id]);
 			}
     }
-  };
-  return pContent
+  }
+  return pContent;
 }
 
 function replaceFileOutput(pContent,pkg) {
@@ -82,11 +82,11 @@ function save_file(pFilename,pContent, pMessage) {
   fs.writeFile(pFilename, pContent, function(err) {
       if(err) {
           return console.log(err);
-      };
+      }
       console.log(vMessage);
   });
 
-};
+}
 
 
 
@@ -121,7 +121,7 @@ function writeConvertJSON(srcPath, savPath, pJSON) {
       );
     } else {
       console.log("ERROR writeConvertJSON(): generating '"+savPath+"' failed - no content generated\n");
-      throw err
+      throw err;
     }
 	});
 }
@@ -159,7 +159,7 @@ function create_script_tags4libs(pFilename,pLibArray,pkg) {
 	var vPostfix = "'></script>";
 	var vOut = "<!-- HTML code for embedding the source libraries into docs/index_src_libs.html -->";
 	vOut += vPrefix + vLibURL.join(vPostfix+vPrefix) + vPostfix;
-  save_file(pFilename,vOut, "Save '"+pFilename+"' as HTML code for embedding the source libraries")
+  save_file(pFilename,vOut, "Save '"+pFilename+"' as HTML code for embedding the source libraries");
 }
 
 
@@ -168,47 +168,47 @@ function concat_libs(pFilename,pLibArray) {
   concat(pLibArray, pFilename, function(err) {
       if (err) {
         console.log("ERROR: generating '"+pFilename+"'\n"+err);
-        throw err
-      };
+        throw err;
+      }
       console.log("File: '"+pFilename+"' generated for libraries successfully!\n  Libs:\n     "+pLibArray.join("\n     "));
     });
-};
+}
 
 function concat_html(pFilename,pFileArray,pkg) {
     console.log("Create HTML '"+pFilename+"'");
     concat(pFileArray, pFilename, function(err) {
         if (err) {
           console.log("ERROR: generating HTML '"+pFilename+"'\n"+err);
-          throw err
-        };
+          throw err;
+        }
         console.log("File: '"+pFilename+"' generated for HTML parts successfully!\n  HTML files:\n     "+pFileArray.join("\n     "));
     });
 
-};
+}
 
 function concat_css(pFilename,pFileArray,pkg) {
     console.log("Create CSS '"+pFilename+"'");
     concat(pFileArray, pFilename, function(err) {
         if (err) {
           console.log("ERROR: generating CSS '"+pFilename+"'\n"+err);
-          throw err
-        };
+          throw err;
+        }
         console.log("File: '"+pFilename+"' generated from CSS style sheet files successfully!\n  CSS files:\n     "+pFileArray.join("\n     "));
     });
 
-};
+}
 
 function concat_readme(pFilename,pFileArray,pkg) {
     console.log("Create README file '"+pFilename+"'");
     concat(pFileArray, pFilename, function(err) {
         if (err) {
           console.log("ERROR: generating HTML '"+pFilename+"'\n"+err);
-          throw err
-        };
+          throw err;
+        }
         console.log("File: '"+pFilename+"' generated for HTML parts successfully!\n  README files:\n     "+pFileArray.join("\n     "));
     });
 
-};
+}
 
 
 function outTime(pNr) {
@@ -219,7 +219,7 @@ function outTime(pNr) {
 		vOut = "0"+pNr;
 	};
 	return vOut
-};
+}
 
 
 function getDateTime() {
@@ -230,7 +230,7 @@ function getDateTime() {
 	vSep = ":"; // set separator for time
 	vOut += vNow.getHours() + vSep + outTime(vNow.getMinutes()) + vSep + outTime(vNow.getSeconds());
 	return vOut;
-};
+}
 
 function create_header(pkg) {
   var vFileName = "npm_header.js";
@@ -244,7 +244,7 @@ function create_header(pkg) {
 	vHeader += "\n Date:     "+getDateTime();
   if (pkg.hasOwnProperty("inherit")) {
     vHeader += "\n Inheritance: '"+pkg.exportvar+"' inherits from '"+pkg.inherit+"'";
-  };
+  }
   vHeader += "\n Require Module with:";
   vHeader += "\n    const "+pkg.exportvar+" = require('" + pkg.name+ "');";
   vHeader += "\n    var  compileCode = "+pkg.exportvar+".compile(vTemplate);";
@@ -281,7 +281,7 @@ function create_inherit(pkg) {
     vInherit += "\n// see http://phrogz.net/js/classes/OOPinJS2.html for explanation";
     vInherit += "\n//--------------------------------------";
     vInherit += "\n";
-  };
+  }
   save_file("./src/"+vFileName, vInherit,"create Inheritage code file 'src/"+vFileName+"' was saved!");
 }
 
@@ -298,7 +298,7 @@ function create_inherit_static(pkg) {
     vInherit += "\n"+pkg.exportvar+" = "+pkg.inherit+";";
     vInherit += "\n//--------------------------------------";
     vInherit += "\n";
-  };
+  }
   save_file("./src/"+vFileName, vInherit,"create Inheritage code file 'src/"+vFileName+"' was saved!");
 }
 
@@ -314,7 +314,7 @@ function create_inherit_require(pkg) {
     vInherit += "\nlet "+pkg.inherit+" = require('"+(pkg.inherit).toLowerCase()+"');";
     vInherit += "\n//--------------------------------------";
     vInherit += "\n";
-  };
+  }
   save_file("./src/"+vFileName, vInherit,"create Inheritage code file 'src/"+vFileName+"' was saved!");
 }
 
@@ -386,7 +386,7 @@ function create_readme_install(pkg) {
 
 function create_readme_devlibs(pkg) {
   var vFileName = "readme_devlibs.md";
-  var vOut = ""
+  var vOut = "";
   vOut += getLibs4readme(pkg);
   vOut += getDevLibs4readme(pkg);
   save_file("./src/"+vFileName, vOut,"README.md code file 'src/"+vFileName+"' was saved!");
@@ -405,7 +405,7 @@ function create_readme_inherit(pkg) {
     vInherit += "\n```";
     vInherit += "\nNow the library `"+pkg.exportvar+"` has an additional method `mymethod()`.";
     vInherit += "\n";
-  };
+  }
   save_file("./src/"+vFileName, vInherit,"Inheritage README file 'src/"+vFileName+"' was saved!");
 }
 
@@ -424,7 +424,7 @@ function create_readme_inherit_static(pkg) {
     vInherit += "\n```";
     vInherit += "\nFor further details see http://phrogz.net/js/classes/OOPinJS2.html and explanation for inheritance with JavaScript.";
     vInherit += "\n";
-  };
+  }
   save_file("./src/"+vFileName, vInherit,"Inheritage README file 'src/"+vFileName+"' was saved!");
 }
 
@@ -440,7 +440,7 @@ function create_readme_tail(pkg) {
 	vOut += "\n* Date:     "+getDateTime();
   if (pkg.hasOwnProperty("inherit")) {
     vOut += "\n* Inheritance: `"+pkg.exportvar+"` inherits from `"+pkg.inherit+"`";
-  };
+  }
   vOut += "\n* Require Module with:";
   vOut += "\n```javascript";
   vOut += "\n    const v"+pkg.exportvar+" = require('" + pkg.name+ "');";
@@ -456,9 +456,9 @@ function clone_json(pJSON) {
     vJSON = JSON.parse(JSON.stringify(pJSON));
   } else {
     console.log("ERROR: cloneJSON(pJSON) - pJSON undefined!");
-  };
+  }
   return vJSON;
-};
+}
 
 module.exports = {
 	"capitalizeFirstLetter":capitalizeFirstLetter,

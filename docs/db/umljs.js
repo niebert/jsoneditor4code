@@ -1,195 +1,220 @@
-vDataJSON["umljs"]= {
-  "data": {
-    "classname": "JSONEditor4Code",
-    "superclassname": "",
-    "comment": "The class provides an constructor for a JSON Editor for Code Generation. The work is based on Jeremy Dorns great JSON editor. This class adds the HandleBars template engine for generation of source based on a UML class definition. ",
-    "reposinfo": {
-      "repository": "https://www.github.com/author/NewClass",
-      "require_classes": "yes",
-      "static": "no",
-      "author": "My Name",
-      "email": "name@example.com",
-      "created": "23.04.2018",
-      "modified": "01.05.2018",
-      "requirelist": [
-        {
-          "module":"handlebars",
-          "variable":"Handlebars"
+vDataJSON["umljs"] = {
+    "data": {
+        "classname": "LoadFile4DOM",
+        "superclassname": " ",
+        "comment": "Creates hidden file tag in the DOM to emulated loading interactively files from the local file system of you computer or mobile device into the browser for further processing\n",
+        "reposinfo": {
+            "JSCC_type": "CLASS",
+            "JSCC_version": "2",
+            "repository": "https://www.gitlab.com/niehausbert/loadfile4dom",
+            "static": "no",
+            "require_classes": "yes",
+            "author": "Bert Niehaus",
+            "email": "niebert GitHub",
+            "created": "2018/12/12 14:49:10",
+            "modified": "2018/12/12 14:49:10",
+            "requirelist": []
         },
-        {
-          "module":"filesaver",
-          "variable":"FileSaver"
-        },
-        {
-          "module":"jquery",
-          "variable":"$"
-        }
-      ]
-    },
-    "attributes": [
-      {
-        "visibility": "public",
-        "name": "aEditor",
-        "init": "new JSONEditor()",
-        "class": "JSONEditor",
-        "comment": "Contains the JSON Editor for handling the UML model for the class"
-      },
-      {
-        "visibility": "public",
-        "name": "aJSON",
-        "init": "null",
-        "class": "Hash",
-        "comment": "contains the data submitted to the JSON Editor (via URL parameter/query string - which includes the list of classes that can be used in this class definition"
-      },
-      {
-        "visibility": "public",
-        "name": "aSchema",
-        "init": "null",
-        "class": "Hash",
-        "comment": "This attribute contains the JSON Schema for the JSON Editor"
-      },
-      {
-        "visibility": "public",
-        "name": "aOptions",
-        "init": "{}",
-        "class": "Hash",
-        "comment": "This attribute stores the options of the editor, e.g. the DOM id in which ethe editor will be injected in the DOM, the filename id, validator result, ...."
-      }
-    ],
-    "methods": [
-      {
-        "visibility": "public",
-        "name": "init",
-        "parameter": [
-          {
-            "name": "pJSON",
-            "class": "Hash",
-            "comment": "the parameter stores JSON definition for the class"
-          },
-          {
-            "name": "pOptions",
-            "class": "Hash",
-            "comment": "the parameter stores the options for the JSON editor (developed by Jeremy Dorn)"
-          },
-          {
-            "name": "pSchema",
-            "class": "Hash",
-            "comment": "the parameter contains the JSON Schema for JSON Editor"
-          },
-          {
-            "name": "pEditorID",
-            "class": "String",
-            "comment": "the parameter provide DOM ID in which the JSON editor will be injected."
-          },
-          {
-            "name": "pFilenameID",
-            "class": "String",
-            "comment": "the parameter provide the ID of a DOM element in which the JSON Editor will write the file name of the loaded UML Class. "
-          }
+        "attributes": [
+            {
+                "visibility": "public",
+                "name": "aDoc",
+                "init": "null",
+                "class": "Document",
+                "comment": "This attribute stores a reference to the document object of the browser. Reference provided with the init-method"
+            },
+            {
+                "visibility": "public",
+                "name": "aOptions",
+                "init": "null",
+                "class": "Hash",
+                "comment": "This hash stores the options of the init method - e.g. \"id4loadfile\" as DIV container for the input elements in the DOM that holds all created file loaders i.e. holding the input-file-tags for load a JSON file"
+            },
+            {
+                "visibility": "public",
+                "name": "aFileLoader",
+                "init": "{}",
+                "class": "Hash",
+                "comment": "This attribute stores the number of file loaders created with instance"
+            },
+            {
+                "visibility": "public",
+                "name": "aLoadFileHolder",
+                "init": "null",
+                "class": "Object",
+                "comment": "This attribute stores the reference to the DIV node of the file holder node in the DOM that is created by this.create_holder()"
+            }
         ],
-        "return": "",
-        "comment": "the method initializes the JSON editor with the defined schema, updates the class selector in the schema with the classlist in JSON data. ",
-        "code": "this.aJSON = pJSON;\nthis.aSchema = pSchema;\nthis.aOptions = pOptions || {};\nif (this.aOptions.hasOwnProperty(\"editor_id\")) {\n    console.log(\"Editor ID defined - [\"+this.aOptions.editor_id+\"]\")\n} else {\n    this.aOptions[\"editor_id\"] = \"editor_holder\";\n};\nif (this.aOptions.hasOwnProperty(\"validator_id\")) {\n    console.log(\"Validator ID defined - [\"+this.aOptions.validator_id+\"]\")\n} else {\n    this.aOptions[\"validator_id\"] = \"editor_holder\";\n};\nif (this.aOptions.hasOwnProperty(\"filename_id\")) {\n    console.log(\"Filename ID defined - [\"+this.aOptions.filename_id+\"]\")\n} else {\n    this.aOptions[\"filename_id\"] = \"load_filename\";\n};\nthis.update_schema();\nthis.create_editor();\n"
-      },
-      {
-        "visibility": "public",
-        "name": "update_schema",
-        "parameter": [],
-        "return": "Boolean",
-        "comment": "User has update the list of classes and then the selector for classes in the editor must be updated. \nThis requires an update of the JSON editor and therefore a restart of the editor.",
-        "code": "var vFilename = class2filename(this.aJSON.data.classname,\".json\");\n$('#'+this.aOptions.filename_id).html(vFilename);\nvar s = this.aJSON.settings;\nvar vRequired_Classes = concat_array(s.remoteclasslist,s.localclasslist);\n//console.log(\"vRequired_Classes: \"+vRequired_Classes.join(\",\"));\ns.classlist = concat_array(s.baseclasslist,vRequired_Classes);\n//console.log(\"vRequired_Classes: ('\"+s.classlist.join(\"','\")+\"')\");\ns.classlist.sort();\n// update the class selector in the schema with classes submitted to the editor by pJSON.\nthis.aSchema.definitions.selectorclass.enum = s.classlist;\n"
-      },
-      {
-        "visibility": "public",
-        "name": "create_editor",
-        "parameter": [],
-        "return": "",
-        "comment": "the method performs ...",
-        "code": "if (this.aEditor) {\n    // free some resources if the editor already exists\n    this.aEditor.destroy();\n};\nconsole.log(\"Start Editor with JSON:\\n\"+JSON.stringify(this.aJSON,null,3));\nvar vEditorNode = document.getElementById(this.aEditorID); \nthis.aEditor = new JSONEditor(vEditorDOM,{\n        // Enable fetching schemas via ajax\n        ajax: true,\n\n        // The schema for the editor\n        schema: this.aSchema,\n\n        // Seed the form with a starting value\n        startval: this.aJSON,\n        // Disable additional properties\n        no_additional_properties: true,\n\n        // Require all properties by default\n        required_by_default: true\n      });\nthis.set_event_handler();"
-      },
-      {
-        "visibility": "public",
-        "name": "set_event_handler",
-        "parameter": [],
-        "return": "",
-        "comment": "the method sets the event handler for the onchange events and watch certain activities in the editor",
-        "code": "// Hook up the validation indicator to update its\n// status whenever the editor changes\nvar vThis = this;\nthis.aEditor.on('change',function() {\n    vThis.validate_errors();\n    //update_editor();\n});"
-      }
-    ]
-  },
-  "settings": {
-    "extension4code":".js",
-    "extension4json":"_uml.json",
-    "localclasslist": [
-      {
-        "name":"LinkParam",
-        "initvalue":"new LinkParam()",
-        "repo":"linkparam"
-      },
-      {
-        "name":"AppLSAC",
-        "initvalue":"new AppLSAC(document)",
-        "repo":"applsac"
-      },
-      {
-        "name":"AppAbstract",
-        "initvalue":"new AppAbstract(document)",
-        "repo":"appabstract"
-      }
-    ],
-    "remoteclasslist": [
-      {
-        "name":"Handlebars",
-        "initvalue":"new HandleBars()",
-        "repo":"handlebars"
-      },
-      {
-        "name":"JSONEditor",
-        "initvalue":"new JSONEditor()",
-        "repo":"jsoneditor"
-      }
-    ],
-    "baseclasslist": [
-        {
-          "name": "Array",
-          "initvalue": "[]"
-        },
-        {
-            "name": "Boolean",
-            "initvalue": "true"
-        },
-        {
-            "name": "Float",
-            "initvalue": "0.0"
-        },
-        {
-            "name": "Function",
-            "initvalue": "function my_fun() {}"
-        },
-        {
-            "name": "Document",
-            "initvalue": "document"
-        },
-        {
-            "name": "Integer",
-            "initvalue": "0"
-        },
-        {
-            "name": "String",
-            "initvalue": "\"\""
-        },
-        {
-            "name": "Hash",
-            "initvalue": "{}"
-        },
-        {
-            "name": "Object",
-            "initvalue": "null"
-        },
-        {
-            "name": "RegularExp",
-            "initvalue": "/search/g"
-        }
-    ]
-  }
+        "methods": [
+            {
+                "visibility": "public",
+                "name": "init",
+                "parameter": [
+                    {
+                        "name": "pDoc",
+                        "class": "Document",
+                        "comment": "the parameter contains a reference to the document object of the browser"
+                    },
+                    {
+                        "name": "pOptions",
+                        "class": "Hash",
+                        "comment": "the parameter stores options"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs the initialization of the instance of LoadFile4DOM. pOptions contains the ID for the LoadFile4DOM holder, it is in general a DIV element with the HTML-input-tags for uploading a files.",
+                "code": "//  save the reference \"document\" object\nthis.aDoc = pDoc;\n//  store options provided as parameter in the init-method\nthis.aOptions = pOptions || {};\nvar vLoadFileHolder = this.get_holder();\nif (vLoadFileHolder) {\n    console.log(\"DOM Node [\"+this.aOptions.id4loadfile+\"] exists!\");\n} else {\n    console.log(\"DIV Node [\"+this.aOptions.id4loadfile+\"] as LoadFile4DOM holder will be created!\");\n    this.create_holder();\n};"
+            },
+            {
+                "visibility": "public",
+                "name": "getTimeStamp",
+                "parameter": [],
+                "return": "Integer",
+                "comment": "the method performs ...",
+                "code": "// create a time stamp with a number\nvar now = new Date();\nvar timestamp = \"file\"+(this.aFileNode.length) +\"t\"+now.getTime();\n// return the integer as time in milli seconds since January 1st, 1970 0:00am\nreturn timestamp;"
+            },
+            {
+                "visibility": "public",
+                "name": "create",
+                "parameter": [
+                    {
+                        "name": "pLoaderID",
+                        "class": "String",
+                        "comment": "the parameter provides the LoaderID "
+                    },
+                    {
+                        "name": "pFileHandler",
+                        "class": "Function",
+                        "comment": "the parameter contains a function that handles the file content and if not successful the error."
+                    }
+                ],
+                "return": " ",
+                "comment": "the method creates a DOM node for the file in the `window.document` of the browser and  adds an object in `this.aFileLoader` the each constructed file loader with the appropriate ID.",
+                "code": "// create a hidden DOM node and append the DOM node to this.aLoadFileHolder\nif (this.aLoadFileHolder) {\n    var fileloader = this.create_node4DOM(pLoaderID);\n    if (this.aLoadFileHolder) {\n        this.aLoadFileHolder.appendChild(fileloader);\n    } else {\n        console.log(\"ERROR: LoadFile4DOM.create() the aLoadFileHolder is not defined!\")\n    }\n}"
+            },
+            {
+                "visibility": "public",
+                "name": "create_file_node",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter contains the DOM node"
+                    }
+                ],
+                "return": "Object",
+                "comment": "the method performs ...",
+                "code": "// create a node <input type=\"file\" id=\"myloaderid\" name=\"myloader\" value=\"Dialog myloaderid\" onchange=\"vJSONEditor.loadJSON(this.id)\"/>\nvar doc = this.aDoc\nvar vInput = doc.createElement(\"input\");\nvar vAtt = {};\nvar vUniqueID = pID+this.getTimeStamp(); // has to be uniqued in the DOM\nvar att = {\n    \"type\":\"file\",\n    \"id\":vUniqueID,  \n    \"name\": pID,\n    \"value\": \"Dialog \"+pID,\n    \"onchange\":\"console.log('open dialog click '+this.id+')\"\n};\nfor (var key in att) {\n\tif (att.hasOwnProperty(key)) {\n        var vAtt = doc.createAttribute(key);\n        vAtt.nodeValue = att[key];\n\t\tvInput.setAttributeNode(vAtt)\n\t}\n};\nthis.aRootDiv.dom.appendChild(vInput); \nthis.aFileLoader[pID] = {\n    \"id\": vUniqueID, // e.g. \"loadjson9234090294\"\n    \"dom\": vInput // the element of the <input ...> tag in DOM (Document Object Model)\n};\nthis.aFileHolder.dom.appendChild(vInput);\n// return the create input tag - it is necessary to set the event handle \nreturn vInput\n  "
+            },
+            {
+                "visibility": "public",
+                "name": "create_holder",
+                "parameter": [],
+                "return": " ",
+                "comment": "the method creates a hidden holder DIV element for the input-tags of the load file instance. The loader ID of the DIV element is stored in this.aOptions.id4loadfile",
+                "code": "// this.aOptions.id4loadfile contains the ID of the DIV tag of the LoadFile holder.\n// get the LoadFile holder ID from Options that was defined in the init()-method\nvar vHolderID = \"id4loadfile\";\nif (this.aOptions.hasOwnProperty(\"id4loadfile\")) {\n    console.log(\"Create DOM.Node for id4loadfile=[\"+this.aOptions.id4loadfile+\"]\")\n};\nvar doc = this.aDoc;\nvar lf4d = doc.createElement('div');\n// create the \"id\" attribute\nvar att = doc.createAttribute(\"id\");\n// create a unique ID for the DIV element\nvar vUniqueID = vHolderID + this.getTimeStamp();\natt.nodeValue = vUniqueID;\n// append the DIV holder with the id id4loadfile\nlf4d.setAttributeNode(att);\n//DOM Node create: <div id=\"id4loadfile872934878924\"></div>  \n// append the LoadFileHolder at the document.body \ndoc.body.appendChild(lf4d);\n// store the unique ID and the DOM node in the attribute this.aLoadFileHolder\nthis.aLoadFileHolder = {\n    \"id\":vUniqueID,\n    \"dom\":lf4d\n};\nconsole.log(\"LoadFile holder created as DIV element with ID=[\"+vUniqueID+\"]\")"
+            },
+            {
+                "visibility": "public",
+                "name": "get_holder",
+                "parameter": [],
+                "return": "Object",
+                "comment": "the method returns the LoadFile4DOM holder as DOM node. The id of the LoadFile4DOM holder is stored in this.aOptions.id4loadfile. The holder is an existing DIV node in the DOM (Document Object Model) or it will be created by the create_holder",
+                "code": "  var vLoadFileHolder = null;\n  if (this.aOptions.hasOwnProperty(\"id4loadfile\")) {\n      console.log(\"CALL: get_holder(): id4loadfile=[\"+this.aOptions.id4loadfile+\"]\")\n  } else {\n      this.aOptions.id4loadfile = \"randomid4fileloader\"\n      console.log(\"CALL: get_holder():id4loadfile=[\"+this.aOptions.id4loadfile+\"] was generated\")\n  };\n  //  check if a div-node in the DOM exists with the ID\n  var vID = this.aOptions.id4loadfile;\n  //  vLoadFileHolder refers to hidden DIV-node that is used for adding the LoadFile instances.\n  var vLoadFileHolder = this.aDoc.getElementById(vID);\n  if (vLoadFileHolder) {\n      console.log(\"CALL: get_holder() DOM Node [\"+this.aOptions.id4loadfile+\"] exists!\");\n      this.aLoadFileHolder = vLoadFileHolder\n  } else {\n      console.log(\"CALL: get_holder(): DIV Node [\"+this.aOptions.id4loadfile+\"] as LoadFile4DOM holder does not exist!\");\n  };\n\n  return vLoadFileHolder"
+            },
+            {
+                "visibility": "public",
+                "name": "open_dialog",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter provides the ID of the FileLoader input tag in the DOM"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "// get DOM id of the upload <input ...> tag with pID in this.aFileHolder\nvar fl = this.aFileLoader;\nif (fl.hasOwnProperty(pID)) {\n    console.log(\"CLICK: File Loader with iD=[\"+pID+\"] will open the file dialog of browser\")\n    var vLoaderDOM = fl[pID].dom;\n    // trigger a onclick event in the hidden Upload Button of the browser to open Load Dialog\n    vLoaderDOM.click();\n} else {\n    console.log(\"WARNING: File Loader with iD=[\"+pID+\"] is not defined\")\n}\n"
+            },
+            {
+                "visibility": "public",
+                "name": "handle_text_file",
+                "parameter": [
+                    {
+                        "name": "pID",
+                        "class": "String",
+                        "comment": "the parameter stores stores the DOM id of the Loader that contains a text file"
+                    },
+                    {
+                        "name": "pCallBack",
+                        "class": "Function",
+                        "comment": "the parameter stores a reference to a callback function"
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "// insert your code here"
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "classlist": [
+            " ",
+            "Array",
+            "Boolean",
+            "Document",
+            "Float",
+            "Function",
+            "Hash",
+            "Integer",
+            "Object",
+            "RegularExp",
+            "String"
+        ],
+        "localclasslist": [],
+        "remoteclasslist": [],
+        "baseclasslist":  [
+            {
+              "name": "Array",
+              "initvalue": "[]"
+            },
+            {
+                "name": "Boolean",
+                "initvalue": "true"
+            },
+            {
+                "name": "Float",
+                "initvalue": "0.0"
+            },
+            {
+                "name": "Function",
+                "initvalue": "function my_fun() {}"
+            },
+            {
+                "name": "Document",
+                "initvalue": "document"
+            },
+            {
+                "name": "Integer",
+                "initvalue": "0"
+            },
+            {
+                "name": "String",
+                "initvalue": "\"\""
+            },
+            {
+                "name": "Hash",
+                "initvalue": "{}"
+            },
+            {
+                "name": "Object",
+                "initvalue": "null"
+            },
+            {
+                "name": "RegularExp",
+                "initvalue": "/search/g"
+            }
+        ]
+    }
 };

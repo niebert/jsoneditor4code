@@ -11,6 +11,7 @@ vDataJSON["uml_default"]={
           "email": "",
           "created": getDateTime(),
           "modified": getDateTime(),
+          "debugheader": "no",
           "requirelist": []
       },
       "attributes": [],

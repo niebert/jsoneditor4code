@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  1.0.1  Date: 2018/12/25 8:36:19
+ Version:  1.0.7  Date: 2018/12/28 9:19:59
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2018/12/25 8:36:19
+ Date:     2018/12/28 9:19:59
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
     var  compileCode = JSONEditor4Code.compile(vTemplate);
@@ -16103,10 +16103,10 @@ function value_in_array( pValue, pArray ) {
       if (pValue == pArray[i]) {
         ret = i;
       }
-    };
+    }
   } else {
     console.log("value_in_array()-Call pArray undefined");
-  };
+  }
   return ret;
 }
 
@@ -16208,10 +16208,10 @@ Handlebars.registerHelper('eachparam', function(context, pClassname,options) {
   for (var varID in options.hash) {
     if (options.hash.hasOwnProperty(varID)) {
       console.log("eachparam options.hash['"+varID+"']='"+options.hash[varID]+"'");
-      vText = vText.replace(new RegExp('{{' + varID + '}}', 'g'), options.hash[varID])
+      vText = vText.replace(new RegExp('{{' + varID + '}}', 'g'), options.hash[varID]);
     }
-  };
-  return vText
+  }
+  return vText;
 });
 
 Handlebars.registerHelper('foreach', function(pArray, pData, options) {
@@ -16226,8 +16226,8 @@ Handlebars.registerHelper('foreach', function(pArray, pData, options) {
     item = clone_json(pArray[i]);
     item.data = pData;
     ret += options.fn(item);
-  };
-  return ret
+  }
+  return ret;
 });
 
 
@@ -16263,7 +16263,7 @@ Handlebars.registerHelper('indent', function(pText, pIndent) {
   //vIndent = "\n" + vIndent;
   if (vText && (vText != "")) {
     vText = vText.replace(/\n/g,"\n"+vIndent);
-  };
+  }
   return new Handlebars.SafeString(vIndent+vText);
 });
 
@@ -16275,22 +16275,22 @@ Handlebars.registerHelper('codeindent', function(pContext, options) {
   var vCR = "";
   if (options) {
     if (options.hash.hasOwnProperty("indent")) {
-      vIndent = options.hash["indent"];
+      vIndent = options.hash.indent;
       //console.log("Indent for Code Coments in HandleBars: '"+vIndent+"'");
-    };
+    }
     vText = options.fn(pContext);
     //console.log("pContext: "+pContext);
   } else {
     console.log("options in helper 'commentindent' undefined");
-  };
+  }
   if (pContext) {
     //console.log("Type: "+typeof(pContext)+" '"+pContext+"'");
     vText = pContext;
-  };
+  }
   //vIndent = "\n" + vIndent;
   if (vText != "") {
     vText = vText.replace(/\n/g,"\n"+vIndent+"  ");
-  };
+  }
   return vIndent+"  "+vText+"\n";
 });
 
@@ -16316,19 +16316,19 @@ Handlebars.registerHelper('requirelibs', function(pArray, options) {
     var vFile = pFile || "undef_require_lib";
     if (vFile.indexOf("/")>=0) {
       vFile = vFile.slice(vFile.lastIndexOf("/")+1);
-    };
+    }
     vFile = vFile.replace(/[^A-Za-z0-9]/g,"_"); // remove illegial characters in variable name
     return vFile.charAt(0).toUpperCase() + vFile.slice(1);
-  };
+  }
 
   for (var i = 0; i < pArray.length; i++) {
     vFile = pArray[i];
     //ret += options.fn({"variable":filename2var(vFile),"module":vFile})
-    ret += options.fn(pArray[i])
-  };
+    ret += options.fn(pArray[i]);
+  }
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
-  return ret
+  return ret;
 });
 
 Handlebars.registerHelper('requireclass', function(pData,pSettings, options) {
@@ -16358,37 +16358,37 @@ Handlebars.registerHelper('requireclass', function(pData,pSettings, options) {
         } else {
           vRequire[pLib] = name2filename(pLib);
           console.log("("+pCheckTitle+") Library '"+pLib+"' is a Remote Class - require('"+vRequire[pLib]+"')");
-        };
-      };
-    };
-  }; //END: addlib_check()
+        }
+      }
+    }
+  } //END: addlib_check()
 
   console.log("Call Helper: requireclasslist - superclass='"+pData.superclassname+"' require_path='"+vRequirePath+"'");
   for (var i=0; i<pData.attributes.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for attributes
     addlib_check("Attribute",pData.attributes[i].class);
-  };
-  for (var i=0; i<pData.methods.length; i++) {
+  }
+  for (i=0; i<pData.methods.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for returned instances of those classes
     addlib_check("Method "+pData.methods[i].name+"() Return",pData.methods[i].return);
     vPars = pData.methods[i].parameter;
     for (var k=0; k<vPars.length; k++) {
       addlib_check("Parameter "+pData.methods[i].name+"()",vPars[k].class);
-    };
-  };
+    }
+  }
   // vRequire is a Hash therefore double usage of classes
   // in attributes and returns of methods lead just to one
   // require call in the list
   var vSep = "";
   for (var iLib in vRequire) {
     if (vRequire.hasOwnProperty(iLib)) {
-      ret += options.fn({"variable":iLib,"module":vRequire[iLib]})
+      ret += options.fn({"variable":iLib,"module":vRequire[iLib]});
       //ret += vSep + "const " + iLib + " = require('" + vRequire[iLib]+"');";
       vSep = "\n";
     }
-  };
+  }
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
   return ret;
@@ -16422,7 +16422,7 @@ function paramCallString(pParamArray) {
   for(var i=0, j=pParamArray.length; i<j; i++) {
     ret += vComma +  pParamArray[i].name;
     vComma = ",";
-  };
+  }
 
   return new Handlebars.SafeString(ret);
 }
@@ -16439,7 +16439,7 @@ function paramTypeString(pParamArray) {
     for(var i=0, j=pParamArray.length; i<j; i++) {
       ret += vComma +  pParamArray[i].name+":"+pParamArray[i].class;
       vComma = ",";
-    };
+    }
   } else {
     console.log("No pParamArray in 'paramcall' helper.");
   }
@@ -16465,38 +16465,17 @@ function attribs4UMLString(pArray) {
       break;
       default:
         vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+":"+pArray[i].class;
-    vSep = "<br>";
-  };
+    }
+    ret += vSep + " " + vVis + " `" + pArray[i].name;
+    if (pArray[i].class != " ") {
+      ret += + ":"+pArray[i].class;
+    }
+    vSep = "`<br>";
+  }
   return new Handlebars.SafeString(ret);
 }
 
 Handlebars.registerHelper('requireattribs', attribs4UMLString);
-
-// -----------
-
-function attribs4UMLString(pArray) {
-  // pArray contains the array of Attributes
-  var ret = "";
-  var vSep = "";
-  var vVis = "-";
-  for(var i=0, j=pArray.length; i<j; i++) {
-    switch (pArray[i].visibility) {
-      case "public":
-        vVis = "+";
-      break;
-      case "private":
-        vVis = "-";
-      break;
-      default:
-        vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+":"+pArray[i].class;
-    vSep = "<br>";
-  };
-  return ret;
-}
 
 Handlebars.registerHelper('attribs_uml', attribs4UMLString);
 
@@ -16517,15 +16496,15 @@ function methods4UMLString(pArray) {
       break;
       default:
         vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+"(";
+    }
+    ret += vSep + " " + vVis + " `" + pArray[i].name+"(";
     ret += paramTypeString(pArray[i].parameter);
     ret += ")";
-    if (pArray[i].return != "") {
-      ret += ":"+pArray[i].return
-    };
-    vSep = "<br>";
-  };
+    if (pArray[i].return != " ") {
+      ret += ":"+pArray[i].return;
+    }
+    vSep = "`<br>";
+  }
   return new Handlebars.SafeString(ret);
 }
 
@@ -16537,7 +16516,7 @@ function parameterListString(pParamArray,pIndent) {
   var ret = "";
   var vNewLine = "";
   var vComment = "";
-  var vExtraIndent = "  "
+  var vExtraIndent = "  ";
   for(var i=0, j=pParamArray.length; i<j; i++) {
     ret += vNewLine +  pParamArray[i].name + ":"+pParamArray[i].class;
     vNewLine = "\n"+pIndent;
@@ -16546,8 +16525,8 @@ function parameterListString(pParamArray,pIndent) {
       vComment = vComment.replace(/\n/g,vNewLine+vExtraIndent);
       // Split comment at "\n" and inject the vNewLine indent with additional spaces for the comment
       ret += vNewLine + vExtraIndent + vComment;
-    };
-  };
+    }
+  }
   return new Handlebars.SafeString(ret);
 }
 
@@ -17322,7 +17301,7 @@ function JSONEditor4Code () {
   this.initJSON = function () {
     console.log("Init JSON in JSON Editor");
     this.aEditor.setValue(this.aDefaultJSON);
-  }
+  };
 
   this.loadLinkParam = function (pLSID) {
     var vDataID = pLSID || "jsondata";
@@ -17343,15 +17322,15 @@ function JSONEditor4Code () {
        } catch (e) {
          console.log("ERROR (JSON in LinkParam['"+vDataID+"']: "+e);
          vJSON = null;
-       };
+       }
        if (vJSON) {
          console.log("LinkParam['"+vDataID+"']: JSON set to this.aJSON:\n"+JSON.stringify(vJSON.settings,null,4));
-       };
+       }
      } else {
        console.log("LinkParam['"+vDataID+"'] does not contain data.");
-    };
-    return vJSON
-  }
+    }
+    return vJSON;
+  };
 
   this.submit2callback = function(pLink) {
     var vJSONstring = JSON.stringify(this.getValue());
@@ -17363,7 +17342,7 @@ function JSONEditor4Code () {
       if (this.aLinkParam.exists("callback")) {
         vLink = this.aLinkParam.getValue("callback");
         console.log("Callback defined in LinkParam:\n  "+vLink);
-      };
+      }
     }
     this.aLinkParam.setValue("jsondata",vJSONstring);
     this.aLinkParam.deleteValue("callback");
@@ -17399,11 +17378,11 @@ function JSONEditor4Code () {
       if (this.aEditor) {
         e = this.aEditor.getEditor(pEditorID);
         if (e) {
-          vEditor = e
+          vEditor = e;
         } else {
           console.log("ERROR: JSONEditor4Code.getEditor('"+pEditor+"') - Editor not found!");
         }
-      };
+      }
       // return the editor with the ID pEditorID
       return vEditor;
   };
@@ -17422,34 +17401,35 @@ function JSONEditor4Code () {
       } else {
           // use always one blank for "no class" otherwise value is regarded as undefined.
           var watchclasses = [" "]; //
+          var i = 0;
           console.log("Call: init_definitions() ");
           // BASIC CLASSES: push all basic classes
           var basecl = vJSON.settings.baseclasslist;
           if (basecl) {
-            for (var i = 0; i <  basecl.length; i++) {
-              watchclasses.push(basecl[i].name)
+            for (i = 0; i <  basecl.length; i++) {
+              watchclasses.push(basecl[i].name);
             }
-          };
+          }
           // LOCAL CLASSES: push all local classes
           var localcl= vJSON.settings.localclasslist;
           console.log("Call: init_definitions() - LocalClassList: "+JSON.stringify(localcl,null,4));
           if (localcl) {
-            for (var i = 0; i < localcl.length; i++) {
-              watchclasses.push(localcl[i].name)
+            for (i = 0; i < localcl.length; i++) {
+              watchclasses.push(localcl[i].name);
             }
-          };
+          }
           // REMOTE CLASSES: push all remote classes
           var remotecl = vJSON.settings.remoteclasslist;
           console.log("Call: init_definitions() - RemoteClassList: "+JSON.stringify(remotecl,null,4));
           if (remotecl) {
-            for (var i = 0; i < remotecl.length; i++) {
-              watchclasses.push(remotecl[i].name)
+            for (i = 0; i < remotecl.length; i++) {
+              watchclasses.push(remotecl[i].name);
             }
-          };
+          }
           watchclasses.sort();
           console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
           this.aSchema.definitions.selectorclass.enum = watchclasses;
-      };
+      }
       //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
       //DO NOT: return pSchema
   };
@@ -17473,8 +17453,16 @@ function JSONEditor4Code () {
     } else {
       // (3) pJSON as initialized with default data
       console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
-      vJSON = pDefaultJSON;
-    };
+      if (pDefaultJSON) {
+        vJSON = pDefaultJSON;
+        console.log("pDefautJSON defined in JSONEditor4Code.init()");
+      } else {}
+        console.error("WARNING: pDefautJSON undefined - use an empty JSON");
+        vJSON = {
+          data: {},
+          settings: {}
+        };
+    }
     this.aJSON = vJSON;
     console.log("HTML-INIT init_definitions(pJSON,pSchema)): "+JSON.stringify(vJSON,null,4));
     this.aDefaultJSON = pDefaultJSON;
@@ -17490,9 +17478,9 @@ function JSONEditor4Code () {
     // Extend aOptions with settings in pOption
     for (var iKey in pOptions) {
       if (pOptions.hasOwnProperty(iKey)) {
-        this.aOptions[iKey] = pOptions[iKey]
+        this.aOptions[iKey] = pOptions[iKey];
       }
-    };
+    }
     // COMPILE the templates with Handlebars
     //this.aSchema = vSchema;
     this.create_compiler4tpl();
@@ -17514,8 +17502,8 @@ function JSONEditor4Code () {
         //vTemplate = preProcessHandlebars(vTemplate,this.aJSON);
         this.compileCode[tplID] = Handlebars.compile(vTemplate);
       }
-    };
-  }
+    }
+  };
 
   this.create_editor = function () {
     // If an old editor exists - destroy the Editor to free resources
@@ -17528,7 +17516,7 @@ function JSONEditor4Code () {
         // free some resources if the editor already exists
         this.aEditor.destroy();
         console.log("Destroy JSONEditor in JSONEditor4Code");
-    };
+    }
 
     console.log("CALL: create_editor() - create a new JSONEditor() in JSONEditor4Code");
     // update schema
@@ -17553,6 +17541,7 @@ function JSONEditor4Code () {
     this.init_buttons();
     this.init_watch();
     this.update_filename();
+    this.update_modified();
     this.saveLS("jsondata");
   };
 
@@ -17565,13 +17554,13 @@ function JSONEditor4Code () {
     			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
     		} else {
     			console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
-        };
+        }
       	console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
         this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
     } else {
-        console.log("initialize JSON-DB cancelled")
-    };
-  }
+        console.log("initialize JSON-DB cancelled");
+    }
+  };
 
   this.delete_ask = function () {
     var vOK = confirm("Do you want to delete all data?");
@@ -17582,7 +17571,7 @@ function JSONEditor4Code () {
           console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
         } else {
           console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
-        };
+        }
         var vEmptyJSON = {
             "data":{
               "classname":"MyClass"
@@ -17594,9 +17583,9 @@ function JSONEditor4Code () {
         console.log("JSON-DB deleted'!");
         //save changes to Local Storage
     } else {
-        console.log("initialize JSON-DB cancelled")
-    };
-  }
+        console.log("initialize JSON-DB cancelled");
+    }
+  };
 
   this.showEditor = function (pEditorID,pBoolean) {
     var self = this.getEditor(pEditorID);
@@ -17614,7 +17603,7 @@ function JSONEditor4Code () {
     } else {
       console.log("ERROR: showEditor('"+pEditor+"',pBoolean) Editor for ['"+pEditorID+"'] not found");
     }
-  }
+  };
 
   this.toggleSettings = function (pSettingsID,pDataID) {
     // if(editor.getEditor('root.location').isEnabled()) alert("It's editable!");
@@ -17622,6 +17611,7 @@ function JSONEditor4Code () {
     //if (this.options.collapsed) {
     //  $trigger(this.toggle_button,'click');
     //}
+    this.update_modified();
     if (this.aSettingsBOOL == false) {
       alert("JSON-Editor: Show Settings");
       this.showEditor(pSettingsID,true);
@@ -17736,6 +17726,8 @@ function JSONEditor4Code () {
         //vThis.saveLS("jsondata");
         vThis.update_filename();
         //update_editor();
+        vThis.update_modified();
+        // update_modified date
       });
     }
   };
@@ -17775,7 +17767,7 @@ function JSONEditor4Code () {
       vJSON = this.aEditor.getValue();
     } else {
       console.log("this.aEditor undefined in JSONEditor4Code.getValue()");
-    };
+    }
     return vJSON;
   };
 
@@ -17800,7 +17792,7 @@ function JSONEditor4Code () {
           vJSON = this.aEditor.getValue();
         } else {
           console.log("CALL: update_filename() - this.aEditor not defined!");
-        };
+        }
       }
 
       var vDOMID = this.aOptions.filename_id;
@@ -17842,31 +17834,31 @@ function JSONEditor4Code () {
         var cl = [];
         var localcl= this.getEditor("root.settings.localclasslist").getValue();
         if (localcl) {
-          for (var i = 0; i < localcl.length; i++) {
-            cl.push(localcl[i].name);
+          for (var k = 0; k < localcl.length; k++) {
+            cl.push(localcl[k].name);
           }
         }
         // REMOTE CLASSES: push all remote classes
         var remotecl = this.getEditor("root.settings.remoteclasslist").getValue();
         if (remotecl) {
-          for (var i = 0; i < remotecl.length; i++) {
-            cl.push(remotecl[i].name)
+          for (var j = 0; j < remotecl.length; j++) {
+            cl.push(remotecl[j].name);
           }
-        };
+        }
         cl.sort();
         console.log("cl=("+cl.join(",")+")");
-        for (var i = 0; i < cl.length; i++) {
-          watchclasses.push(cl[i].name)
-        };
+        for (var m = 0; m < cl.length; m++) {
+          watchclasses.push(cl[m].name);
+        }
         var vEditNode = this.getEditor("root.watchclasslist");
         vEditNode.setValue(watchclasses);
       } else {
         console.log("WARNING: update_watchclasslist()-call aEditor not defined");
-      };
+      }
     } else {
       console.log("WARNING: src/exportmod.js - update_watchclasslist() - this.aJSON.settings undefined!");
-    };
-  }
+    }
+  };
 
 
   this.update_subeditor = function (pEditPath,pJSON) {
@@ -17878,9 +17870,8 @@ function JSONEditor4Code () {
       console.log("update_subeditor('"+pEditPath+"',pJSON) "+ed_classlist.getValue());
     } else {
       console.log("update_subeditor('"+pEditPath+"',pJSON) editor undefined - wrong Edit Path");
-    };
-
-  }
+    }
+  };
 
   this.validate_errors = function () {
     // Get an array of errors from the validator
@@ -17897,13 +17888,13 @@ function JSONEditor4Code () {
     else {
       indicator.style.color = 'green';
       indicator.textContent = "valid";
-    };
+    }
     var vErrors = "";
     var vCR = "";
     for (var i = 0; i < errors.length; i++) {
       vErrors +=  vCR + errors[i].path + " - " +errors[i].property +" - "+errors[i].message;
       vCR = "\n";
-    };
+    }
     this.el("tErrors").value = vErrors;
   };
 
@@ -17914,7 +17905,7 @@ function JSONEditor4Code () {
         // Store
         if (typeof(localStorage.getItem(vLSID)) !== undefined) {
           console.log("LocalStorage: '"+vLSID+"' try loading from Local Storage");
-          var vJSONstring = localStorage.getItem(vLSID);
+          vJSONstring = localStorage.getItem(vLSID);
           if (!vJSONstring) {
             console.log("LocalStorage: '"+vLSID+"' undefined in Local Storage.\nSave default as JSON");
             vJSONstring = JSON.stringify(this.getValue());
@@ -17925,29 +17916,30 @@ function JSONEditor4Code () {
             try {
                 this.aJSON = JSON.parse(vJSONstring);
             } catch(e) {
-                alert("ERROR: "+ e)
-            };
-          };
+                alert("ERROR: "+ e);
+            }
+          }
         } else {
           console.log("JSON-Data '"+vLSID+"' is undefined in Local Storage.\nSave default as JSON");
           localStorage.setItem(vLSID, JSON.stringify(this.aEditor.getValue()));
-        };
+        }
     }	 else {
         console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
-    };
-  }
+    }
+  };
 
   this.saveLS = function (pLSID) {
     var vLSID = pLSID || "jsondata";
     console.log("saveLS('"+vLSID+"')-Call");
     var vJSON = this.getValue();
+    var vJSONstring = "";
     if (typeof(Storage) != "undefined") {
         // Store
         if (typeof(vJSON) != undefined) {
           console.log("LocalStorage: '"+vLSID+"' is defined, JSONDB in  Local Storage");
           if (vJSON) {
             //console.log("pJSONDB '"+vLSID+"' is saved to Local Storage");
-            var vJSONstring = JSON.stringify(vJSON)
+            vJSONstring = JSON.stringify(vJSON);
             console.log("LocalStorage: saveLS('"+vLSID+"') JSONstring='"+vJSONstring.substr(0,240)+"...' DONE");
             localStorage.setItem(vLSID,vJSONstring);
           } else {
@@ -17955,11 +17947,11 @@ function JSONEditor4Code () {
           }
         } else {
           console.log("JSON Data '"+vLSID+"' is undefined");
-        };
+        }
       }	 else {
         console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
       }
-  }
+  };
 
   this.loadJSON = function () {
     var vThis = this;
@@ -17981,19 +17973,19 @@ function JSONEditor4Code () {
           } catch(e) {
             vThis.aEditor.setValue([]); // Init with an empty class
             alert(e); // error in the above string (in this case, yes)!
-          };
+          }
         };
       //onload handler set now start loading the file
       fileReader.readAsText(fileToLoad, "UTF-8");
     } else {
       alert("File is missing");
-    };
+    }
     this.saveLS("jsondata");
-  }
+  };
 
   this.getClassname4File = function () {
     return class2filename(getClassName(this.aJSON),"_juml.json");
-  }
+  };
 
   this.getFilename = function(pJSON) {
     var vClassName = "Undefined_Class";
@@ -18010,10 +18002,10 @@ function JSONEditor4Code () {
       }
     } else {
       console.log("WARNING: pJSON undefined in JSONEditor4Code.getFilename()");
-    };
+    }
     var vFilename = class2filename(vClassName) + vExtension;
     return vFilename;
-  }
+  };
 
   this.setFilename = function (pFilename) {
     if (this.aJSON) {
@@ -18022,8 +18014,8 @@ function JSONEditor4Code () {
           this.aJSON.data.classname = pFilename;
         }
       }
-    };
-  }
+    }
+  };
 
   this.saveJSON = function () {
     // Get the value from the editor
@@ -18045,13 +18037,13 @@ function JSONEditor4Code () {
     saveFile2HDD(vFile,vContent);
     console.log("JSON Schema '"+vFile+"' saved!");
     alert("JSON Schema File: '"+vFile+"' saved!");
-  }
+  };
 
   this.saveDocumentation = function () {
     // see e.g. template tpl/docu4github_tpl.js
     // stored  vDataJSON["tpl"]["docu4github"]
-    this.save4Template("docu4github","_github.md","Github MarkDown Documentation")
-  }
+    this.save4Template("docu4github","_github.md","Github MarkDown Documentation");
+  };
 
   this.viewOutput = function (pContent) {
     //--Textarea Output----------------
@@ -18060,9 +18052,9 @@ function JSONEditor4Code () {
       vOutNode.value = pContent;
     } else {
       console.log("WARNING: JSONEditor4Code.viewOutput()-call - textarea 'tOutput' not defined in DOM");
-    };
+    }
     //---------------------------------
-  }
+  };
 
   this.getOutput4Template = function (pTplID) {
       console.log("getOutput4Template('"+pTplID+"')");
@@ -18079,9 +18071,10 @@ function JSONEditor4Code () {
         //---------------------------------
       } else {
         console.log("compileCode['"+pTplCode+"'] undefined");
-      };
+      }
+
       return vContent;
-  }
+  };
 
   this.save4Template = function (pTplID,pExtension,pMessage) {
       console.log("save4Template('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
@@ -18098,7 +18091,7 @@ function JSONEditor4Code () {
       saveFile2HDD(vFile,vContent);
       //alert("File '"+vFile+"' saved - "+vMessage);
       console.log("File '"+vFile+"' saved - "+vMessage);
-  }
+  };
 
 
   this.saveCode = function (pTplID,pExt,pMessage) {
@@ -18109,7 +18102,7 @@ function JSONEditor4Code () {
     // see e.g. template tpl/javascript_class_tpl.js
     // stored  vDataJSON["tpl"]["javascript"]
     this.save4Template(vTplID,vExt,vMessage);
-  }
+  };
 
   this.update_modified = function () {
     if (this.aJSON) {
@@ -18118,10 +18111,10 @@ function JSONEditor4Code () {
         console.log("reposinfo.modified updated with: '"+this.aJSON.reposinfo.modified+"'");
       } else {
         console.log("this.aJSON.reposinfo.modified was undefined - src/libs/exportmod.js:518");
-      };
+      }
       this.update_filename();
-    };
-  }
+    }
+  };
 
 
-}; // end JSONEditor4Code
+} // end JSONEditor4Code
