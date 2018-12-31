@@ -135,14 +135,12 @@ var pkg_test = {
 console.log(getConvertedFile4JSON('./src/readme/folderrepo.md',pkg_test));
 */
 
-function concat_main(pFilename,pLibArray,pkg) {
-  var vLibTailArray = clone_json(pLibArray);
-  vLibTailArray.push('./src/npm_tail.js');
-  var vMainJS = pFilename || "./"+pkg.main;
-  concat_libs(vMainJS,vLibTailArray);
+function concat_libraries(pFilename,pLibArray,pkg) {
+  var vLibJS = pFilename || "./dist/"+pkg.name+".js";
+  concat_libs(vLibJS,pLibArray);
 }
 
-function concat_libraries(pFilename,pLibArray,pkg) {
+function concat_main(pFilename,pLibArray,pkg) {
   concat_libs(pFilename,pLibArray);
   var vLibTailArray = clone_json(pLibArray);
   vLibTailArray.push('./src/npm_tail.js');

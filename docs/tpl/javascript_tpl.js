@@ -1,4 +1,4 @@
-vDataJSON["tpl"]["javascript"] = `
+vDataJSON.tpl.javascript = `
 //#################################################################
 {{#ifcond data.reposinfo.static "!=" "yes"}}
 //# Javascript Class: {{data.classname}}()
@@ -201,6 +201,7 @@ function {{data.classname}} () {
 //--------------------------------------------
 var {{data.classname}} = {};
 {{/ifcond}}
+{{#ifcond data.superclassname "!=" ""}}
 {{#ifcond data.superclassname "!=" " "}}
 //-------------------------------------------
 //---Extend Static Class---------------------
@@ -210,6 +211,7 @@ var {{data.classname}} = {};
 var {{data.classname}} = {{data.superclassname}};
 // The following definitions extend/overwrite the existing attributes and methods of '{{data.superclassname}}'
 //--------------------------------------
+{{/ifcond}}
 {{/ifcond}}
 //---------------------------------------------------------------------
 //---Attributes: "{{data.classname}}"

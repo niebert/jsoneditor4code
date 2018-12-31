@@ -1,4 +1,4 @@
-vDataJSON["uml_default"]={
+vDataJSON.uml_default = {
     "data":{
       "classname": "MyClass",
       "superclassname": "",
@@ -18,7 +18,8 @@ vDataJSON["uml_default"]={
       "methods": []
     },
     "settings":{
-      "extension4code":".js",
+       "umleditor": "https://niebert.github.io/ClassEditorUML",
+       "extension4code":".js",
       "extension4json":"_uml.json",
       "localclasslist": [
           "LoadSaver",
@@ -70,4 +71,4 @@ vDataJSON["uml_default"]={
           }
       ]
     }
-}
+};
