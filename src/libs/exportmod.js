@@ -1,3 +1,7 @@
+JSONEditor.defaults.theme = 'bootstrap3';
+JSONEditor.defaults.iconlib = 'fontawesome4';
+JSONEditor.plugins.ace.theme = 'xcode';
+
 function JSONEditor4Code () {
   //---- attributes ----
   this.aLinkParam = new LinkParam();
@@ -93,9 +97,6 @@ function JSONEditor4Code () {
     return vCode;
   };
   */
-  JSONEditor.defaults.theme = 'bootstrap3';
-  JSONEditor.defaults.iconlib = 'fontawesome4';
-  JSONEditor.plugins.ace.theme = 'xcode';
 
   this.compileCode = {};
 
@@ -113,51 +114,71 @@ function JSONEditor4Code () {
       return vEditor;
   };
 
-  this.init_definitions = function () {
-      var vJSON = this.aJSON;
-      console.log("Call: init_definitions() Update Class in Schema - update filename");
-      this.update_filename(); // update the filename in the DOM node with id "load_filename"
-      console.log("HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
-      if (!vJSON) {
-        console.log("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
-        alert("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
-      } else if (!(vJSON.settings)) {
-        console.log("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
-        alert("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
-      } else {
-          // use always one blank for "no class" otherwise value is regarded as undefined.
-          var watchclasses = [" "]; //
-          var i = 0;
-          console.log("Call: init_definitions() ");
-          // BASIC CLASSES: push all basic classes
-          var basecl = vJSON.settings.baseclasslist;
-          if (basecl) {
-            for (i = 0; i <  basecl.length; i++) {
-              watchclasses.push(basecl[i].name);
+
+    this.append_classlist = function (pList,pAppendList) {
+      if (isArray(pList)) {
+        if (isArray(pAppendList)) {
+          if (pAppendList) {
+            for (var i = 0; i < pAppendList.length; i++) {
+              if (isHash(pAppendList[i])) {
+                if (pAppendList[i].hasOwnProperty('name')) {
+                  pList.push(pAppendList[i].name);
+                } else {
+                  console.log("ERROR: pAppendList[i].name has no 'name' property!");
+                }
+              } else {
+                pList.push(pAppendList[i]);
+                console.log("WARNING: pAppendList[i] is not a hash with attribute 'name'!");
+              }
             }
+          } else {
+          console.log("ERROR: append_classlist() - pAppendList is not an array!");
           }
-          // LOCAL CLASSES: push all local classes
-          var localcl= vJSON.settings.localclasslist;
-          console.log("Call: init_definitions() - LocalClassList: "+JSON.stringify(localcl,null,4));
-          if (localcl) {
-            for (i = 0; i < localcl.length; i++) {
-              watchclasses.push(localcl[i].name);
-            }
-          }
-          // REMOTE CLASSES: push all remote classes
-          var remotecl = vJSON.settings.remoteclasslist;
-          console.log("Call: init_definitions() - RemoteClassList: "+JSON.stringify(remotecl,null,4));
-          if (remotecl) {
-            for (i = 0; i < remotecl.length; i++) {
-              watchclasses.push(remotecl[i].name);
-            }
-          }
-          watchclasses.sort();
-          console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
-          this.aSchema.definitions.selectorclass.enum = watchclasses;
+        } else {
+          console.log("ERROR: append_classlist() - pList is not an array!");
+        }
       }
-      //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
-      //DO NOT: return pSchema
+    };
+
+    this.init_definitions = function () {
+      var vJSON = this.aJSON;
+      if (this.aEditor) {
+        vJSON = this.aEditor.getValue();
+      } else {
+        console.log("JSONEditor undefined");
+      };
+      console.log("Call: init_definitions() Update Class in Schema - update filename");
+        this.update_filename(); // update the filename in the DOM node with id "load_filename"
+        console.log("HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
+        if (!vJSON) {
+          console.log("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
+          alert("WARNING: src/exportmod.js - init_definitions() - vJSON undefined!");
+        } else if (!(vJSON.settings)) {
+          console.log("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
+          alert("WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!");
+        } else {
+            // use always one blank for "no class" otherwise value is regarded as undefined.
+            var watchclasses = [" "]; //
+            var i = 0;
+            console.log("Call: init_definitions() ");
+            // BASIC CLASSES: push all basic classes
+            var cl = vJSON.settings.baseclasslist;
+            console.log("Call: init_definitions() - BaseClassList: "+JSON.stringify(cl,null,4));
+            this.append_classlist(watchclasses,cl);
+            // LOCAL CLASSES: push all local classes
+            cl = vJSON.settings.localclasslist;
+            console.log("Call: init_definitions() - LocalClassList: "+JSON.stringify(cl,null,4));
+            this.append_classlist(watchclasses,cl);
+            // REMOTE CLASSES: push all remote classes
+            console.log("Call: init_definitions() - RemoteClassList: "+JSON.stringify(cl,null,4));
+            cl = vJSON.settings.remoteclasslist;
+            this.append_classlist(watchclasses,cl);
+            watchclasses.sort();
+            console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
+            this.aSchema.definitions.selectorclass.enum = watchclasses;
+        }
+        //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
+        //DO NOT: return pSchema
   };
 
   this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
@@ -211,9 +232,6 @@ function JSONEditor4Code () {
     //this.aSchema = vSchema;
     this.create_compiler4tpl();
     this.create_editor();
-    JSONEditor.defaults.theme = pOptions.theme;
-    JSONEditor.defaults.iconlib = pOptions.iconlib;
-    JSONEditor.plugins.ace.theme = pOptions.ace_theme;
     this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
     this.update_filename();
   };
@@ -231,7 +249,10 @@ function JSONEditor4Code () {
     }
   };
 
-  this.create_editor = function () {
+  this.create_editor = function (pJSON) {
+    if (pJSON) {
+      this.aJSON = pJSON;
+    }
     // If an old editor exists - destroy the Editor to free resources
     if (this.aEditor) {
         /*
@@ -242,12 +263,20 @@ function JSONEditor4Code () {
         // free some resources if the editor already exists
         this.aEditor.destroy();
         console.log("Destroy JSONEditor in JSONEditor4Code");
+    } else {
+      console.log("REMARK: instance of JSON Editor does not exist!");
     }
 
     console.log("CALL: create_editor() - create a new JSONEditor() in JSONEditor4Code");
     // update schema
     console.log("Start Editor with JSON:\n"+JSON.stringify(this.aJSON,null,3));
     var vEditorNode = this.el(this.aOptions.editor_id);
+    if (vEditorNode) {
+      //vEditorNode.innerHTML = " ";
+      console.log("CALL: Editor Node cleaned innerHTML");
+    } else {
+      console.log("CALL: Editor Node does not exist!");
+    }
     this.aEditor = new JSONEditor(vEditorNode,{
             // Enable fetching schemas via ajax
             ajax: true,
@@ -269,6 +298,8 @@ function JSONEditor4Code () {
     this.update_filename();
     this.update_modified();
     this.saveLS("jsondata");
+    this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
+
   };
 
   this.init_ask = function () {
@@ -338,6 +369,14 @@ function JSONEditor4Code () {
     //  $trigger(this.toggle_button,'click');
     //}
     this.update_modified();
+    // update the class watchlist stored in Schema at "definitions.selectorclass"
+    this.init_definitions();
+    // restart the editor
+    var vJSON = this.aEditor.getValue();
+    this.create_editor(vJSON);
+    //this.init(this.aJSON,this.aDefaultJSON,this.aSchema,this.aTemplates,this.aOptions);
+    console.log("CALL: this.create_editor() in toggleSettings('" + pSettingsID + "','" + pDataID + "')");
+    // set the Editor properly
     if (this.aSettingsBOOL == false) {
       alert("JSON-Editor: Show Settings");
       this.showEditor(pSettingsID,true);

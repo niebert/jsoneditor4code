@@ -505,34 +505,66 @@ vDataJSON.umljs = {
     "settings": {
         "extension4code": ".js",
         "extension4json": "_uml.json",
-        "classlist": [
-            " ",
-            "Array",
-            "Boolean",
-            "Document",
-            "Float",
-            "Function",
-            "Hash",
-            "Integer",
-            "Object",
-            "RegularExp",
-            "String"
+        "localclasslist": [
+          {
+            "name": "LoadFile4DOM",
+            "initvalue": "new LoadFile4DOM()",
+            "repo": "loadfile4dom"
+          },
+          {
+            "name": "LinkParam",
+            "initvalue": "new LinkParam()",
+            "repo": "linkparam"
+          }
         ],
-        "localclasslist": [],
-        "remoteclasslist": [],
+        "remoteclasslist": [
+          {
+            "name": "JSONEditor",
+            "initvalue": "new JSONEditor()",
+            "repo": "jsoneditor"
+          }
+        ],
         "baseclasslist": [
-            " ",
-            "Array",
-            "Boolean",
-            "Document",
-            "Float",
-            "FileReader",
-            "Function",
-            "Hash",
-            "Integer",
-            "Object",
-            "RegularExp",
-            "String"
+            {
+              "name": "Array",
+              "initvalue": "[]"
+            },
+            {
+                "name": "Boolean",
+                "initvalue": "true"
+            },
+            {
+                "name": "Float",
+                "initvalue": "0.0"
+            },
+            {
+                "name": "Function",
+                "initvalue": "function my_fun() {}"
+            },
+            {
+                "name": "Document",
+                "initvalue": "document"
+            },
+            {
+                "name": "Integer",
+                "initvalue": "0"
+            },
+            {
+                "name": "String",
+                "initvalue": "\"\""
+            },
+            {
+                "name": "Hash",
+                "initvalue": "{}"
+            },
+            {
+                "name": "Object",
+                "initvalue": "null"
+            },
+            {
+                "name": "RegularExp",
+                "initvalue": "/search/g"
+            }
         ]
-    }
+      }
 };

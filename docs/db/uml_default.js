@@ -22,11 +22,23 @@ vDataJSON.uml_default = {
        "extension4code":".js",
       "extension4json":"_uml.json",
       "localclasslist": [
-          "LoadSaver",
-          "LinkParam"
+        {
+          "name": "LoadFile4DOM",
+          "initvalue": "new LoadFile4DOM()",
+          "repo": "loadfile4dom"
+        },
+        {
+          "name": "LinkParam",
+          "initvalue": "new LinkParam()",
+          "repo": "linkparam"
+        }
       ],
       "remoteclasslist": [
-          "JSONEditor"
+        {
+          "name": "JSONEditor",
+          "initvalue": "new JSONEditor()",
+          "repo": "jsoneditor"
+        }
       ],
       "baseclasslist": [
           {

@@ -90,16 +90,46 @@ vDataJSON["UMLJS"]= {
           "JSONEditor"
       ],
       "baseclasslist": [
-          "",
-          "Array",
-          "Boolean",
-          "Float",
-          "Function",
-          "Hash",
-          "Integer",
-          "Object",
-          "RegularExp",
-          "String"
+          {
+            "name": "Array",
+            "initvalue": "[]"
+          },
+          {
+              "name": "Boolean",
+              "initvalue": "true"
+          },
+          {
+              "name": "Float",
+              "initvalue": "0.0"
+          },
+          {
+              "name": "Function",
+              "initvalue": "function my_fun() {}"
+          },
+          {
+              "name": "Document",
+              "initvalue": "document"
+          },
+          {
+              "name": "Integer",
+              "initvalue": "0"
+          },
+          {
+              "name": "String",
+              "initvalue": "\"\""
+          },
+          {
+              "name": "Hash",
+              "initvalue": "{}"
+          },
+          {
+              "name": "Object",
+              "initvalue": "null"
+          },
+          {
+              "name": "RegularExp",
+              "initvalue": "/search/g"
+          }
       ]
     }
 }
