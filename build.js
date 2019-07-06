@@ -2,7 +2,10 @@
 // --- Build JS/HTML/CSS Version: 1.0.0 -------------
 //---------------------------------------------------
 const pkg = require('./package');
+// 'codegen' is module with functions for code generation
 const codegen = require('./src/codegen.js');
+// 'files4build' is a module with arrays of file to included for the build
+const f4b = require('./files4build');
 // ------ Build Settings -----------------
 pkg.githubuser = pkg.githubuser || "githubuser";
 pkg.build = pkg.build || {
@@ -16,7 +19,7 @@ pkg.build.html = pkg.build.html || "docs/index_build.html";
 pkg.build.css = pkg.build.css || "docs/css/build.css";
 pkg.build.htmlsrc = pkg.build.htmlsrc || "docs/index_src_libs_build.html";
 pkg.exportvar = pkg.exportvar || codegen.capitalizeFirstLetter(pkg.name);
-var vExportVar = pkg.exportvar; // defined in src/libs/exportmod.js
+var vExportVar = pkg.exportvar || "JSONEditor4Data"; // defined in package.json
 var vSrcPath = "src/"; // Path to Source Libraries
 var vDistPath = "dist/"; // Path to distribution
 var vLibPath = vSrcPath + 'libs/';
@@ -25,7 +28,7 @@ var vCssPath = vSrcPath + 'css/';
 var vReadmePath = vSrcPath + 'readme/';
 var vLibDist = 'dist/'+pkg.name+'.js';
 var vLibOut = 'docs/js/'+pkg.name+'.js';
-const f4b = require('./files4build');
+// const f4b = require('./files4build');
 // the following get-function return arrays of filenames
 var vLibs4Build = f4b.getLibs4Build(vLibPath);
 var vHtml4Build = f4b.getHtml4Build(vHtmlPath);
@@ -107,6 +110,14 @@ function writeConvertCall() {
   codegen.write_convert_json(vLibOut, vLibOut, pkg);
   codegen.write_convert_json(vLibDist, vLibDist, pkg);
   console.log("Replacing ___PKG___ variables in generated files DONE: "+vLibOut);
+  var vLine = "------------------------------------------------";
+  console.log("\n" + vLine + "Build Process '"+pkg.exportvar+"' DONE");
+  console.log("README:   '"+pkg.build.readme+"' created");
+  console.log("CSS:      '"+pkg.build.css+"' created");
+  console.log("HTML:     '"+pkg.build.html+"' created");
+  console.log("HTML-SRC: '"+pkg.build.html+"' created");
+  console.log(vLine);
+
 }
 
 setTimeout(writeConvertCall,1000);
