@@ -22,7 +22,7 @@
     "uglify": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
     "test": "jshint src/exportmod.js",
     "build": "node ./build.js; uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
-    "compress": "node ./build.js;browserify docs/js/jsoneditor4code.js  | uglifyjs -mc warnings=false > dist/jsoneditor4code.min.js"
+    "compress": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js"
   },
   "build":{
     "html":"docs/index.html",
