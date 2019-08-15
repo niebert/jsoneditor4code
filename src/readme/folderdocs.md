@@ -12,7 +12,8 @@ The following enumeration explains the structure of the repository and folders.
   * `docs/css` folder contains all style sheet for the webbased demo in `docs`.
   * `docs/fonts` folder contains the fonts for the FontAwesome.
   * `docs/jquery` folder contains the JQuery implementation so that a webbased demo runs offline.
-  * `docs/js` folder contains all Javascript libraries used for the webbased demo. * `docs/schema` folder contains JSON schema for the webbased demo created [JSON2schema](https://niebert.github.io/JSON2Schema), defining the input user interface for editing the JSON file
+  * `docs/js` folder contains all Javascript libraries used for the webbased demo.
+  * `docs/schema` folder contains JSON schema for the webbased demo created [JSON2schema](https://niebert.github.io/JSON2Schema), defining the input user interface for editing the JSON file
   * `docs/tpl` folder contains the HandleBars template generating the source code from the [UML definition](https://en.wikipedia.org/wiki/Unified_Modeling_Language).
   * `docs/index.html` files starts the webbased demo.
 * `jscc/` folder contains the [JavascriptClassCreator](https://niebert.github.io/JavascriptClassCreator) files that are used to create object-oriented Javascript class files.  

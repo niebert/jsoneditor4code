@@ -241,27 +241,32 @@
             }
         ]
     },
-    "settings": {
+      "settings": {
         "extension4code": ".js",
-        "classlist": [
-            " ",
-            "Array",
-            "Boolean",
-            "Document",
-            "Float",
-            "Function",
-            "Hash",
-            "Integer",
-            "Object",
-            "RegularExp",
-            "String"
+        "extension4json": "_uml.json",
+        "localclasslist": [
+          {
+            "name": "LoadFile4DOM",
+            "initvalue": "new LoadFile4DOM()",
+            "repo": "loadfile4dom"
+          },
+          {
+            "name": "LinkParam",
+            "initvalue": "new LinkParam()",
+            "repo": "linkparam"
+          }
         ],
-        "localclasslist": [],
-        "remoteclasslist": [],
+        "remoteclasslist": [
+          {
+            "name": "JSONEditor",
+            "initvalue": "new JSONEditor()",
+            "repo": "jsoneditor"
+          }
+        ],
         "baseclasslist": [
-           {
-                "name": "Array",
-                "initvalue": "[]"
+            {
+              "name": "Array",
+              "initvalue": "[]"
             },
             {
                 "name": "Boolean",
@@ -299,8 +304,6 @@
                 "name": "RegularExp",
                 "initvalue": "/search/g"
             }
-        ],
-        "extension4json": ".json"
-    },
-    "classlist": null
+        ]
+      }
 }

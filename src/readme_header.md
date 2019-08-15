@@ -1,3 +1,2 @@
 # JSONEditor4Code
-`JSONEditor4Code` is a Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
-* **[Demo JSONEditor4Code](https://niebert.github.io/jsoneditor4code)**
+`JSONEditor4Code` is a JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn

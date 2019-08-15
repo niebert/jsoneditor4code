@@ -3,7 +3,8 @@
 //---------------------------------------------------
 const pkg = require('./package');
 // 'codegen' is module with functions for code generation
-const codegen = require('./src/codegen.js');
+const b4c = require('build4code');
+const codegen = b4c.codegen;
 // 'files4build' is a module with arrays of file to included for the build
 const f4b = require('./files4build');
 // ------ Build Settings -----------------
@@ -121,6 +122,12 @@ function writeConvertCall() {
 
 }
 
+/*
+let vConstructor = require('./src/libs/exportmod.js');
+//let uml_filename = 'jscc/' + pkg.name + '_uml.json';
+let uml_filename = 'jscc/jsoneditor4code_uml.json';
+b4c.js2uml(pkg.exportvar,uml_filename,vConstructor,pkg);
+*/
 setTimeout(writeConvertCall,1000);
 /*
 */

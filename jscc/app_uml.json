@@ -187,49 +187,69 @@
             }
         ]
     },
-    "settings": {
+      "settings": {
         "extension4code": ".js",
-        "classlist": [
-            "",
-            "Array",
-            "Boolean",
-            "Float",
-            "Function",
-            "Hash",
-            "Integer",
-            "Object",
-            "RegularExp",
-            "String",
-            "App",
-            "AppAbstract",
-            "Document",
-            "LinkParam",
-            "JSONEditor"
-        ],
+        "extension4json": "_uml.json",
         "localclasslist": [
-            "LoadSaver",
-            "LinkParam",
-            "AppAbstract",
-            "String",
-            "ZIP4JS",
-            "DatabaseList",
-            "Boolean"
+          {
+            "name": "LoadFile4DOM",
+            "initvalue": "new LoadFile4DOM()",
+            "repo": "loadfile4dom"
+          },
+          {
+            "name": "LinkParam",
+            "initvalue": "new LinkParam()",
+            "repo": "linkparam"
+          }
         ],
         "remoteclasslist": [
-            "JSONEditor"
+          {
+            "name": "JSONEditor",
+            "initvalue": "new JSONEditor()",
+            "repo": "jsoneditor"
+          }
         ],
         "baseclasslist": [
-            "",
-            "Array",
-            "Boolean",
-            "Document",
-            "Float",
-            "Function",
-            "Hash",
-            "Integer",
-            "Object",
-            "RegularExp",
-            "String"
+            {
+              "name": "Array",
+              "initvalue": "[]"
+            },
+            {
+                "name": "Boolean",
+                "initvalue": "true"
+            },
+            {
+                "name": "Float",
+                "initvalue": "0.0"
+            },
+            {
+                "name": "Function",
+                "initvalue": "function my_fun() {}"
+            },
+            {
+                "name": "Document",
+                "initvalue": "document"
+            },
+            {
+                "name": "Integer",
+                "initvalue": "0"
+            },
+            {
+                "name": "String",
+                "initvalue": "\"\""
+            },
+            {
+                "name": "Hash",
+                "initvalue": "{}"
+            },
+            {
+                "name": "Object",
+                "initvalue": "null"
+            },
+            {
+                "name": "RegularExp",
+                "initvalue": "/search/g"
+            }
         ]
-    }
+      }
 }

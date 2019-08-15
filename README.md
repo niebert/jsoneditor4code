@@ -1,6 +1,5 @@
 # JSONEditor4Code
-`JSONEditor4Code` is a Class Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
-* **[Demo JSONEditor4Code](https://niebert.github.io/jsoneditor4code)**
+`JSONEditor4Code` is a JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn
 
 <!-- BEGIN: src/readme/headerinto.md -->
 The following table of contents is generated with `node doctoc README.md`.
@@ -674,41 +673,49 @@ The compression of `dist/jsoneditor4code.js` into `dist/jsoneditor4code.min.js` 
 
 ## Acknowledgement
 Special thanks to the following individual developers and teams of OpenSource JavaScript projects:
+* [Font Awesome Icons - 4.7.0](https://fontawesome.com/v4.7.0/icons/) thanks to [fontawesome.com](https://fontawesome.com) for providing the [free 4.7.0 version](https://fontawesome.com/v4.7.0/icons/) for local application for this WebApp. The [fonts in version 4.7.0](https://fontawesome.com/v4.7.0/icons/) are created by ***[Font Awesome](https://fontawesome.com)*** and
+licensed under [SIL OFL 1.1](http://scripts.sil.org/OFL). The javascript-code for injecting the icon into the DOM licensed under [MIT License](http://opensource.org/licenses/mit-license.html). The
+[Documentation](https://fontawesome.com/v4.7.0/examples/) for [Font Awesome - 4.7.0](https://fontawesome.com/v4.7.0/icons/) licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/). The [Font-Awesome GitHub-repository](https://github.com/FortAwesome/Font-Awesome) can be used for forking and adapting the javascript code to individual requirements and constraints.
 * [HandleBars](http://handlebarsjs.com/) the code generation in Javascript was implemented
 * [JSON-Editor](https://github.com/jdorn/json-editor) by Jeremy Dorn. The JSON Editor takes a JSON Schema and uses it to generate an HTML form. The JSON-Editor is partially used to edit JSON file of the [JavascriptClassCreator Project](https://niebert.github.io/JavascriptClassCreator) `JSCC`.
 The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 and can integrate with several popular CSS frameworks (bootstrap, foundation, and jQueryUI). This would lead to major code reduction of `JSCC` . Refactoring of `JSCC` would make more use of the JSON-Editor features. Check out an interactive demo (demo.html): http://jeremydorn.com/json-editor/
 * Developer [Mihai Bazon](http://lisperator.net/) create UglifyJS, a great tool to handle and parse Javascript Code and minify the Javascript code (see [Source Code of UglifyJS](https://github.com/mishoo/UglifyJS2)).
 * The wrapper for UglifyJS is written [Dan Wolff](http://danwolff.se/). His UglifyJS-Online example is used to minify/compress the exported Javascript code of generated JS Classes (For Online Example of the [UglifyJS-Wrapper](https://skalman.github.io/UglifyJS-online/) see source code on https://github.com/Skalman/UglifyJS-online for the Online-Version of the Wrapper.
 * Developers of ACE Code Editor https://ace.c9.io (Javascript Editing uses the Editor in iFrames)
+* `[LoadFile4DOM](https://www.gitlab.com/niehausbert/loadfile4dom)` is a library that allows to load files into an application that run completely in a browser without the need to submit data to a server for processing. With this library the users are able load files into your browser application and process the data in the browser and provide the output to the user, without submitting any data to a server. **[Demo LoadFile4DOM](https://niehausbert.gitlab.io/loadfile4dom)**
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js) Developer Eli Grey provided the `FileSaver.js` that is used to store created `JSCC` files to the local filesystem. `JSCC` uses the same mechanism of browsers, that allows a `Save as...` in the context menu of a web pages or image. So not uncontrolled write access to your file system is implemented, because users have to select the locations in which the user whats to store the file (e.g. JSON, Javascript or HTML).
 * [JointJS](https://github.com/clientIO/joint) JointJS is a JavaScript diagramming library. It can be used to create either static diagrams. JointJS is used in this project to create UML-diagrams, that are interactive diagramming in conjunction and application builder in Javascript.
 * [Inheritage for JavaScript with protoypes](http://phrogz.net/js/classes/OOPinJS2.html) by Gavin Kistner
 * [3 ways to define a JavaScript class](https://www.phpied.com/3-ways-to-define-a-javascript-class/) by Stoyan Stefanov
 * [JQuery](https://jqueryui.com) is used for the theme and standard operations in the Document Object Model (DOM) of HTML-pages. The [JQuery-Themeroller](https://jqueryui.com/themeroller/) was used to create a JQuery theme for JSCC.
+* [JSZip](http://stuartk.com/jszip) - LibreOffice files, Geogebra files (Open Source applications) have file extensions that are actually ZIP files. To handle, change and generate those documents in a browser is possible the library JSZIP. Even a small file system for WebApps that can be stored with a folder structure in a ZIP file can be generated in a browser. So [JSZip](http://stuartk.com/jszip) is a multi-functional JavaScript class for generating and reading ZIP files. Thank you for sharing this great library with the Open Source community.
 
 ## Libraries required for  `JSONEditor4Code`
 The following libraries are necessary for `jsoneditor4code.js`:
-* Lib: `handlebars` Version: `^4.0.11`
+* Lib: `handlebars` Version: `^4.1.2`
+* Lib: `jquery` Version: `^3.4.1`
 * Lib: `linkparam` Version: `^1.0.8`
 
 
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `browserify` Version: `^14.5.0`
+* Lib: `browserify` Version: `^16.5.0`
+* Lib: `build4code` Version: `^0.1.1`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.3.0`
-* Lib: `lint` Version: `^1.1.2`
-* Lib: `uglify-js` Version: `^2.6.2`
+* Lib: `jsdom` Version: `^15.1.1`
+* Lib: `lint` Version: `^0.7.0`
+* Lib: `uglify-js` Version: `^3.6.0`
 * Lib: `watchify` Version: `^3.9.0`
 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.0.9`   (last build 2019/07/04 19:09:26)
+* Version:  `1.0.11`   (last build 2019/08/10 15:41:17)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/07/04 19:09:26
+* Date:     2019/08/10 15:41:17
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
