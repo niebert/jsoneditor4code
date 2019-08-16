@@ -703,7 +703,7 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 * Lib: `browserify` Version: `^16.5.0`
 * Lib: `build4code` Version: `^0.1.1`
 * Lib: `concat-files` Version: `^0.1.1`
-* Lib: `doctoc` Version: `^1.3.0`
+* Lib: `doctoc` Version: `^1.4.0`
 * Lib: `jsdom` Version: `^15.1.1`
 * Lib: `lint` Version: `^0.7.0`
 * Lib: `uglify-js` Version: `^3.6.0`
@@ -712,10 +712,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.0.11`   (last build 2019/08/10 15:41:17)
+* Version:  `1.1.0`   (last build 2019/08/16 15:46:16)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/10 15:41:17
+* Date:     2019/08/16 15:46:16
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

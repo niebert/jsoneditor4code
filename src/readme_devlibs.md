@@ -12,7 +12,7 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 * Lib: `browserify` Version: `^16.5.0`
 * Lib: `build4code` Version: `^0.1.1`
 * Lib: `concat-files` Version: `^0.1.1`
-* Lib: `doctoc` Version: `^1.3.0`
+* Lib: `doctoc` Version: `^1.4.0`
 * Lib: `jsdom` Version: `^15.1.1`
 * Lib: `lint` Version: `^0.7.0`
 * Lib: `uglify-js` Version: `^3.6.0`

@@ -8,7 +8,7 @@ const codegen = b4c.codegen;
 // 'files4build' is a module with arrays of file to included for the build
 const f4b = require('./files4build');
 // ------ Build Settings -----------------
-pkg.githubuser = pkg.githubuser || "githubuser";
+pkg.gituser = pkg.gituser || "gituser";
 pkg.build = pkg.build || {
       readme: "README_build.md",
       html: "docs/index_build.html",

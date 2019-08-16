@@ -1,10 +1,10 @@
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.0.11`   (last build 2019/08/10 15:41:17)
+* Version:  `1.1.0`   (last build 2019/08/16 15:46:16)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/10 15:41:17
+* Date:     2019/08/16 15:46:16
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

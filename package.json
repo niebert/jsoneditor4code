@@ -1,7 +1,7 @@
 {
   "name": "jsoneditor4code",
   "exportvar": "JSONEditor4Code",
-  "version": "1.0.12",
+  "version": "1.1.0",
   "description": "JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn",
   "main": "src/main.js",
   "directories": {
@@ -11,7 +11,7 @@
     "browserify": "^16.5.0",
     "build4code": "^0.1.1",
     "concat-files": "^0.1.1",
-    "doctoc": "^1.3.0",
+    "doctoc": "^1.4.0",
     "jsdom": "^15.1.1",
     "lint": "^0.7.0",
     "uglify-js": "^3.6.0",
@@ -48,7 +48,7 @@
     "Code",
     "Generation"
   ],
-  "githubuser": "niebert",
+  "gituser": "niebert",
   "author": "Engelbert Niehaus",
   "license": "MIT",
   "bugs": {

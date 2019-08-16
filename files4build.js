@@ -7,7 +7,7 @@ const getLibs4Build = function (pLibPath) {
     'src/npm_header.js',
     pLibPath+'arrayhash.js',
     pLibPath+'blob.js',
-    'docs/jquery/external/jquery/jquery.js',
+    pLibPath+'jquery.js',
     pLibPath+'bootstrap.js',
     pLibPath+'classeditor.js',
     pLibPath+'date.js',
