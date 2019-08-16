@@ -11,6 +11,7 @@ The following table of contents is generated with `node doctoc README.md`.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+
 - [Installation `JSONEditor4Code`](#installation-jsoneditor4code)
 - [Quick Start for Library-Users](#quick-start-for-library-users)
 - [Templates for Handlebars4Code](#templates-for-handlebars4code)
@@ -69,6 +70,7 @@ The following table of contents is generated with `node doctoc README.md`.
 - [Libraries required for  `JSONEditor4Code`](#libraries-required-for--jsoneditor4code)
 - [Libraries for Building and Developement](#libraries-for-building-and-developement)
 - [NPM Library Information](#npm-library-information)
+
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -772,10 +774,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.0`   (last build 2019/08/16 15:46:16)
+* Version:  `1.1.1`   (last build 2019/08/16 16:41:21)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/16 15:46:16
+* Date:     2019/08/16 16:41:21
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
