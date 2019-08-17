@@ -11,9 +11,10 @@ The following table of contents is generated with `node doctoc README.md`.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-
 - [Installation `JSONEditor4Code`](#installation-jsoneditor4code)
-- [Quick Start for Library-Users](#quick-start-for-library-users)
+  - [Installation for Browsers](#installation-for-browsers)
+  - [Init the JSON Editor](#init-the-json-editor)
+- [Quick Start for Users of JSONEditor4Code](#quick-start-for-users-of-jsoneditor4code)
 - [Templates for Handlebars4Code](#templates-for-handlebars4code)
 - [vDataJSON as Template Storage](#vdatajson-as-template-storage)
 - [Templates and JSON into vDataJSON](#templates-and-json-into-vdatajson)
@@ -60,7 +61,8 @@ The following table of contents is generated with `node doctoc README.md`.
     - [Compiler Output: `indent`](#compiler-output-indent)
 - [Build Process of `npm run build`](#build-process-of-npm-run-build)
   - [Define Filename for build in `package.json`](#define-filename-for-build-in-packagejson)
-  - [Browserify after Build](#browserify-after-build)
+  - [Compress after Build](#compress-after-build)
+- [Build and Compress with Browserify, Watchify, UglifyJS](#build-and-compress-with-browserify-watchify-uglifyjs)
   - [Browserify and Watchify](#browserify-and-watchify)
   - [Global Installation of Browserify, Watchify, UglifyJS and DocToc](#global-installation-of-browserify-watchify-uglifyjs-and-doctoc)
   - [Package Installation of Browserify and Watchify - Alternative](#package-installation-of-browserify-and-watchify---alternative)
@@ -71,29 +73,83 @@ The following table of contents is generated with `node doctoc README.md`.
 - [Libraries for Building and Developement](#libraries-for-building-and-developement)
 - [NPM Library Information](#npm-library-information)
 
-
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
 ## Installation `JSONEditor4Code`
-If you want to install `JSONEditor4Code` in Node NPM use the following require-call:
-```javascript
-const  JSONEditor4Code = require('jsoneditor4code');
-let  vjsoneditor4code = new JSONEditor4Code();
-```
-If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder (e.g. `docs/js`) and
-import the library with `script`-tag with:
+The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js` (see example [`Demo JSONEditor4Code`](https://github.com/niebert/JSONEditor4Code/issueshttps://niebertgitlab.io/jsoneditor4code)).
+
+### Installation for Browsers
+If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder of WebApp that you want to test with a browser (e.g. `js/jsoneditor4code.js`). If you want expand existing examples check the basic example in `docs/index.html` first and play around with that HTML-file. If you want to import the library with `script`-tag do it in the standard way with:
 ```html
 <script src="js/jsoneditor4code.js"></script>
 ```
 Now it is possible to use the constructor of `JSONEditor4Code`
 ```javascript
-var  vjsoneditor4code = new JSONEditor4Code();
+if (JSONEditor4Code) {
+  var vJSONEditor = new JSONEditor4Code();
+  vJSONEditor.initDoc(document);
+}
+```
+Now we define a hash that contains the options for the `init()`-call.
+```javascript
+var pOptions = {
+        "editor_var": "vJSONEditor", // Variable in index.html that stores the JSONeditor
+        "editor_id": "editor_holder", // ID of DOM element, that stores the editor.
+        "validator_id":"valid_indicator",  // ID of DOM, that contains the validator result "valid" or "not valid"
+        "filejson_id" : "fileJSON", // ID of DOM element that contains the JSON file upload
+        "filename_id" : "display_filename", // innerHTML for DOM element to display the loaded filename
+        "filename_key" : "data.classname",  // key that stores the basename for the filename
+        "out_json": "tOutJSON", // ID of textarea to visualise the generated JSON
+        "out_code": "tOutput", // ID of textarea to visualise the generated code/markdown with the templates in docs/tpl
+        "out_errors": "tErrors" // ID of textarea that shows the errors in the loaded JSON
+};
+
+```
+After the `initDoc()` call the `JSONEditor4Code` is aware about the `document` in the browser.
+
+### Init the JSON Editor
+The init method of the JSON Editor gets as parameter the follow JavaScript objects:
+* `pJSON` is JSON data with which the JSON Editor is populated,
+* `pDefaultJSON` is the JSON data which is used, when the JSON Editor is resetted,
+* `pSchema` is JSON Schema which defines the input elements of JSON Editor `JSONEditor4Code`
+* `vDataJSON.tpl` is a hash of string templates for [`Handlebars4Code`](https://github.com/niebert/Handlebars4Code). `vDataJSON.tpl` is  hash with defined template strings. With the template ID the [`Handlebars4Code`](https://github.com/niebert/Handlebars4Code) template engine uses this template for code generation.
+* `pOption` are options for the JSON Editor.
+
+```javascript
+vJSONEditor.init(vJSON,
+  vDefaultJSON,
+  vDataJSON["class_schema"],
+  vDataJSON.tpl,
+  vOptions);
+```
+
+`vDataJSON` is a JSON container for all the loaded data. Templates are loaded with `script`-tags (see `docs/index.html`):
+
+```html
+<script src="tpl/javascript_tpl.js"></script>
+<!-- ### COMPILE HANDLEBARS TEMPLATES  ############
+Template ID: "docu4github"
+Template: vDataJSON["tpl"]["docu4github"]
+-->
+<script src="tpl/docu4github_tpl.js"></script>
+<!-- ### SCHEMA LOADER ############################
+script tag stores the JSON schema in
+vDataJSON.tpl.["class_schema"]
+<script src="schema/class_uml_schema.js"></script>
+-->
+<script src="schema/class_uml_schema.js"></script>
 ```
 <!-- BEGIN: src/readme/usage.md -->
 
-## Quick Start for Library-Users
-Just copy the `docs/`-folder and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema use the [JSON2Schema tool](https://niebert/github.io/JSON2Schema).
+## Quick Start for Users of JSONEditor4Code
+
+Just download the [ZIP-file of the JSONEditor4Code repository](https://github.com/niebert/hamburger-menu-creator/archive/master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
+and navigate to the `docs/`-folder and load the
+`docs/index.html` in your browser as privacy-friendly [AppLSAC-2](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache/Types_of_AppLSAC).
+All files, that are equired  for the AppLSAC to run are stored in the docs folder. Only if you are planing the change the source code of the AppLSAC `JSONEditor4Code` you need the other folders.
+
+If you just want to use `JSONEditor4Code` in your browser it is recommended to copy just the `docs/`-folder and rename the folder to `jsoneditor4code/`.
+
 
 <!-- END:   src/readme/usage.md -->
 <!-- BEGIN: src/readme/handlebars4code.md -->
@@ -671,12 +727,12 @@ To specify these filenames add the following `build` section to the `package.jso
 ```
 If you want to edit the generated file check the files that are selected for including into the generated files (see `files4build.js`) and set the files to a preliminary build name (e.g. like `index_build.html` instead of `index.html` to compare generated file `index_build.html` with the older version `index.html` for debugging
 
-### Browserify after Build
-After building (concat the file parts) and replacement of package variables (e.g. like  `_``__PKG_NAME__``_` for package name) in the generated documents the module is browserified by the command
+### Compress after Build
+After building (concat the file parts) and replacement of package variables (e.g. see [`build4code`](https://www.npmjs.com/package/build4code) like  `jsoneditor4code` for package name) in the generated documents the module is browserified by the command
 ```javascript
- browserify src/main.js  > dist/jsoneditor4code.js
+uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js
 ```
-This command is called and defined in the script section of the `package.json`.
+This command is called after `build.js` and the final step of the build process is the [`doctoc`](https://www.npmjs.com/package/doctoc) call to update the table of contents in the `README.md`. All steps of the `npm run build` command are defined in the `script` section of the `package.json` file.
 <!-- END:   src/readme/build_process.md -->
 ## Build and Compress with Browserify, Watchify, UglifyJS
 The NodeJS modules can use `require()`-command. Browsers cannot execute the `require()`-command and other node specific programming features.
@@ -762,22 +818,19 @@ The following libraries are necessary for `jsoneditor4code.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `browserify` Version: `^16.5.0`
-* Lib: `build4code` Version: `^0.1.1`
+* Lib: `build4code` Version: `^0.2.4`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.4.0`
-* Lib: `jsdom` Version: `^15.1.1`
-* Lib: `lint` Version: `^0.7.0`
+* Lib: `shelljs` Version: `^0.8.3`
 * Lib: `uglify-js` Version: `^3.6.0`
-* Lib: `watchify` Version: `^3.9.0`
 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.2`   (last build 2019/08/16 16:43:18)
+* Version:  `1.1.5`   (last build 2019/08/17 16:09:21)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/16 16:43:18
+* Date:     2019/08/17 16:09:21
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

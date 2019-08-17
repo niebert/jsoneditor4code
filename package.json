@@ -1,29 +1,23 @@
 {
   "name": "jsoneditor4code",
   "exportvar": "JSONEditor4Code",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn",
   "main": "src/main.js",
   "directories": {
     "doc": "docs"
   },
   "devDependencies": {
-    "browserify": "^16.5.0",
-    "build4code": "^0.1.1",
+    "build4code": "^0.2.4",
     "concat-files": "^0.1.1",
     "doctoc": "^1.4.0",
-    "jsdom": "^15.1.1",
-    "lint": "^0.7.0",
-    "uglify-js": "^3.6.0",
-    "watchify": "^3.9.0"
+    "shelljs": "^0.8.3",
+    "uglify-js": "^3.6.0"
   },
   "scripts": {
-    "watch": "watchify src/main.js -o dist/jsoneditor4code.js -v",
-    "browserify": "browserify src/main.js  > dist/jsoneditor4code.js",
-    "build2dist": "node ./build.js; browserify src/main.js > docs/js/jsoneditor4code.js",
     "uglify": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
-    "test": "jshint src/exportmod.js",
-    "build": "node ./build.js; uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js",
+    "test": "jshint ./src/libs/exportmod.js",
+    "build": "node ./build.js; uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js;doctoc ./README.md",
     "compress": "uglifyjs dist/jsoneditor4code.js --compress -o dist/jsoneditor4code.min.js"
   },
   "build": {

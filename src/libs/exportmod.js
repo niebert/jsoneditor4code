@@ -149,7 +149,7 @@ function JSONEditor4Code () {
         vJSON = this.aEditor.getValue();
       } else {
         console.log("JSONEditor undefined");
-      };
+      }
       console.log("Call: init_definitions() Update Class in Schema - update filename");
         this.update_filename(); // update the filename in the DOM node with id "load_filename"
         console.log("HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
@@ -205,9 +205,9 @@ function JSONEditor4Code () {
       console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
       if (pDefaultJSON) {
         vJSON = pDefaultJSON;
-        console.log("pDefautJSON defined in JSONEditor4Code.init()");
+        console.log("pDefaultJSON defined in JSONEditor4Code.init()");
       } else {}
-        console.error("WARNING: pDefautJSON undefined - use an empty JSON");
+        console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
         vJSON = {
           data: {},
           settings: {}
@@ -802,7 +802,7 @@ function JSONEditor4Code () {
     saveFile2HDD(vFile,vContent);
     console.log("JSON output '"+vFile+"':\n"+vContent);
     alert("JSON File: '"+vFile+"' saved!");
-  }
+  };
 
   this.saveSchema = function () {
     var vContent = JSON.stringify(this.aSchema,null,4);

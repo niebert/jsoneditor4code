@@ -1,17 +1,22 @@
 
 
 ## Installation `JSONEditor4Code`
-If you want to install `JSONEditor4Code` in Node NPM use the following require-call:
+There are two main types to use `JSONEditor4Code` for you projects. With a `script`-tag in your HTML file or with a package manager like [NPM](https://www.npmjs.com/) with [NodeJS]()
+### Installation `JSONEditor4Code` with NPM for Scripts
+Assume you have NPM installed and your have created e.g. a folder `mypackage/` for your package with `package.json` in the folder `. Go to the folder `mypackage/` and call
+```javascript
+npm install jsoneditor4code --save
+```
+Then you will find `jsoneditor4code` in the folder `mypackage/node_modules/jsoneditor4code`.
+If you want to use `JSONEditor4Code` in your scripts use the following require-call:
 ```javascript
 const  JSONEditor4Code = require('jsoneditor4code');
-let  vjsoneditor4code = new JSONEditor4Code();
 ```
-If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder (e.g. `docs/js`) and
+Now it is possible to use `JSONEditor4Code` in your scripts.
+### Installation `JSONEditor4Code` for Browser for Scripts-Tags
+If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder (e.g. `/js`) and
 import the library with `script`-tag with:
 ```html
 <script src="js/jsoneditor4code.js"></script>
 ```
-Now it is possible to use the constructor of `JSONEditor4Code`
-```javascript
-var  vjsoneditor4code = new JSONEditor4Code();
-```
+Now it is possible to use `JSONEditor4Code` in your other imported scripts.

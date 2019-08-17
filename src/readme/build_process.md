@@ -24,10 +24,10 @@ To specify these filenames add the following `build` section to the `package.jso
 ```
 If you want to edit the generated file check the files that are selected for including into the generated files (see `files4build.js`) and set the files to a preliminary build name (e.g. like `index_build.html` instead of `index.html` to compare generated file `index_build.html` with the older version `index.html` for debugging
 
-### Browserify after Build
-After building (concat the file parts) and replacement of package variables (e.g. like  `_``__PKG_NAME__``_` for package name) in the generated documents the module is browserified by the command
+### Compress after Build
+After building (concat the file parts) and replacement of package variables (e.g. see [`build4code`](https://www.npmjs.com/package/build4code) like  `___PKG_NAME___` for package name) in the generated documents the module is browserified by the command
 ```javascript
- browserify ___PKG_MAIN___  > dist/___PKG_NAME___.js
+uglifyjs dist/___PKG_NAME___.js --compress -o dist/___PKG_NAME___.min.js
 ```
-This command is called and defined in the script section of the `package.json`.
+This command is called after `build.js` and the final step of the build process is the [`doctoc`](https://www.npmjs.com/package/doctoc) call to update the table of contents in the `README.md`. All steps of the `npm run build` command are defined in the `script` section of the `package.json` file.
 <!-- END:   src/readme/build_process.md -->

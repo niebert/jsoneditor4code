@@ -5,10 +5,9 @@
 const getLibs4Build = function (pLibPath) {
   var vLibs4Build = [
     'src/npm_header.js',
+    pLibPath+'domcheck.js',
     pLibPath+'arrayhash.js',
     pLibPath+'blob.js',
-    pLibPath+'jquery.js',
-    pLibPath+'bootstrap.js',
     pLibPath+'classeditor.js',
     pLibPath+'date.js',
     pLibPath+'savefile.js',
@@ -59,7 +58,8 @@ const getReadme4Build = function (pPath) {
     './src/readme_header.md',
     pPath+'headerintro.md',
     pPath+'doctoc.md',
-    './src/readme_install.md',
+    //'./src/readme_install.md',
+    pPath+'installation.md',
     pPath+'usage.md',
     pPath+'handlebars4code.md',
     /*

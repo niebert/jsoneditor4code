@@ -113,7 +113,7 @@ function writeConvertCall() {
   console.log("Replacing ___PKG___ variables in generated files DONE: "+vLibOut);
   var vLine = "------------------------------------------------";
   console.log("\n" + vLine);
-  console.log("Build Process '"+pkg.exportvar+"' DONE");
+  console.log("Build Process '"+pkg.exportvar+" "+pkg.version+"' DONE");
   console.log("README:   '"+pkg.build.readme+"' created");
   console.log("CSS:      '"+pkg.build.css+"' created");
   console.log("HTML:     '"+pkg.build.html+"' created");
