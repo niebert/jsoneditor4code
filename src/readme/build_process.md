@@ -1,7 +1,25 @@
 <!-- BEGIN: src/readme/build_process.md -->
 
 ## Build Process of `npm run build`
-The build process is called by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
+As a developer it is assumed that you have:
+* `NodeJS` and
+* `git`
+installed on your computer.
+
+The build process must be called with `npm run build`. If you want change the existing code for `___PKG_EXPORTVAR___` clone the code from the Git-repository with:
+```shell
+git clone https://github.com/niebert/___PKG_NAME___.git
+```
+The you will have a folder `___PKG_NAME___/` with all the files in your local file system.
+The code part for the build process are stored in the folder `___PKG_NAME___/src/`.
+
+Now all the dependent libraries must be installed with:
+```shell
+npm install
+```
+You will find an additional folder `node_modules/` in your cloned copy of `___PKG_NAME___`.
+
+The build process is started by calling by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
 
 The templates for building the output are stored in the folder `src/`.
 

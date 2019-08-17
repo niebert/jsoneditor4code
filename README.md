@@ -704,7 +704,25 @@ The compiler call `Handlebars4Code.compile.mytpl(my_json)` for the JSON data `my
 <!-- BEGIN: src/readme/build_process.md -->
 
 ## Build Process of `npm run build`
-The build process is called by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
+As a developer it is assumed that you have:
+* `NodeJS` and
+* `git`
+installed on your computer.
+
+The build process must be called with `npm run build`. If you want change the existing code for `JSONEditor4Code` clone the code from the Git-repository with:
+```shell
+git clone https://github.com/niebert/jsoneditor4code.git
+```
+The you will have a folder `jsoneditor4code/` with all the files in your local file system.
+The code part for the build process are stored in the folder `jsoneditor4code/src/`.
+
+Now all the dependent libraries must be installed with:
+```shell
+npm install
+```
+You will find an additional folder `node_modules/` in your cloned copy of `jsoneditor4code`.
+
+The build process is started by calling by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
 
 The templates for building the output are stored in the folder `src/`.
 
@@ -827,10 +845,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.5`   (last build 2019/08/17 16:09:21)
+* Version:  `1.1.7`   (last build 2019/08/17 16:43:01)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/17 16:09:21
+* Date:     2019/08/17 16:43:01
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
