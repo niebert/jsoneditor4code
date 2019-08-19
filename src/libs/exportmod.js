@@ -1,7 +1,8 @@
-
-//JSONEditor.defaults.theme = 'bootstrap3';
-//JSONEditor.defaults.iconlib = 'fontawesome4';
-// JSONEditor.plugins.ace.theme = 'xcode';
+/*
+JSONEditor.defaults.theme = 'bootstrap3';
+JSONEditor.defaults.iconlib = 'fontawesome4';
+JSONEditor.plugins.ace.theme = 'xcode';
+*/
 
 function JSONEditor4Code () {
   //---- attributes ----
@@ -21,7 +22,12 @@ function JSONEditor4Code () {
     "out_code": "tOutput",
     "out_errors": "tErrors",
     "theme": 'bootstrap3',
-    "iconlib": 'fontawesome4'
+    "iconlib": 'fontawesome4',
+    "plugins":{
+      "ace":{
+        "theme": 'xcode'
+      }
+    }
   };
   this.aSettingsBOOL = false;
   this.aEditor = null;
@@ -235,7 +241,7 @@ function JSONEditor4Code () {
     //this.aSchema = vSchema;
     this.create_compiler4tpl();
     this.create_editor();
-    JSONEditor.plugins.ace.theme = 'xcode';
+    //JSONEditor.plugins.ace.theme = 'xcode';
     this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
     this.update_filename();
   };
@@ -290,10 +296,17 @@ function JSONEditor4Code () {
 
             // Seed the form with a starting value
             startval: this.aJSON,
+
+            // theme of JSON editor
+            theme: this.aOptions.theme || "bootstrap3",
             // iconlib
             iconlib: this.aOptions.iconlib || "fontawesome4",
-            // iconlib
-            theme: this.aOptions.theme || "bootstrap3",
+            // theme of ACE code editor
+            plugins: this.aOptions.plugins || {
+                ace: {
+                  theme: 'xcode'
+                }
+            },
             // Disable additional properties
             no_additional_properties: true,
 
