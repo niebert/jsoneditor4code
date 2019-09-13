@@ -839,7 +839,7 @@ The following libraries are necessary for `jsoneditor4code.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `build4code` Version: `^0.2.5`
+* Lib: `build4code` Version: `^0.2.6`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.4.0`
 * Lib: `shelljs` Version: `^0.8.3`
@@ -848,10 +848,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.9`   (last build 2019/09/13 22:37:20)
+* Version:  `1.1.10`   (last build 2019/09/13 23:03:58)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/09/13 22:37:20
+* Date:     2019/09/13 23:03:58
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
