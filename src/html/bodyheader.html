@@ -10,10 +10,10 @@
   	<div id="divNavigate"  align="center">
     <!-- the button vOpenJSON generates an onclick event for the fileJSON input file element in the DOM -->
  	 	<button id='bOpenJSON' style="color: white;background-color: #225988"  onclick="$( '#fileJSON' ).trigger('click');return false">
-			<i class="fa fa-folder-open-o" aria-hidden="true"></i> Load
+			<img src="img/icons-svg/fa-folder-open-white.svg"> Load
 		</button>
     <button id='bSaveJSON' style="color: white;background-color: #225988"  onclick="vJSONEditor.saveJSON();return false">
-			<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+			<img src="img/icons-svg/fa-file-save-white.svg"> Save
 		</button>
    &nbsp;
 		&nbsp;
@@ -22,14 +22,14 @@
 		&nbsp;
     <!-- Function: exportCode() is defined in js/classeditor.js -->
     <button id='bExportHTML' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('javascript','.js','Javascript Code for Class');return false">
-			<i class="fa fa-floppy-o" aria-hidden="true"></i> Export Code
+			<img src="img/icons-svg/fa-file-save-white.svg"> Export Code
 	 </button>
    <!-- Function: exportDocumentation() is defined in js/classeditor.js -->
    <button id='bExportDoc' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('docu4github','_github.md','Github Documentation for Class');return false">
-     <i class="fa fa-floppy-o" aria-hidden="true"></i> Export Documentation
+     <img src="img/icons-svg/fa-file-save-white.svg"> Export Documentation
   </button>
   <button id='bSettings' style="color: white;background-color: #A0A0A0"  onclick="vJSONEditor.toggleSettings('root.settings','root.data');return false">
-    <i class="fa fa-cog" aria-hidden="true"></i> Settings
+    <img src="img/icons-svg/gear-white.svg"> Settings
   </button>
     <!--
 		<button id='bAddRecord' style="color: white;background-color: #225988"  onclick="vEditor4JSON.add();return false">
@@ -41,7 +41,7 @@
     </button>
     -->
 		<button id='bDeleteClass' style="color: white;background-color: #c10303"  onclick="vJSONEditor.init_ask();return false">
-			<i class="fa fa-trash" aria-hidden="true"></i> Delete
+			 <img src="img/icons-svg/fa-trash-white.svg"> Delete
 		</button>
 
     <span id='valid_indicator'></span>

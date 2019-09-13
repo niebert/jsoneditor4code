@@ -143,12 +143,15 @@ vDataJSON.tpl.["class_schema"]
 
 ## Quick Start for Users of JSONEditor4Code
 
-Just download the [ZIP-file of the JSONEditor4Code repository](https://github.com/niebert/hamburger-menu-creator/archive/master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
+Just download the [ZIP-file of the JSONEditor4Code repository](https://github.com/niebert/JSONEditor4Code/-/archive/master/jsoneditor4code-master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
 and navigate to the `docs/`-folder and load the
 `docs/index.html` in your browser as privacy-friendly [AppLSAC-2](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache/Types_of_AppLSAC).
 All files, that are equired  for the AppLSAC to run are stored in the docs folder. Only if you are planing the change the source code of the AppLSAC `JSONEditor4Code` you need the other folders.
 
-If you just want to use `JSONEditor4Code` in your browser it is recommended to copy just the `docs/`-folder and rename the folder to `jsoneditor4code/`.
+If you just want to use `JSONEditor4Code` in your browser it is recommended to
+* copy just the `docs/`-folder,
+* rename the folder to `jsoneditor4code/` and
+* start `index.html` with your browser as [AppLSAC-2](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache/Types_of_AppLSAC).
 
 
 <!-- END:   src/readme/usage.md -->
@@ -845,10 +848,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.7`   (last build 2019/08/17 16:43:01)
+* Version:  `1.1.8`   (last build 2019/09/13 14:08:03)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/08/17 16:43:01
+* Date:     2019/09/13 14:08:03
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

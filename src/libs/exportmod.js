@@ -22,7 +22,7 @@ function JSONEditor4Code () {
     "out_code": "tOutput",
     "out_errors": "tErrors",
     "theme": 'bootstrap3',
-    "iconlib": 'fontawesome4',
+    "iconlib": 'icons4menu',
     "plugins":{
       "ace":{
         "theme": 'xcode'
@@ -372,11 +372,11 @@ function JSONEditor4Code () {
       if (pBoolean == true) {
         self.editor_holder.style.display = '';
         self.collapsed = false;
-        self.setButtonText(self.toggle_button, '', 'collapse', self.translate('button_collapse'));
+        self.setButtonText(self.toggle_button, 'o', 'collapse', self.translate('button_collapse'));
       } else {
         self.editor_holder.style.display = 'none';
         self.collapsed = true;
-        self.setButtonText(self.toggle_button, '', 'expand', self.translate('button_expand'));
+        self.setButtonText(self.toggle_button, '>', 'expand', self.translate('button_expand'));
       }
     } else {
       console.log("ERROR: showEditor('"+pEditor+"',pBoolean) Editor for ['"+pEditorID+"'] not found");

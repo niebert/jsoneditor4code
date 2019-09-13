@@ -83,7 +83,9 @@ wget https://cdn.rawgit.com/eligrey/Blob.js/0cef2746414269b16834878a8abc52eb9d53
 wget https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js  -O ./src/libs/canvas2blob.js
 wget https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js -O ./src/libs/filesaver.js
 wget $source/dist/handlebars4code.js -O ./src/libs/handlebars4code.js
-wget $source/dist/handlebars4code.min.js -O ./src/libs/handlebars4code.min.js
+
+echo "LoadFile4DOM"
+wget https://niehausbert.gitlab.io/loadfile4dom/js/loadfile4dom.js -O ./src/libs/loadfile4dom.js
 
 #### NPM Files
 file="package.json"

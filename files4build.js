@@ -12,7 +12,8 @@ const getLibs4Build = function (pLibPath) {
     pLibPath+'date.js',
     pLibPath+'savefile.js',
     pLibPath+'filesaver.js',
-    pLibPath+'jsoneditor.js',
+    //pLibPath+'jsoneditor.js',
+    pLibPath+'jsoneditor_x.js',
     //-----------------------------------------------
     //---- Load Handlebars4Code or ------------------
     //pLibPath+'handlebars4code.js',
