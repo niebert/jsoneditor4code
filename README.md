@@ -76,7 +76,7 @@ The following table of contents is generated with `node doctoc README.md`.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation `JSONEditor4Code`
-The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js` (see example [`Demo JSONEditor4Code`](https://github.com/niebert/JSONEditor4Code/issueshttps://niebertgitlab.io/jsoneditor4code)).
+The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js` (see example [`Demo JSONEditor4Code`](https://niebert.gitlab.io/jsoneditor4code)).
 
 ### Installation for Browsers
 If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder of WebApp that you want to test with a browser (e.g. `js/jsoneditor4code.js`). If you want expand existing examples check the basic example in `docs/index.html` first and play around with that HTML-file. If you want to import the library with `script`-tag do it in the standard way with:
@@ -839,7 +839,7 @@ The following libraries are necessary for `jsoneditor4code.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `build4code` Version: `^0.2.4`
+* Lib: `build4code` Version: `^0.2.5`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.4.0`
 * Lib: `shelljs` Version: `^0.8.3`
@@ -848,10 +848,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.8`   (last build 2019/09/13 14:08:03)
+* Version:  `1.1.8`   (last build 2019/09/13 21:31:05)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/09/13 14:08:03
+* Date:     2019/09/13 21:31:05
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

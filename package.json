@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "devDependencies": {
-    "build4code": "^0.2.4",
+    "build4code": "^0.2.5",
     "concat-files": "^0.1.1",
     "doctoc": "^1.4.0",
     "shelljs": "^0.8.3",
