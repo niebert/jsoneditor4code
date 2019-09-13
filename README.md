@@ -848,10 +848,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.8`   (last build 2019/09/13 21:31:05)
+* Version:  `1.1.9`   (last build 2019/09/13 22:37:20)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/09/13 21:31:05
+* Date:     2019/09/13 22:37:20
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
