@@ -184,7 +184,11 @@ function JSONEditor4Code () {
             this.append_classlist(watchclasses,cl);
             watchclasses.sort();
             console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
-            this.aSchema.definitions.selectorclass.enum = watchclasses;
+            if (this.aSchema.definitions) {
+              if (this.aSchema.definitions.selectorclass) {
+                this.aSchema.definitions.selectorclass.enum = watchclasses;
+              }
+            }
         }
         //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
         //DO NOT: return pSchema
