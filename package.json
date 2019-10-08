@@ -8,9 +8,10 @@
     "doc": "docs"
   },
   "devDependencies": {
-    "build4code": "^0.2.6",
+    "build4code": "^0.3.8",
     "concat-files": "^0.1.1",
     "doctoc": "^1.4.0",
+    "jsdom": "^15.1.1",
     "shelljs": "^0.8.3",
     "uglify-js": "^3.6.0"
   },
@@ -25,6 +26,11 @@
     "css": "docs/css/build.css",
     "readme": "README.md",
     "htmlsrc": "docs/index_src_libs_build.html"
+  },
+  "js2uml": {
+    "default": "jscc/jsoneditor4code.json",
+    "filename": "jscc/jsoneditor4code_uml.json",
+    "is_constructor": true
   },
   "repository": {
     "type": "git",

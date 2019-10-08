@@ -5185,11 +5185,21 @@ Handlebars.registerHelper('removereturn', function(pString) {
 
 
 function name2filename(pName) {
-  var vFilename = pName.toLowerCase();
-  vFilename = vFilename.replace(/[^a-z0-9]/g,"_");
-  vFilename = vFilename.replace(/_[_]+/g,"_");
+  var vFilename = "undefined_filename";
+  if (pName) {
+    if (typeof pName == "string") {
+      vFilename = pName.toLowerCase();
+      vFilename = vFilename.replace(/[^a-z0-9]/g,"_");
+      vFilename = vFilename.replace(/_[_]+/g,"_");
+    } else {
+      console.error("ERROR: name2filename(pName) - Parameter for helper function of Handelbars4Code is not a STRING");
+    }
+  } else {
+    console.error("ERROR: name2filename(pName) - Parameter pName undefined");
+  };
   return vFilename;
 }
+
 
 
 Handlebars.registerHelper('filename', function(pString) {
@@ -5352,20 +5362,33 @@ function create_compiler(pTplJSON) {
   };
 };
 
-function get_compiler () {
+
+function create_compiler4template (pTemplate) {
+  var vCodeCompiler = function () {
+    console.error("ERROR: Handelbars4Code.get_compiler(pTemplate) - Handlebars4Code compiler undefined")
+  };
+  if (pTemplate) {
+      vCodeCompiler = Handlebars.compile(pTemplate);
+  };
   return vCodeCompiler;
 };
 
+function get_compiler () {
+  return vCodeCompiler;
+};
 
 function compile_code(pTplID,pJSON) {
   // pJSON is JSON data of the UML Class
   var vCode = vCodeCompiler[pTplID](pJSON);
   return vCode;
-};
+}
 
 
-var Handlebars4Code = {
+Handlebars4Code = {
+  "Handlebars": Handlebars,
   "create_compiler": create_compiler,
+  "compile": create_compiler4template,
+  "create_compiler4template": create_compiler4template,
   "compile_code": compile_code,
   "get_compiler": get_compiler
 };

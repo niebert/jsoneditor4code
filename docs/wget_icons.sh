@@ -2,9 +2,32 @@ echo "WGET Script to download Icons4Menu"
 echo "----------------------------------"
 echo "Source: https://niebert.github.io/icons4menu/wget_icons.sh"
 
-mkdir img -p
-wget https://niebert.github.io/icons4menu/README.html -O img/README_Icons4Menu.html
-wget https://niebert.github.io/icons4menu/LICENSE_Jquery_Mobile.txt -O img/LICENSE_Jquery_Mobile.txt
+DOWNLOAD_SVG="yes"
+DOWNLOAD_PNG="no"
+
+if [ "$1" = "all" ]
+  then
+  echo "Download SVG and PNG"
+  DOWNLOAD_SVG="yes"
+  DOWNLOAD_PNG="yes"
+fi
+if [ "$1" = "svg" ]
+  then
+  echo "Download SVG"
+  DOWNLOAD_SVG="yes"
+  DOWNLOAD_PNG="no"
+fi
+if [ "$1" = "png" ]
+  then
+  echo "Download PNG"
+  DOWNLOAD_SVG="no"
+  DOWNLOAD_PNG="yes"
+fi
+if [ "$DOWNLOAD_PNG" = "yes" ]; then
+  mkdir img -p
+  wget https://niebert.github.io/icons4menu/README.html -O img/README_Icons4Menu.html
+  wget https://niebert.github.io/icons4menu/LICENSE_Jquery_Mobile.txt -O img/LICENSE_Jquery_Mobile.txt
+
 mkdir img/icons-png -p
 wget https://niebert.github.io/icons4menu/img/icons-png/action-black.png -O img/icons-png/action-black.png
 wget https://niebert.github.io/icons4menu/img/icons-png/action-white.png -O img/icons-png/action-white.png
@@ -106,6 +129,8 @@ wget https://niebert.github.io/icons4menu/img/icons-png/user-black.png -O img/ic
 wget https://niebert.github.io/icons4menu/img/icons-png/user-white.png -O img/icons-png/user-white.png
 wget https://niebert.github.io/icons4menu/img/icons-png/video-black.png -O img/icons-png/video-black.png
 wget https://niebert.github.io/icons4menu/img/icons-png/video-white.png -O img/icons-png/video-white.png
+fi
+if [ "$DOWNLOAD_PNG" = "yes" ]; then
 mkdir img/icons-svg -p
 wget https://niebert.github.io/icons4menu/img/icons-svg/action-black.svg -O img/icons-svg/action-black.svg
 wget https://niebert.github.io/icons4menu/img/icons-svg/action-white.svg -O img/icons-svg/action-white.svg
@@ -231,3 +256,4 @@ wget https://niebert.github.io/icons4menu/img/icons-svg/user-black.svg -O img/ic
 wget https://niebert.github.io/icons4menu/img/icons-svg/user-white.svg -O img/icons-svg/user-white.svg
 wget https://niebert.github.io/icons4menu/img/icons-svg/video-black.svg -O img/icons-svg/video-black.svg
 wget https://niebert.github.io/icons4menu/img/icons-svg/video-white.svg -O img/icons-svg/video-white.svg
+fi

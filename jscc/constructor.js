@@ -1,6 +1,25 @@
-function LinkParam() {
+  //-----CONSTRUCTOR----JS2UML---------------  // adding a constructors and libraries to make 'require' happy ...
 
-}
+
+	function JSZip () {};
+
+	function LinkParam () {};
+
+	//----------------------------------------------
+	// JQUERY is required for JS2UML Constructor
+	var jsdom = require("jsdom");
+	const { JSDOM } = jsdom;
+	const { window } = new JSDOM();
+	const { document } = (new JSDOM('')).window;
+	global.document = document;
+
+	var $ = jQuery = require('jquery')(window);
+
+/*
+JSONEditor.defaults.theme = 'bootstrap3';
+JSONEditor.defaults.iconlib = 'fontawesome4';
+JSONEditor.plugins.ace.theme = 'xcode';
+*/
 
 function JSONEditor4Code () {
   //---- attributes ----
@@ -18,7 +37,14 @@ function JSONEditor4Code () {
     "filename_key" : "filename",
     "out_json": "tOutJSON",
     "out_code": "tOutput",
-    "out_errors": "tErrors"
+    "out_errors": "tErrors",
+    "theme": 'bootstrap3',
+    "iconlib": 'icons4menu',
+    "plugins":{
+      "ace":{
+        "theme": 'xcode'
+      }
+    }
   };
   this.aSettingsBOOL = false;
   this.aEditor = null;
@@ -146,7 +172,7 @@ function JSONEditor4Code () {
         vJSON = this.aEditor.getValue();
       } else {
         console.log("JSONEditor undefined");
-      };
+      }
       console.log("Call: init_definitions() Update Class in Schema - update filename");
         this.update_filename(); // update the filename in the DOM node with id "load_filename"
         console.log("HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
@@ -175,7 +201,11 @@ function JSONEditor4Code () {
             this.append_classlist(watchclasses,cl);
             watchclasses.sort();
             console.log("Call: init_definitions() - watchclasses=('"+watchclasses.join("','")+"')");
-            this.aSchema.definitions.selectorclass.enum = watchclasses;
+            if (this.aSchema.definitions) {
+              if (this.aSchema.definitions.selectorclass) {
+                this.aSchema.definitions.selectorclass.enum = watchclasses;
+              }
+            }
         }
         //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
         //DO NOT: return pSchema
@@ -202,9 +232,9 @@ function JSONEditor4Code () {
       console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
       if (pDefaultJSON) {
         vJSON = pDefaultJSON;
-        console.log("pDefautJSON defined in JSONEditor4Code.init()");
+        console.log("pDefaultJSON defined in JSONEditor4Code.init()");
       } else {}
-        console.error("WARNING: pDefautJSON undefined - use an empty JSON");
+        console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
         vJSON = {
           data: {},
           settings: {}
@@ -232,6 +262,7 @@ function JSONEditor4Code () {
     //this.aSchema = vSchema;
     this.create_compiler4tpl();
     this.create_editor();
+    //JSONEditor.plugins.ace.theme = 'xcode';
     this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
     this.update_filename();
   };
@@ -286,6 +317,17 @@ function JSONEditor4Code () {
 
             // Seed the form with a starting value
             startval: this.aJSON,
+
+            // theme of JSON editor
+            theme: this.aOptions.theme || "bootstrap3",
+            // iconlib
+            iconlib: this.aOptions.iconlib || "fontawesome4",
+            // theme of ACE code editor
+            plugins: this.aOptions.plugins || {
+                ace: {
+                  theme: 'xcode'
+                }
+            },
             // Disable additional properties
             no_additional_properties: true,
 
@@ -351,11 +393,11 @@ function JSONEditor4Code () {
       if (pBoolean == true) {
         self.editor_holder.style.display = '';
         self.collapsed = false;
-        self.setButtonText(self.toggle_button, '', 'collapse', self.translate('button_collapse'));
+        self.setButtonText(self.toggle_button, 'o', 'collapse', self.translate('button_collapse'));
       } else {
         self.editor_holder.style.display = 'none';
         self.collapsed = true;
-        self.setButtonText(self.toggle_button, '', 'expand', self.translate('button_expand'));
+        self.setButtonText(self.toggle_button, '>', 'expand', self.translate('button_expand'));
       }
     } else {
       console.log("ERROR: showEditor('"+pEditor+"',pBoolean) Editor for ['"+pEditorID+"'] not found");
@@ -794,7 +836,7 @@ function JSONEditor4Code () {
     saveFile2HDD(vFile,vContent);
     console.log("JSON output '"+vFile+"':\n"+vContent);
     alert("JSON File: '"+vFile+"' saved!");
-  }
+  };
 
   this.saveSchema = function () {
     var vContent = JSON.stringify(this.aSchema,null,4);
@@ -883,5 +925,6 @@ function JSONEditor4Code () {
 
 
 } // end JSONEditor4Code
+
 
 module.exports = JSONEditor4Code;

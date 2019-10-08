@@ -102,25 +102,39 @@ codegen.concat_readme(pkg.build.readme,vReadme4Build,pkg);
 // replaces ___PKG_GITHUBUSER___ by pkg.githubuser
 function writeConvertCall() {
   console.log("HTML: Replace ___PKG___ variables in generated file: "+pkg.build.html);
-  codegen.write_convert_json(pkg.build.html, pkg.build.html, pkg)
+  codegen.write_convert_json(pkg.build.html, pkg.build.html, pkg);
   console.log("CSS: Replace ___PKG___ variables in generated file: "+pkg.build.css);
-  codegen.write_convert_json(pkg.build.css, pkg.build.css, pkg)
+  codegen.write_convert_json(pkg.build.css, pkg.build.css, pkg);
   console.log("README: Replace ___PKG___ variables in generated file: "+pkg.build.readme);
-  codegen.write_convert_json(pkg.build.readme, pkg.build.readme, pkg)
+  codegen.write_convert_json(pkg.build.readme, pkg.build.readme, pkg);
   console.log("LIB: Replace ___PKG___ variables in generated file: "+pkg.build.readme);
   codegen.write_convert_json(vLibOut, vLibOut, pkg);
   codegen.write_convert_json(vLibDist, vLibDist, pkg);
   console.log("Replacing ___PKG___ variables in generated files DONE: "+vLibOut);
+
+  //window = window || {};
+  console.log("Require Constructor");
+  var vConstructor = require("./jscc/constructor.js");
+  //console.log("Constructor: " + vConstructor);
+  b4c.js2uml(pkg.exportvar,vConstructor,pkg);
+
   codegen.log_done(pkg);
 
 }
 
-/*
-let vConstructor = require('./src/libs/exportmod.js');
-//let uml_filename = 'jscc/' + pkg.name + '_uml.json';
-let uml_filename = 'jscc/jsoneditor4code_uml.json';
-b4c.js2uml(pkg.exportvar,uml_filename,vConstructor,pkg);
-*/
+/* Javascript UML */
+// populate package.json for JS2UML
+pkg.js2uml = pkg.js2uml || {};
+pkg.js2uml.filename = 'jscc/' + pkg.name + '_uml.json';
+pkg.js2uml.default = 'jscc/' + pkg.name + '.json';
+pkg.js2uml.is_constructor = true;
+
+var vCode = codegen.load_file('./src/libs/exportmod.js');
+// add objects for imported libraries in index.html for ["JQuery","LinkParam","JSZip"]
+vCode  = codegen.create_constructor("./jscc/constructor.js",vCode,["JQuery","LinkParam","JSZip"], pkg);
+
+
+
 setTimeout(writeConvertCall,1000);
 /*
 */

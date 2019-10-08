@@ -17,7 +17,8 @@ function JSONEditor4Code () {
     "editor_id": "editor_holder",
     "validator_id":"valid_indicator",
     "load_file_id" : "load_filename",
-    "filename_key" : "filename",
+    "filename_id" : "display_filename", // id to display the filename
+    "filename_key" : "data.classname", // key to access the input string for generating the output filename
     "out_json": "tOutJSON",
     "out_code": "tOutput",
     "out_errors": "tErrors",
@@ -573,13 +574,14 @@ function JSONEditor4Code () {
 
   this.update_filename = function () {
 
-    if (this.aOptions.hasOwnProperty("filename_key")) {
+    if (this.aOptions.hasOwnProperty("filename_id")) {
       var vNode = this.el(this.aOptions.filename_id); // e.g. filename_id = "load_filename";
-      var vJSON = this.aJSON;
+      var vJSON = this.aJSON; // default value
       if (vNode) {
         if (this.aEditor) {
           console.log("CALL: update_filename() - use vJSON = this.aEditor.getValue()!");
           vJSON = this.aEditor.getValue();
+          this.aJSON = vJSON;
         } else {
           console.log("CALL: update_filename() - this.aEditor not defined!");
         }
@@ -860,7 +862,7 @@ function JSONEditor4Code () {
         this.viewOutput(vContent);
         //---------------------------------
       } else {
-        console.log("compileCode['"+pTplCode+"'] undefined");
+        console.warn("compileCode."+pTplID+"(pJSON) function undefined");
       }
 
       return vContent;

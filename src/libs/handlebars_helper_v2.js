@@ -328,11 +328,19 @@ Handlebars.registerHelper('removereturn', function(pString) {
 });
 
 
-function name2filename(pFilename) {
-  var vFilename = pFilename || "undefined file";
-  vFilename = vFilename.toLowerCase(vFilename);
-  vFilename = vFilename.replace(/[^a-z0-9]/g,"_");
-  vFilename = vFilename.replace(/_[_]+/g,"_");
+function name2filename(pName) {
+  var vFilename = "undefined_filename";
+  if (pName) {
+    if (typeof pName == "string") {
+      vFilename = pName.toLowerCase();
+      vFilename = vFilename.replace(/[^a-z0-9]/g,"_");
+      vFilename = vFilename.replace(/_[_]+/g,"_");
+    } else {
+      console.error("ERROR: name2filename(pName) - Parameter for helper function of Handelbars4Code is not a STRING");
+    }
+  } else {
+    console.error("ERROR: name2filename(pName) - Parameter pName undefined");
+  };
   return vFilename;
 }
 
