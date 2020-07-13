@@ -690,60 +690,68 @@ function JSONEditor4Code () {
     this.el("tErrors").value = vErrors;
   };
 
-  this.loadLS = function (pLSID) {
-    var vLSID = pLSID || "jsondatra"; //this.aJSON.data.classname;
-    var vJSONstring = "";
-    if (typeof(Storage) != "undefined") {
-        // Store
-        if (typeof(localStorage.getItem(vLSID)) !== undefined) {
-          console.log("LocalStorage: '"+vLSID+"' try loading from Local Storage");
-          vJSONstring = localStorage.getItem(vLSID);
-          if (!vJSONstring) {
-            console.log("LocalStorage: '"+vLSID+"' undefined in Local Storage.\nSave default as JSON");
-            vJSONstring = JSON.stringify(this.getValue());
-            console.log("LocalStorage: loadLS('"+vLSID+"') - init with JSONstring='"+vJSONstring.substr(0,120)+"...'");
-            localStorage.setItem(vLSID, vJSONstring);
-          } else {
-            console.log("parse JSON '"+vLSID+"') from LocalStorage JSONstring='"+vJSONstring.substr(0,120)+"...'");
-            try {
-                this.aJSON = JSON.parse(vJSONstring);
-            } catch(e) {
-                alert("ERROR: "+ e);
-            }
-          }
-        } else {
-          console.log("JSON-Data '"+vLSID+"' is undefined in Local Storage.\nSave default as JSON");
-          localStorage.setItem(vLSID, JSON.stringify(this.aEditor.getValue()));
-        }
-    }	 else {
-        console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
-    }
-  };
+    this.url2id = function () {
+        var url = document.location.href;
+        var id = url.replace(/[^A-Za-z0-9]/g,"x");
+        console.log("url2id='" + id + "'");
+        return id;
+    };
 
-  this.saveLS = function (pLSID) {
-    var vLSID = pLSID || "jsondata";
-    console.log("saveLS('"+vLSID+"')-Call");
-    var vJSON = this.getValue();
-    var vJSONstring = "";
-    if (typeof(Storage) != "undefined") {
-        // Store
-        if (typeof(vJSON) != undefined) {
-          console.log("LocalStorage: '"+vLSID+"' is defined, JSONDB in  Local Storage");
-          if (vJSON) {
-            //console.log("pJSONDB '"+vLSID+"' is saved to Local Storage");
-            vJSONstring = JSON.stringify(vJSON);
-            console.log("LocalStorage: saveLS('"+vLSID+"') JSONstring='"+vJSONstring.substr(0,240)+"...' DONE");
-            localStorage.setItem(vLSID,vJSONstring);
+    this.loadLS = function (pLSID) {
+      var vLSID = this.url2id() || pLSID || "jsondatra"; //this.aJSON.data.appname;
+      var vJSONstring = "";
+      if (typeof(Storage) != "undefined") {
+          // Store
+          if (typeof(localStorage.getItem(vLSID)) !== undefined) {
+            console.log("LocalStorage: '"+vLSID+"' try loading from Local Storage");
+            vJSONstring = localStorage.getItem(vLSID);
+            if (!vJSONstring) {
+              console.log("LocalStorage: '"+vLSID+"' undefined in Local Storage.\nSave default as JSON");
+              vJSONstring = JSON.stringify(this.getValue());
+              console.log("LocalStorage: loadLS('"+vLSID+"') - init with JSONstring='"+vJSONstring.substr(0,120)+"...'");
+              localStorage.setItem(vLSID, vJSONstring);
+            } else {
+              console.log("parse JSON '"+vLSID+"') from LocalStorage JSONstring='"+vJSONstring.substr(0,120)+"...'");
+              try {
+                  this.aJSON = JSON.parse(vJSONstring);
+              } catch(e) {
+                  alert("ERROR: "+ e);
+              }
+            }
           } else {
-            console.log("vJSON with JSON is NOT defined");
+            console.log("JSON-Data '"+vLSID+"' is undefined in Local Storage.\nSave default as JSON");
+            localStorage.setItem(vLSID, JSON.stringify(this.aEditor.getValue()));
           }
-        } else {
-          console.log("JSON Data '"+vLSID+"' is undefined");
-        }
       }	 else {
-        console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
+          console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
       }
-  };
+    };
+
+
+    this.saveLS = function (pLSID,pJSON) {
+      var vLSID = this.url2id() || pLSID || "jsondata";
+      console.log("saveLS('"+vLSID+"')-Call");
+      var vJSON = pJSON || this.getValue();
+      var vJSONstring = "";
+      if (typeof(Storage) != "undefined") {
+          // Store
+          if (typeof(vJSON) != undefined) {
+            console.log("LocalStorage: '"+vLSID+"' is defined, JSONDB in  Local Storage");
+            if (vJSON) {
+              //console.log("pJSONDB '"+vLSID+"' is saved to Local Storage");
+              vJSONstring = JSON.stringify(vJSON);
+              console.log("LocalStorage: saveLS('"+vLSID+"') JSONstring='"+vJSONstring.substr(0,240)+"...' DONE");
+              localStorage.setItem(vLSID,vJSONstring);
+            } else {
+              console.log("vJSON with JSON is NOT defined");
+            }
+          } else {
+            console.log("JSON Data '"+vLSID+"' is undefined");
+          }
+        }	 else {
+          console.log("WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...");
+        }
+    };
 
   this.loadJSON = function () {
     var vThis = this;
