@@ -56,7 +56,8 @@
   },
   "homepage": "https://niebert.github.io/JSONEditor4Code",
   "dependencies": {
-    "handlebars": "^4.3.0",
+     "minimist": ">=0.2.1",
+	"handlebars": "^4.3.0",
     "jquery": "^3.4.1",
     "linkparam": "^1.0.8"
   }
