@@ -831,7 +831,8 @@ The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 
 
 ## Libraries required for  `JSONEditor4Code`
 The following libraries are necessary for `jsoneditor4code.js`:
-* Lib: `handlebars` Version: `^4.1.2`
+* Lib: `minimist` Version: `>=0.2.1`
+* Lib: `handlebars` Version: `^4.3.0`
 * Lib: `jquery` Version: `^3.4.1`
 * Lib: `linkparam` Version: `^1.0.8`
 
@@ -839,7 +840,7 @@ The following libraries are necessary for `jsoneditor4code.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `build4code` Version: `^0.2.11`
+* Lib: `build4code` Version: `^0.3.8`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.4.0`
 * Lib: `jsdom` Version: `^15.1.1`
@@ -849,10 +850,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.11`   (last build 2019/09/19 17:18:22)
+* Version:  `1.1.12`   (last build 2020/09/21 20:13:16)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2019/09/19 17:18:22
+* Date:     2020/09/21 20:13:16
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');

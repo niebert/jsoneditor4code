@@ -52,7 +52,7 @@
             {
                 "visibility": "public",
                 "name": "aOptions",
-                "init": "{\n    \"editor_id\": \"editor_holder\",\n    \"validator_id\": \"valid_indicator\",\n    \"load_file_id\": \"load_filename\",\n    \"filename_key\": \"filename\",\n    \"out_json\": \"tOutJSON\",\n    \"out_code\": \"tOutput\",\n    \"out_errors\": \"tErrors\",\n    \"theme\": \"bootstrap3\",\n    \"iconlib\": \"icons4menu\",\n    \"plugins\": {\n        \"ace\": {\n            \"theme\": \"xcode\"\n        }\n    }\n}",
+                "init": "{\n    \"editor_id\": \"editor_holder\",\n    \"validator_id\": \"valid_indicator\",\n    \"load_file_id\": \"load_filename\",\n    \"filename_id\": \"display_filename\",\n    \"filename_key\": \"data.classname\",\n    \"out_json\": \"tOutJSON\",\n    \"out_code\": \"tOutput\",\n    \"out_errors\": \"tErrors\",\n    \"theme\": \"bootstrap3\",\n    \"iconlib\": \"icons4menu\",\n    \"plugins\": {\n        \"ace\": {\n            \"theme\": \"xcode\"\n        }\n    }\n}",
                 "comment": "the attribute stores ..."
             },
             {
@@ -413,7 +413,7 @@
                 "parameter": [],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n\n    if (this.aOptions.hasOwnProperty(\"filename_key\")) {\n      var vNode = this.el(this.aOptions.filename_id); // e.g. filename_id = \"load_filename\";\n      var vJSON = this.aJSON;\n      if (vNode) {\n        if (this.aEditor) {\n          console.log(\"CALL: update_filename() - use vJSON = this.aEditor.getValue()!\");\n          vJSON = this.aEditor.getValue();\n        } else {\n          console.log(\"CALL: update_filename() - this.aEditor not defined!\");\n        }\n      }\n\n      var vDOMID = this.aOptions.filename_id;\n      if (this.el(vDOMID)) {\n        if (vJSON.data) {\n          if (vJSON.data.hasOwnProperty(\"classname\")) {\n            console.log(\"CALL: update_filename('\"+vJSON.data.classname+\"') - Name of class was updated in DOM node [\"+vDOMID+\"]!\");\n            vNode.innerHTML = class2filename(vJSON.data.classname)+vJSON.settings.extension4code;\n          } else {\n            console.log(\"WARNING: update_filename() - Attribute 'classname' in 'this.aJSON.data.classname' - was not defined!\");\n          }\n        } else {\n          console.log(\"WARNING: update_filename() - this.aJSON does not contain the hash 'this.aJSON.data' for access to classname 'this.aJSON.data.classname' - update of classname in DOM was not performed!\");\n        }\n      } else {\n        console.log(\"WARNING: update_filename() - DOM node [\"+vDOMID+\"] does not exist!\");\n      }\n    } else {\n      console.log(\"WARNING: update_filename() - DOM-ID is not defined in this.aOptions['filename_id']\");\n    }\n  "
+                "code": "\n\n    if (this.aOptions.hasOwnProperty(\"filename_id\")) {\n      var vNode = this.el(this.aOptions.filename_id); // e.g. filename_id = \"load_filename\";\n      var vJSON = this.aJSON; // default value\n      if (vNode) {\n        if (this.aEditor) {\n          console.log(\"CALL: update_filename() - use vJSON = this.aEditor.getValue()!\");\n          vJSON = this.aEditor.getValue();\n          this.aJSON = vJSON;\n        } else {\n          console.log(\"CALL: update_filename() - this.aEditor not defined!\");\n        }\n      }\n\n      var vDOMID = this.aOptions.filename_id;\n      if (this.el(vDOMID)) {\n        if (vJSON.data) {\n          if (vJSON.data.hasOwnProperty(\"classname\")) {\n            console.log(\"CALL: update_filename('\"+vJSON.data.classname+\"') - Name of class was updated in DOM node [\"+vDOMID+\"]!\");\n            vNode.innerHTML = class2filename(vJSON.data.classname)+vJSON.settings.extension4code;\n          } else {\n            console.log(\"WARNING: update_filename() - Attribute 'classname' in 'this.aJSON.data.classname' - was not defined!\");\n          }\n        } else {\n          console.log(\"WARNING: update_filename() - this.aJSON does not contain the hash 'this.aJSON.data' for access to classname 'this.aJSON.data.classname' - update of classname in DOM was not performed!\");\n        }\n      } else {\n        console.log(\"WARNING: update_filename() - DOM node [\"+vDOMID+\"] does not exist!\");\n      }\n    } else {\n      console.log(\"WARNING: update_filename() - DOM-ID is not defined in this.aOptions['filename_id']\");\n    }\n  "
             },
             {
                 "visibility": "public",
@@ -452,6 +452,14 @@
             },
             {
                 "visibility": "public",
+                "name": "url2id",
+                "parameter": [],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "\n        var url = document.location.href;\n        var id = url.replace(/[^A-Za-z0-9]/g,\"x\");\n        console.log(\"url2id='\" + id + \"'\");\n        return id;\n    "
+            },
+            {
+                "visibility": "public",
                 "name": "loadLS",
                 "parameter": [
                     {
@@ -462,7 +470,7 @@
                 ],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n    var vLSID = pLSID || \"jsondatra\"; //this.aJSON.data.classname;\n    var vJSONstring = \"\";\n    if (typeof(Storage) != \"undefined\") {\n        // Store\n        if (typeof(localStorage.getItem(vLSID)) !== undefined) {\n          console.log(\"LocalStorage: '\"+vLSID+\"' try loading from Local Storage\");\n          vJSONstring = localStorage.getItem(vLSID);\n          if (!vJSONstring) {\n            console.log(\"LocalStorage: '\"+vLSID+\"' undefined in Local Storage.\\nSave default as JSON\");\n            vJSONstring = JSON.stringify(this.getValue());\n            console.log(\"LocalStorage: loadLS('\"+vLSID+\"') - init with JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n            localStorage.setItem(vLSID, vJSONstring);\n          } else {\n            console.log(\"parse JSON '\"+vLSID+\"') from LocalStorage JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n            try {\n                this.aJSON = JSON.parse(vJSONstring);\n            } catch(e) {\n                alert(\"ERROR: \"+ e);\n            }\n          }\n        } else {\n          console.log(\"JSON-Data '\"+vLSID+\"' is undefined in Local Storage.\\nSave default as JSON\");\n          localStorage.setItem(vLSID, JSON.stringify(this.aEditor.getValue()));\n        }\n    }\t else {\n        console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n    }\n  "
+                "code": "\n      var vLSID = this.url2id() || pLSID || \"jsondatra\"; //this.aJSON.data.appname;\n      var vJSONstring = \"\";\n      if (typeof(Storage) != \"undefined\") {\n          // Store\n          if (typeof(localStorage.getItem(vLSID)) !== undefined) {\n            console.log(\"LocalStorage: '\"+vLSID+\"' try loading from Local Storage\");\n            vJSONstring = localStorage.getItem(vLSID);\n            if (!vJSONstring) {\n              console.log(\"LocalStorage: '\"+vLSID+\"' undefined in Local Storage.\\nSave default as JSON\");\n              vJSONstring = JSON.stringify(this.getValue());\n              console.log(\"LocalStorage: loadLS('\"+vLSID+\"') - init with JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n              localStorage.setItem(vLSID, vJSONstring);\n            } else {\n              console.log(\"parse JSON '\"+vLSID+\"') from LocalStorage JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n              try {\n                  this.aJSON = JSON.parse(vJSONstring);\n              } catch(e) {\n                  alert(\"ERROR: \"+ e);\n              }\n            }\n          } else {\n            console.log(\"JSON-Data '\"+vLSID+\"' is undefined in Local Storage.\\nSave default as JSON\");\n            localStorage.setItem(vLSID, JSON.stringify(this.aEditor.getValue()));\n          }\n      }\t else {\n          console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n      }\n    "
             },
             {
                 "visibility": "public",
@@ -472,11 +480,16 @@
                         "name": "pLSID",
                         "class": " ",
                         "comment": "the parameter provides ..."
+                    },
+                    {
+                        "name": "pJSON",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
                     }
                 ],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n    var vLSID = pLSID || \"jsondata\";\n    console.log(\"saveLS('\"+vLSID+\"')-Call\");\n    var vJSON = this.getValue();\n    var vJSONstring = \"\";\n    if (typeof(Storage) != \"undefined\") {\n        // Store\n        if (typeof(vJSON) != undefined) {\n          console.log(\"LocalStorage: '\"+vLSID+\"' is defined, JSONDB in  Local Storage\");\n          if (vJSON) {\n            //console.log(\"pJSONDB '\"+vLSID+\"' is saved to Local Storage\");\n            vJSONstring = JSON.stringify(vJSON);\n            console.log(\"LocalStorage: saveLS('\"+vLSID+\"') JSONstring='\"+vJSONstring.substr(0,240)+\"...' DONE\");\n            localStorage.setItem(vLSID,vJSONstring);\n          } else {\n            console.log(\"vJSON with JSON is NOT defined\");\n          }\n        } else {\n          console.log(\"JSON Data '\"+vLSID+\"' is undefined\");\n        }\n      }\t else {\n        console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n      }\n  "
+                "code": "\n      var vLSID = this.url2id() || pLSID || \"jsondata\";\n      console.log(\"saveLS('\"+vLSID+\"')-Call\");\n      var vJSON = pJSON || this.getValue();\n      var vJSONstring = \"\";\n      if (typeof(Storage) != \"undefined\") {\n          // Store\n          if (typeof(vJSON) != undefined) {\n            console.log(\"LocalStorage: '\"+vLSID+\"' is defined, JSONDB in  Local Storage\");\n            if (vJSON) {\n              //console.log(\"pJSONDB '\"+vLSID+\"' is saved to Local Storage\");\n              vJSONstring = JSON.stringify(vJSON);\n              console.log(\"LocalStorage: saveLS('\"+vLSID+\"') JSONstring='\"+vJSONstring.substr(0,240)+\"...' DONE\");\n              localStorage.setItem(vLSID,vJSONstring);\n            } else {\n              console.log(\"vJSON with JSON is NOT defined\");\n            }\n          } else {\n            console.log(\"JSON Data '\"+vLSID+\"' is undefined\");\n          }\n        }\t else {\n          console.log(\"WARNING: Sorry, your browser does not support Local Storage of JSON Database. Use Firefox ...\");\n        }\n    "
             },
             {
                 "visibility": "public",
@@ -572,7 +585,7 @@
                 ],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n      console.log(\"getOutput4Template('\"+pTplID+\"')\");\n      this.update_modified();\n      var vJSON = this.aEditor.getValue();\n      //-- HandleBars: Compile with javascript-template ---\n      // vDataJSON[\"out\"][\"javascript\"] is HandleBars compiler function\n      // Compile functions was generated from \"tpl/docu4github_tpl.js\"\n      var vContent = \"Undefined Handlebars Compiler TplID='\"+pTplID+\"'\";\n      if (this.compileCode[pTplID]) {\n        vContent = this.compileCode[pTplID](vJSON);\n        //--Textarea Output----------------\n        this.viewOutput(vContent);\n        //---------------------------------\n      } else {\n        console.log(\"compileCode['\"+pTplCode+\"'] undefined\");\n      }\n\n      return vContent;\n  "
+                "code": "\n      console.log(\"getOutput4Template('\"+pTplID+\"')\");\n      this.update_modified();\n      var vJSON = this.aEditor.getValue();\n      //-- HandleBars: Compile with javascript-template ---\n      // vDataJSON[\"out\"][\"javascript\"] is HandleBars compiler function\n      // Compile functions was generated from \"tpl/docu4github_tpl.js\"\n      var vContent = \"Undefined Handlebars Compiler TplID='\"+pTplID+\"'\";\n      if (this.compileCode[pTplID]) {\n        vContent = this.compileCode[pTplID](vJSON);\n        //--Textarea Output----------------\n        this.viewOutput(vContent);\n        //---------------------------------\n      } else {\n        console.warn(\"compileCode.\"+pTplID+\"(pJSON) function undefined\");\n      }\n\n      return vContent;\n  "
             },
             {
                 "visibility": "public",
