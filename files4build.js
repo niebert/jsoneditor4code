@@ -61,6 +61,7 @@ const getReadme4Build = function (pPath) {
     pPath+'doctoc.md',
     //'./src/readme_install.md',
     pPath+'installation.md',
+    pPath+'folderdocs.md',
     pPath+'usage.md',
     pPath+'handlebars4code.md',
     /*

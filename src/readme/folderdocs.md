@@ -5,7 +5,7 @@ The folder `docs/` contains all files for the web demo of this repository, that 
 
 ## Files, Folders and Structure of Repository
 The following enumeration explains the structure of the repository and folders.
-* `dist/` folder contains all
+* `dist/` folder contains the generated libraries by the command `npm run build`.
 * `docs/` folder contains all the web content that you can access via `github.io` defined in the settings of the GitHub repository as server root for the demo.
   * `docs/ace` folder contains files for the editor ACE, that is used in JSON-Editor to edit source code.
   * `docs/db` folder contains JSON database which initializes the JSON-Editor with the default JSON data. If the user saves the file, the current JSON data is stored in the LocalStorage of the browser.
