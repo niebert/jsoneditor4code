@@ -1,7 +1,7 @@
 {
   "name": "jsoneditor4code",
   "exportvar": "JSONEditor4Code",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn",
   "main": "src/main.js",
   "directories": {
