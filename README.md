@@ -14,6 +14,8 @@ The following table of contents is generated with `node doctoc README.md`.
 - [Installation `JSONEditor4Code`](#installation-jsoneditor4code)
   - [Installation for Browsers](#installation-for-browsers)
   - [Init the JSON Editor](#init-the-json-editor)
+- [Folder and Files in `docs/`](#folder-and-files-in-docs)
+- [Files, Folders and Structure of Repository](#files-folders-and-structure-of-repository)
 - [Quick Start for Users of JSONEditor4Code](#quick-start-for-users-of-jsoneditor4code)
 - [Templates for Handlebars4Code](#templates-for-handlebars4code)
 - [vDataJSON as Template Storage](#vdatajson-as-template-storage)
@@ -139,6 +141,27 @@ vDataJSON.tpl.["class_schema"]
 -->
 <script src="schema/class_uml_schema.js"></script>
 ```
+<!-- src/readme/folderdocs.md -->
+## Folder and Files in `docs/`
+The folder `docs/` contains all files for the web demo of this repository, that can be accessed to the `https://___PKG_GITHUBUSER___.github.io/JSONEditor4Code`.
+
+
+## Files, Folders and Structure of Repository
+The following enumeration explains the structure of the repository and folders.
+* `dist/` folder contains the generated libraries by the command `npm run build`.
+* `docs/` folder contains all the web content that you can access via `github.io` defined in the settings of the GitHub repository as server root for the demo.
+  * `docs/ace` folder contains files for the editor ACE, that is used in JSON-Editor to edit source code.
+  * `docs/db` folder contains JSON database which initializes the JSON-Editor with the default JSON data. If the user saves the file, the current JSON data is stored in the LocalStorage of the browser.
+  * `docs/css` folder contains all style sheet for the webbased demo in `docs`.
+  * `docs/fonts` folder contains the fonts for the FontAwesome.
+  * `docs/jquery` folder contains the JQuery implementation so that a webbased demo runs offline.
+  * `docs/js` folder contains all Javascript libraries used for the webbased demo.
+  * `docs/schema` folder contains JSON schema for the webbased demo created [JSON2schema](https://niebert.github.io/JSON2Schema), defining the input user interface for editing the JSON file
+  * `docs/tpl` folder contains the HandleBars template generating the source code from the [UML definition](https://en.wikipedia.org/wiki/Unified_Modeling_Language).
+  * `docs/index.html` files starts the webbased demo.
+* `jscc/` folder contains the [JavascriptClassCreator](https://niebert.github.io/JavascriptClassCreator) files that are used to create object-oriented Javascript class files.  
+* `src/` folder contains the file `main.js` for NPM defined in `package.json` and other source files in the future, to create a the library for webbased use in a browser can be found in the folder `dist/`. The files in `dist/` are created with `browsersify` and/or  `watchify`.
+* `update_src_libs.sh` is a shell script that works on Linux and MacOSX to perform some library updates from the web and the `update_src_libs.sh` can be used to initialize a new repository with the basic WebApp structure as an privacy friendly [AppLSAC](https://en.wikiversity.org/wiki/AppLSAC).
 <!-- BEGIN: src/readme/usage.md -->
 
 ## Quick Start for Users of JSONEditor4Code
@@ -850,10 +873,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.13`   (last build 2020/09/21 20:15:34)
+* Version:  `1.1.14`   (last build 2020/09/23 16:21:56)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2020/09/21 20:15:34
+* Date:     2020/09/23 16:21:56
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
