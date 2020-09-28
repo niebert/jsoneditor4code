@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "devDependencies": {
-    "build4code": "^0.3.8",
+    "build4code": "^0.3.26",
     "concat-files": "^0.1.1",
     "doctoc": "^1.4.0",
     "jsdom": "^15.1.1",
@@ -28,7 +28,7 @@
     "htmlsrc": "docs/index_src_libs_build.html"
   },
   "js2uml": {
-    "default": "jscc/jsoneditor4code.json",
+    "default": "jscc/jsoneditor4code_default_uml.json",
     "filename": "jscc/jsoneditor4code_uml.json",
     "is_constructor": true
   },
@@ -56,8 +56,6 @@
   },
   "homepage": "https://niebert.github.io/JSONEditor4Code",
   "dependencies": {
-    "minimist": ">=0.2.1",
-    "handlebars": "^4.3.0",
     "jquery": "^3.4.1",
     "linkparam": "^1.0.8"
   }

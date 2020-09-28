@@ -23,60 +23,70 @@
                 "visibility": "public",
                 "name": "aLinkParam",
                 "init": "{}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aDoc",
                 "init": "null",
+                "class": "null",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aJSON",
                 "init": "{}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aInitJSON",
                 "init": "{}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aDefaultJSON",
                 "init": "{}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aSchema",
                 "init": "null",
+                "class": "null",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aOptions",
                 "init": "{\n    \"editor_id\": \"editor_holder\",\n    \"validator_id\": \"valid_indicator\",\n    \"load_file_id\": \"load_filename\",\n    \"filename_id\": \"display_filename\",\n    \"filename_key\": \"data.classname\",\n    \"out_json\": \"tOutJSON\",\n    \"out_code\": \"tOutput\",\n    \"out_errors\": \"tErrors\",\n    \"theme\": \"bootstrap3\",\n    \"iconlib\": \"icons4menu\",\n    \"plugins\": {\n        \"ace\": {\n            \"theme\": \"xcode\"\n        }\n    }\n}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aSettingsBOOL",
                 "init": "false",
+                "class": "boolean",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "aEditor",
                 "init": "null",
+                "class": "null",
                 "comment": "the attribute stores ..."
             },
             {
                 "visibility": "public",
                 "name": "compileCode",
                 "init": "{}",
+                "class": "object",
                 "comment": "the attribute stores ..."
             }
         ],

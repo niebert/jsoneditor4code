@@ -78,7 +78,7 @@ The following table of contents is generated with `node doctoc README.md`.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation `JSONEditor4Code`
-The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js` (see example [`Demo JSONEditor4Code`](https://niebert.gitlab.io/jsoneditor4code)).
+The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js` (see example [`Demo JSONEditor4Code`](null)).
 
 ### Installation for Browsers
 If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder of WebApp that you want to test with a browser (e.g. `js/jsoneditor4code.js`). If you want expand existing examples check the basic example in `docs/index.html` first and play around with that HTML-file. If you want to import the library with `script`-tag do it in the standard way with:
@@ -166,7 +166,7 @@ The following enumeration explains the structure of the repository and folders.
 
 ## Quick Start for Users of JSONEditor4Code
 
-Just download the [ZIP-file of the JSONEditor4Code repository](https://github.com/niebert/JSONEditor4Code/-/archive/master/jsoneditor4code-master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
+Just download the [ZIP-file of the JSONEditor4Code repository](https://www.gitlab.com/niebert/jsoneditor4code-/archive/master/jsoneditor4code-master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
 and navigate to the `docs/`-folder and load the
 `docs/index.html` in your browser as privacy-friendly [AppLSAC-2](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache/Types_of_AppLSAC).
 All files, that are equired  for the AppLSAC to run are stored in the docs folder. Only if you are planing the change the source code of the AppLSAC `JSONEditor4Code` you need the other folders.
@@ -854,8 +854,6 @@ The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 
 
 ## Libraries required for  `JSONEditor4Code`
 The following libraries are necessary for `jsoneditor4code.js`:
-* Lib: `minimist` Version: `>=0.2.1`
-* Lib: `handlebars` Version: `^4.3.0`
 * Lib: `jquery` Version: `^3.4.1`
 * Lib: `linkparam` Version: `^1.0.8`
 
@@ -863,7 +861,7 @@ The following libraries are necessary for `jsoneditor4code.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4code`. 
 These libraries are not included in `jsoneditor4code.js`, but e.g. are required in `build.js`.
-* Lib: `build4code` Version: `^0.3.8`
+* Lib: `build4code` Version: `^0.3.26`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.4.0`
 * Lib: `jsdom` Version: `^15.1.1`
@@ -873,10 +871,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.19`   (last build 2020/09/28 15:33:25)
+* Version:  `1.1.20`   (last build 2020/09/28 16:39:29)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2020/09/28 15:33:25
+* Date:     2020/09/28 16:39:29
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
