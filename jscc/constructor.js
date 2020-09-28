@@ -28,6 +28,7 @@ function JSONEditor4Code () {
   // var editor = new JSONEditor4Code();
   // editor.initDoc(document)
   this.aJSON = {};
+  this.aInitJSON = {};
   this.aDefaultJSON = {};
   this.aSchema = null;
   this.aOptions = {
@@ -87,28 +88,34 @@ function JSONEditor4Code () {
           return vJSON_LS;
   };
 
-  this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
+  this.init = function (pInitJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
       // LOAD PRIORITY
       // (1) jsondata in Link Parameter
-      // (2) pJSON if init data provide by constructor
-      // (3) pJSON as initialized with default data
+      // (2) vJSON is loaded from LocalStorage
+      // (3) pInitJSON if init/demo data provide by constructor
+      // (4) pDefaultJSON as initialized with default data on delete
+      this.aInitJSON = pInitJSON;
       this.aLinkParam.init(this.aDoc);
       var vJSON = pDefaultJSON;
+      // JSON could be provided by LinkParameter
       var vJSON4LinkParam = this.loadLinkParam("jsondata");
+      // JSON could be stored in LocalStorage of Browser
       var vJSON4LS = this.getLS4JSON();
       if (vJSON4LinkParam) {
         // (1) highest priority: jsondata in Link Parameter
         console.log("CALL: JSONEditor4Code.init() - init with LinkParam JSON data");
         vJSON = vJSON4LinkParam;
       } else if (vJSON4LS) {
+        // (2) medium priority: jsondata loaded from LocalStorage if saved
         console.log("CALL: JSONEditor4Code.init() - init JSON Editor with LocalStorga JSON data");
         vJSON = vJSON4LS;
-      } else if (pJSON) {
-        // (2) pJSON if init data provide by constructor
+      } else if (pInitJSON) {
+        // (3) pInitJSON if init/demo data provide by constructor init call
         console.log("CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor");
-        vJSON = pJSON;
+        vJSON = pInitJSON;
+        this.aInitJSON = pInitJSON;
       } else {
-        // (3) pJSON as initialized with default data
+        // (4) pDefaultJSON as initialized with default data
         console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
         if (pDefaultJSON) {
           vJSON = pDefaultJSON;
@@ -386,9 +393,18 @@ function JSONEditor4Code () {
     		} else {
     			console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
         }
-      	console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
-        this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
-    } else {
+        var vInitOK = confirm("Do you want to initalize the UML-class with a DEMO of '"+getClassName(this.aJSON)+"' first?");
+    		if (vInitOK == true) {
+    			this.aEditor.setValue(this.aInitJSON);
+    			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
+    		} else {
+          this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
+        	console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' data deleted!");
+        }
+        this.saveLS("jsondata");
+      	this.update_filename();
+        this.update_modified();
+  } else {
         console.log("initialize JSON-DB cancelled");
     }
   };
@@ -411,6 +427,8 @@ function JSONEditor4Code () {
         };
         this.aEditor.setValue(vEmptyJSON);
         localStorage.clear();
+        this.update_filename();
+        this.update_modified();
         console.log("JSON-DB deleted'!");
         //save changes to Local Storage
     } else {

@@ -384,6 +384,7 @@ function JSONEditor4Code () {
           this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
         	console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' data deleted!");
         }
+        this.saveLS("jsondata");
       	this.update_filename();
         this.update_modified();
   } else {
@@ -409,6 +410,8 @@ function JSONEditor4Code () {
         };
         this.aEditor.setValue(vEmptyJSON);
         localStorage.clear();
+        this.update_filename();
+        this.update_modified();
         console.log("JSON-DB deleted'!");
         //save changes to Local Storage
     } else {
