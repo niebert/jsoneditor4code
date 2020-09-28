@@ -54,10 +54,97 @@ function JSONEditor4Code () {
     this.aDoc = pDoc;
     //this.aDoc.JSONEditor = JSONEditor;
   };
-
   this.initJSON = function () {
-    console.log("Init JSON in JSON Editor");
+    var vName = vFileBase;
+    console.log("Init with aDefaultJSON in JSON Editor stored in 'docs/db/menu_default.js'");
     this.aEditor.setValue(this.aDefaultJSON);
+  };
+
+  this.getLS4JSON = function () {
+        console.log("CALL: initLS4JSON() init JSON from Local Storage");
+        var vName = vFileBase || "JSON4LS";
+        var vJSON_LS = null;
+        var vLS_ID = this.url2id();
+        if (typeof(localStorage.getItem(vLS_ID)) !== undefined) {
+            console.log("CALL: initLS4JSON() - try init JSON Editor from Local Storage ");
+            var vJSONstring = localStorage.getItem(vLS_ID);
+            if (!vJSONstring) {
+              console.log("CALL: initLS4JSON() - JSON-DB '"+vName+"' undefined in Local Storage.\nSave default as JSON");
+            } else {
+              console.log("CALL: initLS4JSON() - parse DB '"+vName+"') from LocalStorage JSONstring='"+vJSONstring.substr(0,120)+"...'");
+              try {
+                  vJSON_LS = JSON.parse(vJSONstring);
+                  if (vJSON_LS) {
+                    console.log("CALL: initLS4JSON() - Successful update of JSON Editor from Localstorage ID='" + vLS_ID + "'");
+                  } else {
+                    console.error("CALL: initLS4JSON() - parsed JSON in initJSON4LS() undefined 'vJSON_JS' from LocalStorage");
+                  }
+              } catch(e) {
+                  alert("ERROR CALL initLS4JSON():" + e);
+              }
+            }
+          }
+          return vJSON_LS;
+  };
+
+  this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
+      // LOAD PRIORITY
+      // (1) jsondata in Link Parameter
+      // (2) pJSON if init data provide by constructor
+      // (3) pJSON as initialized with default data
+      this.aLinkParam.init(this.aDoc);
+      var vJSON = pDefaultJSON;
+      var vJSON4LinkParam = this.loadLinkParam("jsondata");
+      var vJSON4LS = this.getLS4JSON();
+      if (vJSON4LinkParam) {
+        // (1) highest priority: jsondata in Link Parameter
+        console.log("CALL: JSONEditor4Code.init() - init with LinkParam JSON data");
+        vJSON = vJSON4LinkParam;
+      } else if (vJSON4LS) {
+        console.log("CALL: JSONEditor4Code.init() - init JSON Editor with LocalStorga JSON data");
+        vJSON = vJSON4LS;
+      } else if (pJSON) {
+        // (2) pJSON if init data provide by constructor
+        console.log("CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor");
+        vJSON = pJSON;
+      } else {
+        // (3) pJSON as initialized with default data
+        console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
+        if (pDefaultJSON) {
+          vJSON = pDefaultJSON;
+          console.log("pDefaultJSON defined in JSONEditor4Code.init()");
+        } else {}
+          console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
+          vJSON = {
+            data: {},
+            settings: {}
+          };
+      }
+      this.aJSON = vJSON;
+      console.log("HTML-INIT init_definitions(pJSON,pSchema)): "+JSON.stringify(vJSON,null,4));
+      this.aDefaultJSON = pDefaultJSON;
+      // extend/overwrite options
+      this.aOptions = pOptions;
+      this.aTemplates = pTemplates;
+      this.aSchema = pSchema;
+
+      console.log("HTML-INIT (1) JSONEditor4Code.init(...)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
+      //PARMETER SCOPEERROR: do not provide attributes with parameter of methods - use aSchema and aJSON instead
+      //DO NOT USE: this.aSchema = this.init_definitions(vJSON,pSchema);
+      this.init_definitions();
+      // Extend aOptions with settings in pOption
+      for (var iKey in pOptions) {
+        if (pOptions.hasOwnProperty(iKey)) {
+          this.aOptions[iKey] = pOptions[iKey];
+        }
+      }
+      // COMPILE the templates with Handlebars
+      //this.aSchema = vSchema;
+      this.create_compiler4tpl();
+      this.create_editor();
+      //JSONEditor.plugins.ace.theme = 'xcode';
+      this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
+      this.update_filename();
   };
 
   this.loadLinkParam = function (pLSID) {
@@ -210,62 +297,6 @@ function JSONEditor4Code () {
         }
         //PARAM SCOPE WARNING: do not return an attribute of "this" instance - operated on this.aSchema instead;
         //DO NOT: return pSchema
-  };
-
-  this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
-    // LOAD PRIORITY
-    // (1) jsondata in Link Parameter
-    // (2) pJSON if init data provide by constructor
-    // (3) pJSON as initialized with default data
-    this.aLinkParam.init(this.aDoc);
-    var vJSON = pDefaultJSON;
-    var vJSON4LinkParam = this.loadLinkParam("jsondata");
-    if (vJSON4LinkParam) {
-      // (1) jsondata in Link Parameter
-      console.log("CALL: JSONEditor4Code.init() - init with LinkParam JSON data");
-      vJSON = vJSON4LinkParam;
-    } else if (pJSON) {
-      // (2) pJSON if init data provide by constructor
-      console.log("CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor");
-      vJSON = pJSON;
-    } else {
-      // (3) pJSON as initialized with default data
-      console.log("CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.");
-      if (pDefaultJSON) {
-        vJSON = pDefaultJSON;
-        console.log("pDefaultJSON defined in JSONEditor4Code.init()");
-      } else {}
-        console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
-        vJSON = {
-          data: {},
-          settings: {}
-        };
-    }
-    this.aJSON = vJSON;
-    console.log("HTML-INIT init_definitions(pJSON,pSchema)): "+JSON.stringify(vJSON,null,4));
-    this.aDefaultJSON = pDefaultJSON;
-    // extend/overwrite options
-    this.aOptions = pOptions;
-    this.aTemplates = pTemplates;
-    this.aSchema = pSchema;
-
-    console.log("HTML-INIT (1) JSONEditor4Code.init(...)): vJSON.settings="+JSON.stringify(vJSON.settings,null,4));
-    //PARMETER SCOPEERROR: do not provide attributes with parameter of methods - use aSchema and aJSON instead
-    //DO NOT USE: this.aSchema = this.init_definitions(vJSON,pSchema);
-    this.init_definitions();
-    // Extend aOptions with settings in pOption
-    for (var iKey in pOptions) {
-      if (pOptions.hasOwnProperty(iKey)) {
-        this.aOptions[iKey] = pOptions[iKey];
-      }
-    }
-    // COMPILE the templates with Handlebars
-    //this.aSchema = vSchema;
-    this.create_compiler4tpl();
-    this.create_editor();
-    //JSONEditor.plugins.ace.theme = 'xcode';
-    this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor
-    this.update_filename();
   };
 
   // create the Handlebars compiler function from templates in this.aTemplates
@@ -708,10 +739,13 @@ function JSONEditor4Code () {
   };
 
     this.url2id = function () {
-        var url = document.location.href;
-        var id = url.replace(/[^A-Za-z0-9]/g,"x");
-        console.log("url2id='" + id + "'");
-        return id;
+      var url = document.location.href;
+      var id = url.replace(/^https:\/\//g,"");
+      id = id.replace(/^http:\/\//g,"");
+      id = id.replace(/^file:\/\//g,"");
+      id = id.replace(/[^A-Za-z0-9]/g,"x");
+      console.log("url2id='" + id + "'");
+      return id;
     };
 
     this.loadLS = function (pLSID) {
@@ -838,7 +872,7 @@ function JSONEditor4Code () {
     // Get the value from the editor
     //alert("saveJSON()-Call");
     var vJSON = this.aEditor.getValue();
-    this.saveLS("jsondata");
+    this.saveLS("jsondata",vJSON);
     var vFile = this.getFilename(vJSON);
    // set modified date in reposinfo.modified
     this.update_modified();

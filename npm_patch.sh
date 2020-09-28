@@ -54,4 +54,4 @@ git commit -m "$msg"
 git push
 npm version patch
 echo "Update Version"
-node version4index.js
+node ./version4index.js

@@ -95,7 +95,49 @@
                 "parameter": [],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n    console.log(\"Init JSON in JSON Editor\");\n    this.aEditor.setValue(this.aDefaultJSON);\n  "
+                "code": "\n    var vName = vFileBase;\n    console.log(\"Init with aDefaultJSON in JSON Editor stored in 'docs/db/menu_default.js'\");\n    this.aEditor.setValue(this.aDefaultJSON);\n  "
+            },
+            {
+                "visibility": "public",
+                "name": "getLS4JSON",
+                "parameter": [],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "\n        console.log(\"CALL: initLS4JSON() init JSON from Local Storage\");\n        var vName = vFileBase || \"JSON4LS\";\n        var vJSON_LS = null;\n        var vLS_ID = this.url2id();\n        if (typeof(localStorage.getItem(vLS_ID)) !== undefined) {\n            console.log(\"CALL: initLS4JSON() - try init JSON Editor from Local Storage \");\n            var vJSONstring = localStorage.getItem(vLS_ID);\n            if (!vJSONstring) {\n              console.log(\"CALL: initLS4JSON() - JSON-DB '\"+vName+\"' undefined in Local Storage.\\nSave default as JSON\");\n            } else {\n              console.log(\"CALL: initLS4JSON() - parse DB '\"+vName+\"') from LocalStorage JSONstring='\"+vJSONstring.substr(0,120)+\"...'\");\n              try {\n                  vJSON_LS = JSON.parse(vJSONstring);\n                  if (vJSON_LS) {\n                    console.log(\"CALL: initLS4JSON() - Successful update of JSON Editor from Localstorage ID='\" + vLS_ID + \"'\");\n                  } else {\n                    console.error(\"CALL: initLS4JSON() - parsed JSON in initJSON4LS() undefined 'vJSON_JS' from LocalStorage\");\n                  }\n              } catch(e) {\n                  alert(\"ERROR CALL initLS4JSON():\" + e);\n              }\n            }\n          }\n          return vJSON_LS;\n  "
+            },
+            {
+                "visibility": "public",
+                "name": "init",
+                "parameter": [
+                    {
+                        "name": "pJSON",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
+                    },
+                    {
+                        "name": "pDefaultJSON",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
+                    },
+                    {
+                        "name": "pSchema",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
+                    },
+                    {
+                        "name": "pTemplates",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
+                    },
+                    {
+                        "name": "pOptions",
+                        "class": " ",
+                        "comment": "the parameter provides ..."
+                    }
+                ],
+                "return": " ",
+                "comment": "the method performs ...",
+                "code": "\n      // LOAD PRIORITY\n      // (1) jsondata in Link Parameter\n      // (2) pJSON if init data provide by constructor\n      // (3) pJSON as initialized with default data\n      this.aLinkParam.init(this.aDoc);\n      var vJSON = pDefaultJSON;\n      var vJSON4LinkParam = this.loadLinkParam(\"jsondata\");\n      var vJSON4LS = this.getLS4JSON();\n      if (vJSON4LinkParam) {\n        // (1) highest priority: jsondata in Link Parameter\n        console.log(\"CALL: JSONEditor4Code.init() - init with LinkParam JSON data\");\n        vJSON = vJSON4LinkParam;\n      } else if (vJSON4LS) {\n        console.log(\"CALL: JSONEditor4Code.init() - init JSON Editor with LocalStorga JSON data\");\n        vJSON = vJSON4LS;\n      } else if (pJSON) {\n        // (2) pJSON if init data provide by constructor\n        console.log(\"CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor\");\n        vJSON = pJSON;\n      } else {\n        // (3) pJSON as initialized with default data\n        console.log(\"CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.\");\n        if (pDefaultJSON) {\n          vJSON = pDefaultJSON;\n          console.log(\"pDefaultJSON defined in JSONEditor4Code.init()\");\n        } else {}\n          console.error(\"WARNING: pDefaultJSON undefined - use an empty JSON\");\n          vJSON = {\n            data: {},\n            settings: {}\n          };\n      }\n      this.aJSON = vJSON;\n      console.log(\"HTML-INIT init_definitions(pJSON,pSchema)): \"+JSON.stringify(vJSON,null,4));\n      this.aDefaultJSON = pDefaultJSON;\n      // extend/overwrite options\n      this.aOptions = pOptions;\n      this.aTemplates = pTemplates;\n      this.aSchema = pSchema;\n\n      console.log(\"HTML-INIT (1) JSONEditor4Code.init(...)): vJSON.settings=\"+JSON.stringify(vJSON.settings,null,4));\n      //PARMETER SCOPEERROR: do not provide attributes with parameter of methods - use aSchema and aJSON instead\n      //DO NOT USE: this.aSchema = this.init_definitions(vJSON,pSchema);\n      this.init_definitions();\n      // Extend aOptions with settings in pOption\n      for (var iKey in pOptions) {\n        if (pOptions.hasOwnProperty(iKey)) {\n          this.aOptions[iKey] = pOptions[iKey];\n        }\n      }\n      // COMPILE the templates with Handlebars\n      //this.aSchema = vSchema;\n      this.create_compiler4tpl();\n      this.create_editor();\n      //JSONEditor.plugins.ace.theme = 'xcode';\n      this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor\n      this.update_filename();\n  "
             },
             {
                 "visibility": "public",
@@ -179,40 +221,6 @@
                 "return": " ",
                 "comment": "the method performs ...",
                 "code": "\n      var vJSON = this.aJSON;\n      if (this.aEditor) {\n        vJSON = this.aEditor.getValue();\n      } else {\n        console.log(\"JSONEditor undefined\");\n      }\n      console.log(\"Call: init_definitions() Update Class in Schema - update filename\");\n        this.update_filename(); // update the filename in the DOM node with id \"load_filename\"\n        console.log(\"HTML-INIT init_definitions(pJSON,pSchema)): vJSON.settings=\"+JSON.stringify(vJSON.settings,null,4));\n        if (!vJSON) {\n          console.log(\"WARNING: src/exportmod.js - init_definitions() - vJSON undefined!\");\n          alert(\"WARNING: src/exportmod.js - init_definitions() - vJSON undefined!\");\n        } else if (!(vJSON.settings)) {\n          console.log(\"WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!\");\n          alert(\"WARNING: src/exportmod.js - init_definitions() - vJSON.settings undefined!\");\n        } else {\n            // use always one blank for \"no class\" otherwise value is regarded as undefined.\n            var watchclasses = [\" \"]; //\n            var i = 0;\n            console.log(\"Call: init_definitions() \");\n            // BASIC CLASSES: push all basic classes\n            var cl = vJSON.settings.baseclasslist;\n            console.log(\"Call: init_definitions() - BaseClassList: \"+JSON.stringify(cl,null,4));\n            this.append_classlist(watchclasses,cl);\n            // LOCAL CLASSES: push all local classes\n            cl = vJSON.settings.localclasslist;\n            console.log(\"Call: init_definitions() - LocalClassList: \"+JSON.stringify(cl,null,4));\n            this.append_classlist(watchclasses,cl);\n            // REMOTE CLASSES: push all remote classes\n            console.log(\"Call: init_definitions() - RemoteClassList: \"+JSON.stringify(cl,null,4));\n            cl = vJSON.settings.remoteclasslist;\n            this.append_classlist(watchclasses,cl);\n            watchclasses.sort();\n            console.log(\"Call: init_definitions() - watchclasses=('\"+watchclasses.join(\"','\")+\"')\");\n            if (this.aSchema.definitions) {\n              if (this.aSchema.definitions.selectorclass) {\n                this.aSchema.definitions.selectorclass.enum = watchclasses;\n              }\n            }\n        }\n        //PARAM SCOPE WARNING: do not return an attribute of \"this\" instance - operated on this.aSchema instead;\n        //DO NOT: return pSchema\n  "
-            },
-            {
-                "visibility": "public",
-                "name": "init",
-                "parameter": [
-                    {
-                        "name": "pJSON",
-                        "class": " ",
-                        "comment": "the parameter provides ..."
-                    },
-                    {
-                        "name": "pDefaultJSON",
-                        "class": " ",
-                        "comment": "the parameter provides ..."
-                    },
-                    {
-                        "name": "pSchema",
-                        "class": " ",
-                        "comment": "the parameter provides ..."
-                    },
-                    {
-                        "name": "pTemplates",
-                        "class": " ",
-                        "comment": "the parameter provides ..."
-                    },
-                    {
-                        "name": "pOptions",
-                        "class": " ",
-                        "comment": "the parameter provides ..."
-                    }
-                ],
-                "return": " ",
-                "comment": "the method performs ...",
-                "code": "\n    // LOAD PRIORITY\n    // (1) jsondata in Link Parameter\n    // (2) pJSON if init data provide by constructor\n    // (3) pJSON as initialized with default data\n    this.aLinkParam.init(this.aDoc);\n    var vJSON = pDefaultJSON;\n    var vJSON4LinkParam = this.loadLinkParam(\"jsondata\");\n    if (vJSON4LinkParam) {\n      // (1) jsondata in Link Parameter\n      console.log(\"CALL: JSONEditor4Code.init() - init with LinkParam JSON data\");\n      vJSON = vJSON4LinkParam;\n    } else if (pJSON) {\n      // (2) pJSON if init data provide by constructor\n      console.log(\"CALL: JSONEditor4Code.init() - use init data in pJSON for JSON editor\");\n      vJSON = pJSON;\n    } else {\n      // (3) pJSON as initialized with default data\n      console.log(\"CALL: JSONEditor4Code.init() - use default data in pDefaultJSON - also used by init_ask() method.\");\n      if (pDefaultJSON) {\n        vJSON = pDefaultJSON;\n        console.log(\"pDefaultJSON defined in JSONEditor4Code.init()\");\n      } else {}\n        console.error(\"WARNING: pDefaultJSON undefined - use an empty JSON\");\n        vJSON = {\n          data: {},\n          settings: {}\n        };\n    }\n    this.aJSON = vJSON;\n    console.log(\"HTML-INIT init_definitions(pJSON,pSchema)): \"+JSON.stringify(vJSON,null,4));\n    this.aDefaultJSON = pDefaultJSON;\n    // extend/overwrite options\n    this.aOptions = pOptions;\n    this.aTemplates = pTemplates;\n    this.aSchema = pSchema;\n\n    console.log(\"HTML-INIT (1) JSONEditor4Code.init(...)): vJSON.settings=\"+JSON.stringify(vJSON.settings,null,4));\n    //PARMETER SCOPEERROR: do not provide attributes with parameter of methods - use aSchema and aJSON instead\n    //DO NOT USE: this.aSchema = this.init_definitions(vJSON,pSchema);\n    this.init_definitions();\n    // Extend aOptions with settings in pOption\n    for (var iKey in pOptions) {\n      if (pOptions.hasOwnProperty(iKey)) {\n        this.aOptions[iKey] = pOptions[iKey];\n      }\n    }\n    // COMPILE the templates with Handlebars\n    //this.aSchema = vSchema;\n    this.create_compiler4tpl();\n    this.create_editor();\n    //JSONEditor.plugins.ace.theme = 'xcode';\n    this.aDoc.JSONEditor = JSONEditor; //assign to document.JSONEditor\n    this.update_filename();\n  "
             },
             {
                 "visibility": "public",
@@ -456,7 +464,7 @@
                 "parameter": [],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n        var url = document.location.href;\n        var id = url.replace(/[^A-Za-z0-9]/g,\"x\");\n        console.log(\"url2id='\" + id + \"'\");\n        return id;\n    "
+                "code": "\n      var url = document.location.href;\n      var id = url.replace(/^https:\\/\\//g,\"\");\n      id = id.replace(/^http:\\/\\//g,\"\");\n      id = id.replace(/^file:\\/\\//g,\"\");\n      id = id.replace(/[^A-Za-z0-9]/g,\"x\");\n      console.log(\"url2id='\" + id + \"'\");\n      return id;\n    "
             },
             {
                 "visibility": "public",
@@ -541,7 +549,7 @@
                 "parameter": [],
                 "return": " ",
                 "comment": "the method performs ...",
-                "code": "\n    // Get the value from the editor\n    //alert(\"saveJSON()-Call\");\n    var vJSON = this.aEditor.getValue();\n    this.saveLS(\"jsondata\");\n    var vFile = this.getFilename(vJSON);\n   // set modified date in reposinfo.modified\n    this.update_modified();\n    var vContent = JSON.stringify(vJSON,null,4);\n    saveFile2HDD(vFile,vContent);\n    console.log(\"JSON output '\"+vFile+\"':\\n\"+vContent);\n    alert(\"JSON File: '\"+vFile+\"' saved!\");\n  "
+                "code": "\n    // Get the value from the editor\n    //alert(\"saveJSON()-Call\");\n    var vJSON = this.aEditor.getValue();\n    this.saveLS(\"jsondata\",vJSON);\n    var vFile = this.getFilename(vJSON);\n   // set modified date in reposinfo.modified\n    this.update_modified();\n    var vContent = JSON.stringify(vJSON,null,4);\n    saveFile2HDD(vFile,vContent);\n    console.log(\"JSON output '\"+vFile+\"':\\n\"+vContent);\n    alert(\"JSON File: '\"+vFile+\"' saved!\");\n  "
             },
             {
                 "visibility": "public",

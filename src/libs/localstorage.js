@@ -19,13 +19,13 @@ function get_id4localstorage(pPrefix) {
   return vID;
 }
 
-function loadJS(pName) {
+function loadLS(pName) {
     var vName = pName || "class.json";
     if (typeof(Storage) != "undefined") {
         // Store
         if (typeof(localStorage.getItem(get_id4localstorage(vFileBase))) !== undefined) {
           console.log("JSON Data '"+vName+"' try loading from Local Storage");
-          var vJSONstring = localStorage.getItem(vFileBase);
+          var vJSONstring = localStorage.getItem(get_id4localstorage(vFileBase));
           if (!vJSONstring) {
             console.log("JSON-DB '"+vName+"' undefined in Local Storage.\nSave default as JSON");
             localStorage.setItem(vFileBase, JSON.stringify(editor.getValue()));
