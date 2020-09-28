@@ -1,20 +1,20 @@
 {
     "data": {
-        "classname": "DefaultClass",
+        "classname": "JSONEditor4Code",
         "superclassname": " ",
         "comment": "JSON Editor for UML Diagrams developed with Javascript Code Templates based on JSON Editor of Jeremy Dorn",
         "reposinfo": {
             "JSCC_type": "CLASS",
             "JSCC_version": "2",
             "UML_editor": "https://niebert.github.io/ClassEditorUML",
-            "repository": "https://www.gitlab.com/user/reponame",
+            "repository": "git+https://github.com/niebert/JSONEditor4Code.git",
             "static": "no",
             "debugheader": "no",
             "require_classes": "yes",
-            "author": "User Name",
+            "author": "Engelbert Niehaus",
             "email": "user on GitLab",
-            "created": "",
-            "modified": "",
+            "created": "2020/09/28 17:33:41",
+            "modified": "2020/09/28 17:33:41",
             "configcode": "// the configuration code will be used to create some constants",
             "requirelist": []
         },
