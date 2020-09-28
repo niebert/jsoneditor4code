@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  1.1.17  Date: 2020/09/28 14:55:55
+ Version:  1.1.19  Date: 2020/09/28 15:03:50
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2020/09/28 14:55:55
+ Date:     2020/09/28 15:03:50
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
  JSHint: installation with 'npm install jshint -g'
@@ -15801,16 +15801,16 @@ function JSONEditor4Code () {
   };
 
   this.init_ask = function () {
-    var vOK = confirm("Do you really want to initialize the UML-class '"+getClassName(this.aJSON)+"'?");
+    var vOK = confirm("DELETE: Do you really want to initialize the UML-class '"+getClassName(this.aJSON)+"'?");
     if (vOK == true) {
-    		var vSaveOK = confirm("Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
+    		var vSaveOK = confirm("SAVE: Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
     		if (vSaveOK == true) {
     			this.saveJSON();
     			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
     		} else {
     			console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
         }
-        var vInitOK = confirm("Do you want to initalize the UML-class with a DEMO of '"+getClassName(this.aJSON)+"' first?");
+        var vInitOK = confirm("DEMO-DATA: Do you want to initalize the UML-class with a DEMO of '"+getClassName(this.aJSON)+"' first?");
     		if (vInitOK == true) {
     			this.aEditor.setValue(this.aInitJSON);
     			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
