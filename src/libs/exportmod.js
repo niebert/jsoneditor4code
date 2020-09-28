@@ -367,16 +367,16 @@ function JSONEditor4Code () {
   };
 
   this.init_ask = function () {
-    var vOK = confirm("Do you really want to initialize the UML-class '"+getClassName(this.aJSON)+"'?");
+    var vOK = confirm("DELETE: Do you really want to initialize the UML-class '"+getClassName(this.aJSON)+"'?");
     if (vOK == true) {
-    		var vSaveOK = confirm("Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
+    		var vSaveOK = confirm("SAVE: Do you want to save the current UML-class '"+getClassName(this.aJSON)+"' first?");
     		if (vSaveOK == true) {
     			this.saveJSON();
     			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");
     		} else {
     			console.log("JSON-DB for UML class '"+getClassName(this.aJSON)+"' not saved - data deleted!");
         }
-        var vInitOK = confirm("Do you want to initalize the UML-class with a DEMO of '"+getClassName(this.aJSON)+"' first?");
+        var vInitOK = confirm("DEMO-DATA: Do you want to initalize the UML-class with a DEMO of '"+getClassName(this.aJSON)+"' first?");
     		if (vInitOK == true) {
     			this.aEditor.setValue(this.aInitJSON);
     			console.log("JSON-DB initalized with UML class '"+getClassName(this.aJSON)+"'!");

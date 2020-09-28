@@ -1,3 +1,5 @@
+// Functione for access to localstorage integrated in JSOMEditor exportmod.js
+
 function get_id4localstorage(pPrefix) {
   var vID = pPrefix || "LS";
   if (document) {
