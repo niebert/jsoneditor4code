@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: Handlebars4Code
  Package:  handlebars4code
- Version:  1.2.35  Date: 2020/09/21 19:39:50
+ Version:  1.2.36  Date: 2020/10/07 8:22:20
  Homepage: https://gitlab.com/niehausbert/handlebars4code#readme
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2020/09/21 19:39:50
+ Date:     2020/10/07 8:22:20
  Require Module with:
     const Handlebars4Code = require('handlebars4code');
  JSHint: installation with 'npm install jshint -g'
@@ -5628,11 +5628,12 @@ function concatArray(pArray,pSep) {
   // creates from JSON parameters of a method the variable list with types
   var ret = "";
   var vComma = "";
+  var vSep = pSep || ",";
   if (pArray) {
     if (pArray.constructor == Array) {
       for(var i=0, j=pArray.length; i<j; i++) {
         ret += vComma +  pArray[i];
-        vComma = pSep || ",";
+        vComma = vSep;
       }
     } else {
       console.error("concatarray(pArray) parameter pArray is not an array!");
