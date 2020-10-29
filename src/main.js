@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  1.1.29  Date: 2020/10/07 17:48:18
+ Version:  1.1.29  Date: 2020/10/29 16:50:14
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2020/10/07 17:48:18
+ Date:     2020/10/29 16:50:14
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
  JSHint: installation with 'npm install jshint -g'
@@ -687,7 +687,7 @@ function getTimeIndex() {
   return d.getTime();
 };
 function saveFile2HDD(pFilename,pContent) {
-  var file = new File([pContent], {type: "text/plain;charset=utf-8"});
+  var file = new Blob([pContent], {type: "text/plain;charset=utf-8"});
   saveAs(file,pFilename);
 }
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
