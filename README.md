@@ -78,10 +78,10 @@ The following table of contents is generated with `node doctoc README.md`.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 ## Start WebApp `JSONEditor4Code`
-* [`JSONEditor4Code`](https://niebert.github.io/JSONEditor4Code/index.html) 
+* [`JSONEditor4Code`](https://niebert.github.io/jsoneditor4code/index.html) 
 
 ## Installation `JSONEditor4Code`
-The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js`  - see example [`Demo JSONEditor4Code`](https://niebert.github.io/JSONEditor4Code/index.html) .
+The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4code.js`  - see example [`Demo JSONEditor4Code`](https://niebert.github.io/jsoneditor4code/index.html) .
 
 ### Installation for Browsers
 If you want to use the library `jsoneditor4code.js` in a browser, please copy the file `dist/jsoneditor4code.js` into your library folder of WebApp that you want to test with a browser (e.g. `js/jsoneditor4code.js`). If you want expand existing examples check the basic example in `docs/index.html` first and play around with that HTML-file. If you want to import the library with `script`-tag do it in the standard way with:
@@ -874,10 +874,10 @@ These libraries are not included in `jsoneditor4code.js`, but e.g. are required 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Code`
 * Package:  `jsoneditor4code`
-* Version:  `1.1.32`   (last build 2021/01/03 12:31:04)
+* Version:  `1.1.33`   (last build 2021/01/03 12:34:16)
 * Homepage: `https://niebert.github.io/JSONEditor4Code`
 * License:  MIT
-* Date:     2021/01/03 12:31:04
+* Date:     2021/01/03 12:34:16
 * Require Module with:
 ```javascript
     const vJSONEditor4Code = require('jsoneditor4code');
