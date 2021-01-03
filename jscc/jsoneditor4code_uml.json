@@ -13,8 +13,8 @@
             "require_classes": "yes",
             "author": "Engelbert Niehaus",
             "email": "user on GitLab",
-            "created": "2020/10/29 16:50:18",
-            "modified": "2020/10/29 16:50:18",
+            "created": "2021/01/03 10:57:51",
+            "modified": "2021/01/03 10:57:51",
             "configcode": "// the configuration code will be used to create some constants",
             "requirelist": []
         },

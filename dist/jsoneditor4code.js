@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
  Package:  jsoneditor4code
- Version:  1.1.29  Date: 2020/10/29 16:50:14
+ Version:  1.1.30  Date: 2021/01/03 10:57:49
  Homepage: https://niebert.github.io/JSONEditor4Code
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2020/10/29 16:50:14
+ Date:     2021/01/03 10:57:49
  Require Module with:
     const JSONEditor4Code = require('jsoneditor4code');
  JSHint: installation with 'npm install jshint -g'

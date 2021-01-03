@@ -39,7 +39,8 @@ const getHtml4Build = function (pPath) {
     './src/html_description.html',
     pPath+'body.html',
     pPath+'bodytail.html',
-    './src/html_tail.html',
+    //'./src/html_tail.html',
+    pPath+'footer.html',
     pPath+'tailscript.html',
     pPath+'tail.html'
   ];
