@@ -14,7 +14,7 @@
     "build4code": "^0.3.31",
     "concat-files": "^0.1.1",
     "doctoc": "^1.4.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "shelljs": "^0.8.3",
     "uglify-js": "^3.6.0"
   },
